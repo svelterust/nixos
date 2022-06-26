@@ -2,9 +2,7 @@
   config,
   pkgs,
   ...
-}:
-
-{
+}: {
   imports = [
     ./hardware-configuration.nix # Include the results of the hardware scan.
   ];
@@ -24,22 +22,39 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.utf8";
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-
-  # Configure keymap in X11
-  services.xserver = {
-    layout = "no";
-    xkbVariant = "colemak";
-  };
-
   # Configure console keymap
   console.keyMap = "colemak";
 
+  # Configure X11
+  services.xserver = {
+    enable = true;
+    windowManager.dwm.enable = true;
+    libinput.enable = true;
+    layout = "no";
+    xkbVariant = "colemak";
+    displayManager = {
+      autoLogin.enable = true;
+      autoLogin.user = "oddharald";
+    };
+  };
+
+  # Location for redshift
+  location.latitude = 58.0;
+  location.longitude = 9.0;
+  
+  # Configure redshift
+  services.redshift = {
+    enable = true;
+    brightness = {
+      day = "1.0";
+      night = "0.6";
+    };
+    temperature = {
+      day = 6500;
+      night = 2000;
+    };
+  };
+  
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
@@ -51,48 +66,64 @@
     pulse.enable = true;
   };
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
+  # Overlays
+  nixpkgs.overlays = [
+    # Emacs
+    (import (builtins.fetchGit {
+      url = "https://github.com/nix-community/emacs-overlay.git";
+      ref = "master";
+      rev = "a04bc2fc2b6bc9c1ba738cf8de3d33768d298c7c";
+    }))
+
+    # dwm
+    (final: prev: {
+      dwm = prev.dwm.overrideAttrs (drv: {
+        src = prev.fetchFromGitHub {
+          owner = "knarkzel";
+          repo = "dwm";
+          rev = "06816fcb2059a007e65f0d16caec519763ab360e";
+          sha256 = "Bghri5KmjFRHJKJv4Bi4K304C9d2otUaweVK/j/VJdA=";
+        };
+      });
+    })
+  ];
   
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  # Define a user account.
   users.users.oddharald = {
     isNormalUser = true;
     description = "Odd-Harald";
     extraGroups = [ "networkmanager" "wheel" ];
 
     packages = with pkgs; [
+      # window manager
+      dmenu
+      xcape
+      dunst
+      xbanish
+      wmname
+      redshift
+      hsetroot
+
+      # emacs
+      ((emacsPackagesFor emacsNativeComp).emacsWithPackages (epkgs: [
+        epkgs.vterm
+      ]))
+      
+      # other
       git
       firefox
       starship
     ];
   };
 
-  # Enable automatic login for the user.
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "oddharald";
-
-  # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
-  systemd.services."getty@tty1".enable = false;
-  systemd.services."autovt@tty1".enable = false;
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Emacs with pure GTK and native compilation
+  # Emacs with native compilation
   services.emacs.package = pkgs.emacsNativeComp;
   
-  nixpkgs.overlays = [
-    (import (builtins.fetchGit {
-      url = "https://github.com/nix-community/emacs-overlay.git";
-      ref = "master";
-      rev = "a04bc2fc2b6bc9c1ba738cf8de3d33768d298c7c";
-    }))
-  ];
-
   # System packages
-  environment.systemPackages = with pkgs; [
-    ((emacsPackagesFor emacsNativeComp).emacsWithPackages (epkgs: [ epkgs.vterm ]))
-  ];
+  environment.systemPackages = with pkgs; [ ];
 
   system.stateVersion = "22.05";
 }
