@@ -26,15 +26,22 @@
   console.keyMap = "colemak";
 
   # Configure X11
+  # services.xserver.displayManager.sessionCommands <-- what is this?
   services.xserver = {
     enable = true;
     windowManager.dwm.enable = true;
-    libinput.enable = true;
     layout = "no";
     xkbVariant = "colemak";
+    xkbOptions = "ctrl:nocaps";
+    autoRepeatInterval = 50;
+    autoRepeatDelay = 200;
     displayManager = {
       autoLogin.enable = true;
       autoLogin.user = "oddharald";
+    };
+    libinput = {
+      enable = true;
+      mouse.accelSpeed = "0";
     };
   };
 
