@@ -19,35 +19,6 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.utf8";
 
-  # Configure console keymap
-  console.keyMap = "colemak";
-
-  # Configure X11
-  services.xserver = {
-    enable = true;
-    windowManager.dwm.enable = true;
-    layout = "no";
-    xkbVariant = "colemak";
-    xkbOptions = "ctrl:nocaps";
-    libinput = {
-      enable = true;
-      mouse.accelSpeed = "0";
-    };
-    displayManager = {
-      autoLogin.enable = true;
-      autoLogin.user = "odd";
-      sessionCommands = ''
-        xset -dpms
-        xset s off
-        xset r rate 200 50
-        hsetroot -solid "#f7f3ee"
-        dunst &
-        xbanish &
-        xcape -e "Control_L=Escape"
-      '';
-    };
-  };
-
   # Configure graphics
   nixpkgs.config.packageOverrides = pkgs: {
     vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
@@ -95,11 +66,10 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Emacs with native compilation
-  services.emacs.package = pkgs.emacsNativeComp;
-  
   # System packages
-  environment.systemPackages = with pkgs; [];
+  environment.systemPackages = with pkgs; [
+    
+  ];
 
   system.stateVersion = "22.05";
 
@@ -108,7 +78,7 @@
 
   # Make sure we're not on powersave
   powerManagement.cpuFreqGovernor= "performance";
-  
+
   # Overlays
   nixpkgs.overlays = [
     # Emacs
@@ -130,6 +100,44 @@
       });
     })
   ];
+
+  # Emacs with native compilation
+  services.emacs.package = pkgs.emacsNativeComp;
+
+  # Configure console keymap
+  console.keyMap = "colemak";
+
+  # Configure X11
+  services.xserver = {
+    enable = true;
+    windowManager.dwm.enable = true;
+    layout = "no";
+    xkbVariant = "colemak";
+    xkbOptions = "ctrl:nocaps";
+    libinput = {
+      enable = true;
+      mouse.accelSpeed = "0";
+    };
+    displayManager = {
+      autoLogin.enable = true;
+      autoLogin.user = "odd";
+      sessionCommands = ''
+        xset -dpms
+        xset s off
+        xset r rate 200 50
+        ${pkgs.dunst}/bin/dunst &
+        ${pkgs.xbanish}/bin/xbanish &
+        ${pkgs.xcape}/bin/xcape -e "Control_L=Escape"
+        ${pkgs.hsetroot}/bin/hsetroot -solid "#f7f3ee"
+      '';
+    };
+  };
+
+  # Fonts
+  fonts.fonts = with pkgs; [
+    hack-font
+    noto-fonts-emoji
+  ];
   
   # Define a user account.
   users.users.odd = {
@@ -140,19 +148,29 @@
     packages = with pkgs; [
       # window manager
       dmenu
-      xcape
       dunst
       xbanish
+      xcape
       hsetroot
 
       # emacs
       ((emacsPackagesFor emacsNativeComp).emacsWithPackages (epkgs: [ epkgs.vterm ]))
-      
+
       # other
       git
       firefox
       starship
       alacritty
+      ripgrep
+      ffmpeg
+      mpv
+      scrot
+      mupdf
+      zip
+      unzip
+      file
+      p7zip
+      fd
     ];
   };
 
