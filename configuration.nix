@@ -43,7 +43,7 @@
         hsetroot -solid "#f7f3ee"
         dunst &
         xbanish &
-        xcape -e 'Control_L=Escape'
+        xcape -e "Control_L=Escape"
       '';
     };
   };
@@ -166,11 +166,11 @@
     serviceConfig = {
       Type = "oneshot";
       User = "odd";
-      ExecStart = ''
-        ${pkgs.git}/bin/git clone --bare https://github.com/knarkzel/dotfiles /home/odd/.cfg
-        ${pkgs.git}/bin/git --git-dir=/home/odd/.cfg --work-tree=/home/odd/ checkout -f
-        ${pkgs.git}/bin/git --git-dir=/home/odd/.cfg --work-tree=/home/odd/ config status.showUntrackedFiles no
-      '';
+      ExecStart = [
+        ''${pkgs.git}/bin/git clone --bare https://github.com/knarkzel/dotfiles /home/odd/.cfg''
+        ''${pkgs.git}/bin/git --git-dir=/home/odd/.cfg --work-tree=/home/odd/ checkout -f''
+        ''${pkgs.git}/bin/git --git-dir=/home/odd/.cfg --work-tree=/home/odd/ config status.showUntrackedFiles no''
+      ];
     };
   };
 }
