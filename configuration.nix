@@ -1,12 +1,9 @@
+{ config, pkgs, ... }:
 {
-  config,
-  pkgs,
-  ...
-}: {
   imports = [
-    ./hardware-configuration.nix # Include the results of the hardware scan.
+    ./hardware-configuration.nix
   ];
-
+  
   # Bootloader.
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/sdb";
@@ -26,23 +23,44 @@
   console.keyMap = "colemak";
 
   # Configure X11
-  # services.xserver.displayManager.sessionCommands <-- what is this?
   services.xserver = {
     enable = true;
     windowManager.dwm.enable = true;
     layout = "no";
     xkbVariant = "colemak";
     xkbOptions = "ctrl:nocaps";
-    autoRepeatInterval = 50;
-    autoRepeatDelay = 200;
-    displayManager = {
-      autoLogin.enable = true;
-      autoLogin.user = "oddharald";
-    };
     libinput = {
       enable = true;
       mouse.accelSpeed = "0";
     };
+    displayManager = {
+      autoLogin.enable = true;
+      autoLogin.user = "odd";
+      sessionCommands = ''
+        xset -dpms
+        xset s off
+        xset r rate 200 50
+        hsetroot -solid "#f7f3ee"
+        dunst &
+        xbanish &
+        xcape -e 'Control_L=Escape'
+      '';
+    };
+  };
+
+  # Configure graphics
+  nixpkgs.config.packageOverrides = pkgs: {
+    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+  };
+
+  hardware.opengl = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-media-driver
+      vaapiIntel
+      vaapiVdpau
+      libvdpau-va-gl
+    ];
   };
 
   # Location for redshift
@@ -71,8 +89,26 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    jack.enable = true;
   };
 
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
+  # Emacs with native compilation
+  services.emacs.package = pkgs.emacsNativeComp;
+  
+  # System packages
+  environment.systemPackages = with pkgs; [];
+
+  system.stateVersion = "22.05";
+
+  # Don't use that ugly GUI program for password
+  programs.ssh.askPassword = "";
+
+  # Make sure we're not on powersave
+  powerManagement.cpuFreqGovernor= "performance";
+  
   # Overlays
   nixpkgs.overlays = [
     # Emacs
@@ -96,7 +132,7 @@
   ];
   
   # Define a user account.
-  users.users.oddharald = {
+  users.users.odd = {
     isNormalUser = true;
     description = "Odd-Harald";
     extraGroups = [ "networkmanager" "wheel" ];
@@ -107,30 +143,34 @@
       xcape
       dunst
       xbanish
-      wmname
-      redshift
       hsetroot
 
       # emacs
-      ((emacsPackagesFor emacsNativeComp).emacsWithPackages (epkgs: [
-        epkgs.vterm
-      ]))
+      ((emacsPackagesFor emacsNativeComp).emacsWithPackages (epkgs: [ epkgs.vterm ]))
       
       # other
       git
       firefox
       starship
+      alacritty
     ];
   };
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
-  # Emacs with native compilation
-  services.emacs.package = pkgs.emacsNativeComp;
-  
-  # System packages
-  environment.systemPackages = with pkgs; [ ];
-
-  system.stateVersion = "22.05";
+  # Make sure dotfiles exist
+  systemd.services.dotfiles = {
+    description = "Initializes bare dotfiles repository";
+    wantedBy = [ "multi-user.target" ];
+    unitConfig = {
+      ConditionPathExists="!/home/odd/.cfg";
+    };
+    serviceConfig = {
+      Type = "oneshot";
+      User = "odd";
+      ExecStart = ''
+        ${pkgs.git}/bin/git clone --bare https://github.com/knarkzel/dotfiles /home/odd/.cfg
+        ${pkgs.git}/bin/git --git-dir=/home/odd/.cfg --work-tree=/home/odd/ checkout -f
+        ${pkgs.git}/bin/git --git-dir=/home/odd/.cfg --work-tree=/home/odd/ config status.showUntrackedFiles no
+      '';
+    };
+  };
 }
