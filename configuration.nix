@@ -6,11 +6,11 @@
   
   # Bootloader.
   boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sdb";
+  boot.loader.grub.device = "/dev/sda";
   boot.loader.grub.useOSProber = true;
 
   # Enable networking
-  networking.hostName = "nixos";
+  networking.hostName = "odd";
   networking.networkmanager.enable = true;
 
   # Set your time zone.
@@ -24,6 +24,7 @@
     vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
   };
 
+  services.xserver.videoDrivers = [ "nvidia" ];
   hardware.opengl = {
     enable = true;
     extraPackages = with pkgs; [
@@ -35,8 +36,10 @@
   };
 
   # Location for redshift
-  location.latitude = 58.0;
-  location.longitude = 9.0;
+  location = {
+    latitude = 58.0;
+    longitude = 9.0;
+  };
   
   # Configure redshift
   services.redshift = {
@@ -63,15 +66,16 @@
     jack.enable = true;
   };
 
+  # System config
+  system.stateVersion = "22.05";
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # System packages
-  environment.systemPackages = with pkgs; [
-    
-  ];
-
-  system.stateVersion = "22.05";
+  # Allow experimental features  
+  nix.extraOptions = ''
+      experimental-features = nix-command
+  '';
 
   # Don't use that ugly GUI program for password
   programs.ssh.askPassword = "";
@@ -87,6 +91,9 @@
       ref = "master";
       rev = "a04bc2fc2b6bc9c1ba738cf8de3d33768d298c7c";
     }))
+
+    # Rust
+    (import (builtins.fetchTarball "https://github.com/oxalica/rust-overlay/archive/master.tar.gz"))
 
     # dwm
     (final: prev: {
@@ -111,7 +118,7 @@
   services.xserver = {
     enable = true;
     windowManager.dwm.enable = true;
-    layout = "no";
+    layout = "us";
     xkbVariant = "colemak";
     xkbOptions = "ctrl:nocaps";
     libinput = {
@@ -156,7 +163,13 @@
       # emacs
       ((emacsPackagesFor emacsNativeComp).emacsWithPackages (epkgs: [ epkgs.vterm ]))
 
+      # rust
+      (rust-bin.stable.latest.rust.override { extensions = ["rust-src"]; })
+      rust-analyzer
+      mold
+      
       # other
+      fd
       git
       firefox
       starship
@@ -170,7 +183,8 @@
       unzip
       file
       p7zip
-      fd
+      lxrandr
+      clang
     ];
   };
 
@@ -179,7 +193,9 @@
     description = "Initializes bare dotfiles repository";
     wantedBy = [ "multi-user.target" ];
     unitConfig = {
-      ConditionPathExists="!/home/odd/.cfg";
+      ConditionPathExists = "!/home/odd/.cfg";
+      Requires = "network-online.target";
+      After = "network-online.target";
     };
     serviceConfig = {
       Type = "oneshot";
