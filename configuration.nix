@@ -189,6 +189,7 @@
       p7zip
       lxrandr
       clang
+      tldr
     ];
   };
 
