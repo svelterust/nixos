@@ -167,6 +167,10 @@
       (rust-bin.stable.latest.rust.override { extensions = ["rust-src"]; })
       rust-analyzer
       mold
+
+      # zig
+      zig
+      zls
       
       # other
       fd
