@@ -10,11 +10,16 @@ mkfs.ext4 -L nixos <partition>
 mount <partition> /mnt
 ```
 
-Then run following commands:
+Then download configuration and edit `boot.loader.grub.device`:
 
 ```bash
 nixos-generate-config --root /mnt
 curl https://raw.githubusercontent.com/knarkzel/nixos/master/configuration.nix -o /mnt/etc/nixos/configuration.nix
-nano /mnt/etc/nixos/configuration.nix # modify boot.loader.grub.device
+nano /mnt/etc/nixos/configuration.nix
+```
+
+Finally, install:
+
+```bash
 nixos-install
 ```
