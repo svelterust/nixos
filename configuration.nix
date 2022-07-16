@@ -206,7 +206,7 @@
       Type = "oneshot";
       User = "odd";
       ExecStart = [
-        ''${pkgs.git}/bin/git clone --bare https://github.com/knarkzel/dotfiles /home/odd/.cfg''
+        ''${pkgs.git}/bin/git clone --bare git@git.sr.ht:~knarkzel/dotfiles /home/odd/.cfg''
         ''${pkgs.git}/bin/git --git-dir=/home/odd/.cfg --work-tree=/home/odd/ checkout -f''
         ''${pkgs.git}/bin/git --git-dir=/home/odd/.cfg --work-tree=/home/odd/ config status.showUntrackedFiles no''
         ''${pkgs.coreutils}/bin/mkdir -p /home/odd/downloads''
