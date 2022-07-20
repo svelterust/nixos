@@ -105,11 +105,23 @@
     # dwm
     (final: prev: {
       dwm = prev.dwm.overrideAttrs (drv: {
-        src = prev.fetchFromGitHub {
-          owner = "knarkzel";
+        src = prev.fetchFromSourcehut {
+          owner = "~knarkzel";
           repo = "dwm";
-          rev = "f9d8275930e713c5d0a48f42a480119b9dc5f801";
-          sha256 = "TXXWYbnZbZ6j6enxLrmBS+tTQzsDijYgUYXFAj9GLfw=";
+          rev = "a91eb88ce69cdaf67413faba4251e89e0e08348f";
+          sha256 = "NOOuiNFSC1BOZiF73ZM63+VrJYaa3wUg716Pho0M+SY=";
+        };
+      });
+    })
+
+    # dmenu
+    (final: prev: {
+      dmenu = prev.dmenu.overrideAttrs (drv: {
+        src = prev.fetchFromSourcehut {
+          owner = "~knarkzel";
+          repo = "dmenu";
+          rev = "681271e3e5cb413fd9f079599ab2aceafbe2bbaa";
+          sha256 = "dp9pdGgPIgc5qKo78MvBKN4J69Yn1FTAAwAccmmj04I=";
         };
       });
     })
