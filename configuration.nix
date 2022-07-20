@@ -35,6 +35,13 @@
     ];
   };
 
+  # Enable iPhone tethering
+  services.usbmuxd.enable = true;
+  environment.systemPackages = with pkgs; [
+    libimobiledevice
+    ifuse
+  ];
+
   # Location for redshift
   location = {
     latitude = 58.0;
@@ -164,7 +171,7 @@
       ((emacsPackagesFor emacsNativeComp).emacsWithPackages (epkgs: [ epkgs.vterm ]))
 
       # rust
-      (rust-bin.stable.latest.rust.override { extensions = ["rust-src"]; })
+      (rust-bin.stable."1.62.1".rust.override { extensions = ["rust-src"]; })
       rust-analyzer
       mold
 
@@ -190,6 +197,7 @@
       lxrandr
       clang
       tldr
+      psmisc
     ];
   };
 
