@@ -108,8 +108,8 @@
         src = prev.fetchFromGitHub {
           owner = "knarkzel";
           repo = "dwm";
-          rev = "06816fcb2059a007e65f0d16caec519763ab360e";
-          sha256 = "Bghri5KmjFRHJKJv4Bi4K304C9d2otUaweVK/j/VJdA=";
+          rev = "f9d8275930e713c5d0a48f42a480119b9dc5f801";
+          sha256 = "TXXWYbnZbZ6j6enxLrmBS+tTQzsDijYgUYXFAj9GLfw=";
         };
       });
     })
