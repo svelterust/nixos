@@ -1,9 +1,12 @@
-{ config, pkgs, ... }:
 {
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     ./hardware-configuration.nix
   ];
-  
+
   # Bootloader.
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/sda";
@@ -12,7 +15,7 @@
   # Enable networking
   networking.hostName = "odd";
   networking.networkmanager.enable = true;
-  networking.nameservers = [ "1.1.1.1" "1.0.0.1" "8.8.8.8" ];
+  networking.nameservers = ["1.1.1.1" "1.0.0.1" "8.8.8.8"];
 
   # Set your time zone.
   time.timeZone = "Europe/Oslo";
@@ -22,13 +25,13 @@
 
   # Enable iPhone tethering
   services.usbmuxd.enable = true;
-  
+
   # Configure graphics
   nixpkgs.config.packageOverrides = pkgs: {
-    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+    vaapiIntel = pkgs.vaapiIntel.override {enableHybridCodec = true;};
   };
 
-  services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.videoDrivers = ["nvidia"];
   hardware.opengl = {
     enable = true;
     extraPackages = with pkgs; [
@@ -44,7 +47,7 @@
     latitude = 58.0;
     longitude = 9.0;
   };
-  
+
   # Configure redshift
   services.redshift = {
     enable = true;
@@ -57,7 +60,7 @@
       night = 2000;
     };
   };
-  
+
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
@@ -76,7 +79,7 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Allow experimental features  
+  # Allow experimental features
   nix.extraOptions = ''experimental-features = nix-command flakes'';
 
   # Don't use that ugly GUI program for password
@@ -87,34 +90,6 @@
 
   # Configure console keymap
   console.keyMap = "colemak";
-  
-  # Overlays
-  nixpkgs.overlays = [
-    # dwm
-    (final: prev: {
-      dwm = prev.dwm.overrideAttrs (drv: {
-        src = prev.fetchFromSourcehut {
-          owner = "~knarkzel";
-          repo = "dwm";
-          rev = "a91eb88ce69cdaf67413faba4251e89e0e08348f";
-          sha256 = "NOOuiNFSC1BOZiF73ZM63+VrJYaa3wUg716Pho0M+SY=";
-        };
-      });
-    })
-
-    # dmenu
-    (final: prev: {
-      dmenu = prev.dmenu.overrideAttrs (drv: {
-        src = prev.fetchFromSourcehut {
-          owner = "~knarkzel";
-          repo = "dmenu";
-          rev = "681271e3e5cb413fd9f079599ab2aceafbe2bbaa";
-          sha256 = "dp9pdGgPIgc5qKo78MvBKN4J69Yn1FTAAwAccmmj04I=";
-        };
-      });
-    })
-  ];
-
 
   # Configure X11
   services.xserver = {
@@ -161,12 +136,12 @@
     clang
     p7zip
   ];
-  
+
   # Define user account.
   users.users.odd = {
     isNormalUser = true;
     description = "Odd-Harald";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = ["networkmanager" "wheel"];
 
     packages = with pkgs; [
       # window manager
@@ -177,17 +152,20 @@
       hsetroot
 
       # emacs
-      ((emacsPackagesFor emacsNativeComp).emacsWithPackages (epkgs: [ epkgs.vterm ]))
+      ((emacsPackagesFor emacsNativeComp).emacsWithPackages (epkgs: [epkgs.vterm]))
 
       # rust
-      (rust-bin.stable.latest.default.override { extensions = ["rust-src"]; })
+      (rust-bin.stable.latest.default.override {extensions = ["rust-src"];})
       rust-analyzer
       mold
 
       # zig
       zig
       zls
-      
+
+      # nix
+      rnix-lsp
+
       # other
       starship
       alacritty
@@ -203,7 +181,7 @@
   # Make sure dotfiles exist
   systemd.services.dotfiles = {
     description = "Initializes bare dotfiles repository";
-    wantedBy = [ "multi-user.target" ];
+    wantedBy = ["multi-user.target"];
     unitConfig = {
       ConditionPathExists = "!/home/odd/.cfg";
       Requires = "network-online.target";
@@ -225,12 +203,12 @@
   # xcape service
   systemd.user.services.xcape = {
     description = "Combine Ctrl+Escape";
-    wantedBy = [ "graphical-session.target" ];
-    partOf = [ "graphical-session.target" ];
+    wantedBy = ["graphical-session.target"];
+    partOf = ["graphical-session.target"];
     serviceConfig = {
       Type = "forking";
       Restart = "always";
-      ExecStart = ''${pkgs.xcape}/bin/xcape -e "Control_L=Escape"'';      
+      ExecStart = ''${pkgs.xcape}/bin/xcape -e "Control_L=Escape"'';
     };
   };
 }
