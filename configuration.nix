@@ -20,6 +20,9 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.utf8";
 
+  # Enable iPhone tethering
+  services.usbmuxd.enable = true;
+  
   # Configure graphics
   nixpkgs.config.packageOverrides = pkgs: {
     vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
@@ -35,10 +38,6 @@
       libvdpau-va-gl
     ];
   };
-
-  # Enable iPhone tethering
-  services.usbmuxd.enable = true;
-
 
   # Location for redshift
   location = {
@@ -78,16 +77,17 @@
   nixpkgs.config.allowUnfree = true;
 
   # Allow experimental features  
-  nix.extraOptions = ''
-      experimental-features = nix-command flakes
-  '';
+  nix.extraOptions = ''experimental-features = nix-command flakes'';
 
   # Don't use that ugly GUI program for password
   programs.ssh.askPassword = "";
 
   # Make sure we're not on powersave
-  powerManagement.cpuFreqGovernor= "performance";
+  powerManagement.cpuFreqGovernor = "performance";
 
+  # Configure console keymap
+  console.keyMap = "colemak";
+  
   # Overlays
   nixpkgs.overlays = [
     # dwm
@@ -115,11 +115,6 @@
     })
   ];
 
-  # Emacs with native compilation
-  services.emacs.package = pkgs.emacsNativeComp;
-
-  # Configure console keymap
-  console.keyMap = "colemak";
 
   # Configure X11
   services.xserver = {
