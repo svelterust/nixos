@@ -90,16 +90,6 @@
 
   # Overlays
   nixpkgs.overlays = [
-    # Emacs
-    (import (builtins.fetchGit {
-      url = "https://github.com/nix-community/emacs-overlay.git";
-      ref = "master";
-      rev = "a04bc2fc2b6bc9c1ba738cf8de3d33768d298c7c";
-    }))
-
-    # Rust
-    (import (builtins.fetchTarball "https://github.com/oxalica/rust-overlay/archive/master.tar.gz"))
-
     # dwm
     (final: prev: {
       dwm = prev.dwm.overrideAttrs (drv: {
@@ -195,7 +185,7 @@
       ((emacsPackagesFor emacsNativeComp).emacsWithPackages (epkgs: [ epkgs.vterm ]))
 
       # rust
-      (rust-bin.stable."1.62.1".rust.override { extensions = ["rust-src"]; })
+      (rust-bin.stable.latest.default.override { extensions = ["rust-src"]; })
       rust-analyzer
       mold
 
@@ -239,12 +229,11 @@
 
   # xcape service
   systemd.user.services.xcape = {
-    description = "xcape to map caps to CTRL and ESC";
-    wantedBy = [ "default.target" ];
+    description = "Combine Ctrl+Escape";
+    wantedBy = [ "graphical.target" ];
     serviceConfig = {
       Type = "forking";
       Restart = "always";
-      RestartSec = 1;
       ExecStart = ''${pkgs.xcape}/bin/xcape -e "Control_L=Escape"'';      
     };
   };
