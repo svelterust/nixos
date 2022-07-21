@@ -12,6 +12,7 @@
   # Enable networking
   networking.hostName = "odd";
   networking.networkmanager.enable = true;
+  networking.nameservers = [ "1.1.1.1" "1.0.0.1" "8.8.8.8" ];
 
   # Set your time zone.
   time.timeZone = "Europe/Oslo";
@@ -81,7 +82,7 @@
 
   # Allow experimental features  
   nix.extraOptions = ''
-      experimental-features = nix-command
+      experimental-features = nix-command flakes
   '';
 
   # Don't use that ugly GUI program for password
@@ -151,10 +152,9 @@
         xset -dpms
         xset s off
         xset r rate 200 50
-        ${pkgs.dunst}/bin/dunst &
-        ${pkgs.xbanish}/bin/xbanish &
-        ${pkgs.xcape}/bin/xcape -e "Control_L=Escape"
-        ${pkgs.hsetroot}/bin/hsetroot -solid "#f7f3ee"
+        dunst &
+        xbanish &
+        hsetroot -solid "#f7f3ee"
       '';
     };
   };
@@ -232,6 +232,18 @@
         ''${pkgs.coreutils}/bin/mkdir -p /home/odd/downloads''
         ''${pkgs.coreutils}/bin/mkdir -p /home/odd/source''
       ];
+    };
+  };
+
+  # xcape service
+  systemd.user.services.xcape = {
+    description = "xcape to map caps to CTRL and ESC";
+    wantedBy = [ "default.target" ];
+    serviceConfig = {
+      Type = "forking";
+      Restart = "always";
+      RestartSec = 1;
+      ExecStart = ''${pkgs.xcape}/bin/xcape -e "Control_L=Escape"'';      
     };
   };
 }
