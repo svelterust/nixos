@@ -225,7 +225,8 @@
   # xcape service
   systemd.user.services.xcape = {
     description = "Combine Ctrl+Escape";
-    wantedBy = [ "graphical.target" ];
+    wantedBy = [ "graphical-session.target" ];
+    partOf = [ "graphical-session.target" ];
     serviceConfig = {
       Type = "forking";
       Restart = "always";
