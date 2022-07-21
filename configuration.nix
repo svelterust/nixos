@@ -38,10 +38,7 @@
 
   # Enable iPhone tethering
   services.usbmuxd.enable = true;
-  environment.systemPackages = with pkgs; [
-    libimobiledevice
-    ifuse
-  ];
+
 
   # Location for redshift
   location = {
@@ -164,8 +161,23 @@
     hack-font
     noto-fonts-emoji
   ];
+
+  # System packages
+  environment.systemPackages = with pkgs; [
+    libimobiledevice
+    fd
+    git
+    ripgrep
+    zip
+    unzip
+    file
+    psmisc
+    tldr
+    clang
+    p7zip
+  ];
   
-  # Define a user account.
+  # Define user account.
   users.users.odd = {
     isNormalUser = true;
     description = "Odd-Harald";
@@ -192,24 +204,14 @@
       zls
       
       # other
-      fd
-      git
-      firefox
       starship
       alacritty
-      ripgrep
+      firefox
       ffmpeg
       mpv
       scrot
       mupdf
-      zip
-      unzip
-      file
-      p7zip
       lxrandr
-      clang
-      tldr
-      psmisc
     ];
   };
 
