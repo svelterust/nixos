@@ -45,8 +45,8 @@
                 src = prev.fetchFromSourcehut {
                   owner = "~knarkzel";
                   repo = "dmenu";
-                  rev = "681271e3e5cb413fd9f079599ab2aceafbe2bbaa";
-                  sha256 = "dp9pdGgPIgc5qKo78MvBKN4J69Yn1FTAAwAccmmj04I=";
+                  rev = "37903c99818426f4c913fbcc59fa23c84b206f54";
+                  sha256 = "FECWdptTxU1ZZnBDMG3onnKv31X7noEaunI1FnP+8HA=";
                 };
               });
             })

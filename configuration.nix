@@ -202,6 +202,7 @@
 
   # xcape service
   systemd.user.services.xcape = {
+    restartIfChanged = true;
     description = "Combine Ctrl+Escape";
     wantedBy = ["graphical-session.target"];
     partOf = ["graphical-session.target"];
