@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }: {
   imports = [
@@ -91,6 +92,28 @@
   # Configure console keymap
   console.keyMap = "colemak";
 
+  # Capslock as Control + Escape everywhere
+  services.interception-tools = let
+    dfkConfig = pkgs.writeText "dual-function-keys.yaml" ''
+      MAPPINGS:
+        - KEY: KEY_CAPSLOCK
+          TAP: KEY_ESC
+          HOLD: KEY_LEFTCTRL
+    '';
+  in {
+    enable = true;
+    plugins = lib.mkForce [
+      pkgs.interception-tools-plugins.dual-function-keys
+    ];
+    udevmonConfig = ''
+      - JOB: "${pkgs.interception-tools}/bin/intercept -g $DEVNODE | ${pkgs.interception-tools-plugins.dual-function-keys}/bin/dual-function-keys -c ${dfkConfig} | ${pkgs.interception-tools}/bin/uinput -d $DEVNODE"
+        DEVICE:
+          NAME: "Kinesis Advantage2 Keyboard System Control"
+          EVENTS:
+            EV_KEY: [[KEY_CAPSLOCK, KEY_ESC, KEY_LEFTCTRL]]
+    '';
+  };
+
   # Configure X11
   services.xserver = {
     enable = true;
@@ -125,6 +148,7 @@
   # System packages
   environment.systemPackages = with pkgs; [
     libimobiledevice
+    interception-tools
     fd
     git
     ripgrep
@@ -151,7 +175,6 @@
       dmenu
       dunst
       xbanish
-      xcape
       hsetroot
 
       # emacs
@@ -204,19 +227,6 @@
         ''${pkgs.coreutils}/bin/mkdir -p /home/odd/downloads''
         ''${pkgs.coreutils}/bin/mkdir -p /home/odd/source''
       ];
-    };
-  };
-
-  # xcape service
-  systemd.user.services.xcape = {
-    restartIfChanged = true;
-    description = "Combine Ctrl+Escape";
-    wantedBy = ["graphical-session.target"];
-    partOf = ["graphical-session.target"];
-    serviceConfig = {
-      Type = "forking";
-      Restart = "always";
-      ExecStart = ''${pkgs.xcape}/bin/xcape -e "Control_L=Escape"'';
     };
   };
 }
