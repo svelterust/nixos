@@ -135,6 +135,9 @@
     tldr
     clang
     p7zip
+    dig
+    e2fsprogs
+    dosfstools
   ];
 
   # Define user account.
@@ -166,6 +169,9 @@
       # nix
       rnix-lsp
 
+      # blog
+      zola
+
       # other
       starship
       alacritty
@@ -175,6 +181,7 @@
       scrot
       mupdf
       lxrandr
+      dolphin-emu-beta
     ];
   };
 
