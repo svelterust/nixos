@@ -108,7 +108,7 @@
     udevmonConfig = ''
       - JOB: "${pkgs.interception-tools}/bin/intercept -g $DEVNODE | ${pkgs.interception-tools-plugins.dual-function-keys}/bin/dual-function-keys -c ${dfkConfig} | ${pkgs.interception-tools}/bin/uinput -d $DEVNODE"
         DEVICE:
-          NAME: "Kinesis Advantage2 Keyboard System Control"
+          NAME: "Kinesis Advantage2 Keyboard"
           EVENTS:
             EV_KEY: [[KEY_CAPSLOCK, KEY_ESC, KEY_LEFTCTRL]]
     '';
@@ -120,7 +120,6 @@
     windowManager.dwm.enable = true;
     layout = "us";
     xkbVariant = "colemak";
-    xkbOptions = "ctrl:nocaps";
     libinput = {
       enable = true;
       mouse.accelSpeed = "0";
