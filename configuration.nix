@@ -3,7 +3,12 @@
   pkgs,
   lib,
   ...
-}: {
+}: let
+  hosts = pkgs.fetchurl {
+    url = "https://raw.githubusercontent.com/StevenBlack/hosts/bc271a3f6a55c8da8a0b6fd46ad34647861019c0/alternates/fakenews-gambling-porn-social/hosts";
+    sha256 = "x8Deah7rEfPMUhXGJX8DB7EcA9Mo52JebzX6XaPJtNY=";
+  };
+in {
   imports = [
     ./hardware-configuration.nix
   ];
@@ -18,6 +23,7 @@
   networking.firewall.enable = true;
   networking.networkmanager.enable = true;
   networking.nameservers = ["1.1.1.1" "1.0.0.1" "8.8.8.8"];
+  networking.extraHosts = builtins.readFile hosts;
 
   # Set your time zone.
   time.timeZone = "Europe/Oslo";
@@ -199,7 +205,7 @@
 
       # nix
       rnix-lsp
-      
+
       # blog
       zola
 
