@@ -197,6 +197,7 @@ in {
 
       # haskell
       ghc
+      stack
       haskell-language-server
 
       # typescript
