@@ -15,6 +15,7 @@
 
   # Enable networking
   networking.hostName = "odd";
+  networking.firewall.enable = true;
   networking.networkmanager.enable = true;
   networking.nameservers = ["1.1.1.1" "1.0.0.1" "8.8.8.8"];
 
@@ -188,9 +189,17 @@
       zig
       zls
 
+      # haskell
+      ghc
+      haskell-language-server
+
+      # typescript
+      nodePackages.typescript
+      nodePackages.typescript-language-server
+
       # nix
       rnix-lsp
-
+      
       # blog
       zola
 
