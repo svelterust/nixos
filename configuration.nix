@@ -197,7 +197,7 @@ in {
 
       # haskell
       ghc
-      stack
+      cabal-install
       haskell-language-server
 
       # typescript
@@ -205,6 +205,7 @@ in {
       nodePackages.typescript-language-server
 
       # nix
+      niv
       rnix-lsp
 
       # blog
