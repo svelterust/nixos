@@ -208,6 +208,10 @@ in {
       niv
       rnix-lsp
 
+      # latex
+      texlab
+      texlive.combined.scheme-basic
+      
       # blog
       zola
 
