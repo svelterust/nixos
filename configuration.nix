@@ -210,12 +210,14 @@ in {
 
       # latex
       texlab
-      texlive.combined.scheme-basic
+      texlive.combined.scheme-full
       
-      # blog
-      zola
-
+      # python
+      python311
+      python-language-server
+      
       # other
+      zola
       starship
       alacritty
       firefox
