@@ -214,7 +214,6 @@ in {
       
       # python
       python310
-      python310Packages.flask
       python-language-server
       
       # other
