@@ -213,7 +213,8 @@ in {
       texlive.combined.scheme-full
       
       # python
-      python311
+      python310
+      python310Packages.flask
       python-language-server
       
       # other
