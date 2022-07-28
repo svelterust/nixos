@@ -227,6 +227,7 @@ in {
       mupdf
       lxrandr
       dolphin-emu-beta
+      morph
     ];
   };
 
