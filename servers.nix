@@ -16,11 +16,11 @@ in {
     # Morph options
     deployment.targetUser = "root";
     deployment.targetHost = "oddharald.xyz";
-    
+
     # Environment
     networking.hostName = name;
     system.stateVersion = "22.05";
-    environment.systemPackages = with pkgs; [ git ];
+    environment.systemPackages = with pkgs; [git];
 
     # oddharald.xyz
     networking.firewall.allowedTCPPorts = [80];
