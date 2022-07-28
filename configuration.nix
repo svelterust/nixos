@@ -211,11 +211,11 @@ in {
       # latex
       texlab
       texlive.combined.scheme-full
-      
+
       # python
       python310
       python-language-server
-      
+
       # other
       zola
       starship

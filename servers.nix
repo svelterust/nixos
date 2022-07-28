@@ -1,24 +1,33 @@
-{
-  network = {
-    pkgs = import (fetchTarball "https://github.com/knarkzel/nixpkgs/archive/043de04db8a6b0391b3fefaaade160514d866946.tar.gz") {};
-  };
-  
-  oddharaldxyz = { modulesPath, lib, name, ... }: {
+let
+  pkgs = import (fetchTarball "https://github.com/knarkzel/nixpkgs/archive/043de04db8a6b0391b3fefaaade160514d866946.tar.gz") {};
+in {
+  network.pkgs = pkgs;
+
+  oddharaldxyz = {
+    modulesPath,
+    lib,
+    name,
+    ...
+  }: {
     imports = [
       (modulesPath + "/virtualisation/openstack-config.nix")
     ];
 
-    networking.hostName = name;
-    system.stateVersion = "22.05";
+    # Morph options
     deployment.targetUser = "root";
     deployment.targetHost = "oddharald.xyz";
+    
+    # Environment
+    networking.hostName = name;
+    system.stateVersion = "22.05";
+    environment.systemPackages = with pkgs; [ git ];
 
-    networking.firewall.allowedTCPPorts = [ 80 ];
+    # oddharald.xyz
+    networking.firewall.allowedTCPPorts = [80];
     services.nginx = {
       enable = true;
-      virtualHosts.default = {
-        default = true;
-        locations."/".return = "200 \"Welcome to oddharald.xyz!\"";
+      virtualHosts."oddharald.xyz" = {
+        root = "/var/oddharald.xyz";
       };
     };
   };
