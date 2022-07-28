@@ -4,9 +4,9 @@ in {
   network.pkgs = pkgs;
 
   oddharaldxyz = {
-    modulesPath,
     lib,
     name,
+    modulesPath,
     ...
   }: {
     imports = [
