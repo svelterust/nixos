@@ -1,8 +1,8 @@
 let
-  pkgs = import (fetchTarball "https://github.com/knarkzel/nixpkgs/archive/043de04db8a6b0391b3fefaaade160514d866946.tar.gz") {};
-  paste = fetchTarball {
-    url = "https://github.com/JJJollyjim/nixos-flask-example/archive/refs/heads/master.tar.gz";
-    sha256 = "02j802chsba7q4fmd6mzk59x1gywdpm210x1m4l44c219bxapl4r";
+  pkgs = import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/e3583ad6e533a9d8dd78f90bfa93812d390ea187.tar.gz") {};
+  fish = fetchTarball {
+    url = "https://git.sr.ht/~knarkzel/fish/archive/fd3a092bf6930536c191d84e55e991e9d3f05d44.tar.gz";
+    sha256 = "0cxnx9s2ys7zn7qi0kl10c21b4dh7xgg6qkywpnssx1x9289vmrz";
   };
 in {
   network.pkgs = pkgs;
@@ -13,29 +13,39 @@ in {
     modulesPath,
     ...
   }: {
+    # Environment and imports
+    system.stateVersion = "22.05";
     imports = [
       (modulesPath + "/virtualisation/openstack-config.nix")
-      "${paste}/service.nix"
+      "${fish}/service.nix"
     ];
 
     # Morph options
-    deployment.targetUser = "root";
-    deployment.targetHost = "oddharald.xyz";
+    deployment = {
+      targetUser = "root";
+      targetHost = "oddharald.xyz";
+    };
 
-    # Environment
-    networking.hostName = name;
-    system.stateVersion = "22.05";
+    # Networking
+    networking = {
+      hostName = name;
+      firewall.allowedTCPPorts = [80 8080];
+    };
 
     # oddharald.xyz
-    networking.firewall.allowedTCPPorts = [80 8080];
     services.nginx = {
       enable = true;
       virtualHosts."oddharald.xyz" = {
         root = "/var/oddharald.xyz";
       };
+      virtualHosts."fish.knarkzel.xyz" =  {
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:8080";
+        };
+      };
     };
 
-    # paste service
-    services.paste.enable = true;
+    # fish service
+    services.fish.enable = true;
   };
 }
