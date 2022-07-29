@@ -29,7 +29,7 @@ in {
     # Networking
     networking = {
       hostName = name;
-      firewall.allowedTCPPorts = [80 8080];
+      firewall.allowedTCPPorts = [80];
     };
 
     # oddharald.xyz
@@ -38,7 +38,7 @@ in {
       virtualHosts."oddharald.xyz" = {
         root = "/var/oddharald.xyz";
       };
-      virtualHosts."fish.knarkzel.xyz" =  {
+      virtualHosts."fish.oddharald.xyz" =  {
         locations."/" = {
           proxyPass = "http://127.0.0.1:8080";
         };
