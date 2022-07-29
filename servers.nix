@@ -1,8 +1,8 @@
 let
   pkgs = import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/e3583ad6e533a9d8dd78f90bfa93812d390ea187.tar.gz") {};
   fish = fetchTarball {
-    url = "https://git.sr.ht/~knarkzel/fish/archive/fd3a092bf6930536c191d84e55e991e9d3f05d44.tar.gz";
-    sha256 = "0cxnx9s2ys7zn7qi0kl10c21b4dh7xgg6qkywpnssx1x9289vmrz";
+    url = "https://git.sr.ht/~knarkzel/fish/archive/5a671a1195b1979fdb20bebf9fe4e3b54d722043.tar.gz";
+    sha256 = "1kv0xc5v8vay68sg8ih7r0nsnf68nx9jrv7ny28i49s0x7dxsl4j";
   };
 in {
   network.pkgs = pkgs;
@@ -40,12 +40,15 @@ in {
       };
       virtualHosts."fish.oddharald.xyz" =  {
         locations."/" = {
-          proxyPass = "http://127.0.0.1:8080";
+          proxyPass = "http://127.0.0.1:5000";
         };
       };
     };
 
     # fish service
-    services.fish.enable = true;
+    services.fish = {
+      enable = true;
+      port = 5000;
+    };
   };
 }
