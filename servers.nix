@@ -29,7 +29,7 @@ in {
     # Networking
     networking = {
       hostName = name;
-      firewall.allowedTCPPorts = [443];
+      firewall.allowedTCPPorts = [80 443];
     };
 
     # fish service
@@ -63,19 +63,19 @@ in {
       # Virtual hosts
       virtualHosts = {
         "oddharald.xyz" = {
-          onlySSL = true;
+          forceSSL = true;
           enableACME = true;
           root = "/var/oddharald.xyz";
         };
         "fish.oddharald.xyz" =  {
-          onlySSL = true;
+          forceSSL = true;
           enableACME = true;
           locations."/" = {
             proxyPass = "http://0.0.0.0:5000";
           };
         };
         "chat.oddharald.xyz" = {
-          onlySSL = true;
+          forceSSL = true;
           enableACME = true;
           locations."/" = {
             proxyWebsockets = true;
