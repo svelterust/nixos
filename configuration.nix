@@ -187,7 +187,10 @@ in {
       ((emacsPackagesFor emacsNativeComp).emacsWithPackages (epkgs: [epkgs.vterm]))
 
       # rust
-      (rust-bin.stable.latest.default.override {extensions = ["rust-src"];})
+      (rust-bin.stable.latest.default.override {
+        extensions = ["rust-src"];
+        targets = ["wasm32-unknown-unknown"];
+      })
       rust-analyzer
       mold
       cargo-watch
