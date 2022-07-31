@@ -223,7 +223,7 @@ in {
 
       # work
       zoom-us
-      
+
       # other
       zola
       starship

@@ -9,9 +9,9 @@ in {
 
   oddharaldxyz = {
     lib,
-      name,
-      modulesPath,
-      ...
+    name,
+    modulesPath,
+    ...
   }: {
     # Environment and imports
     system.stateVersion = "22.05";
@@ -49,7 +49,7 @@ in {
       acceptTerms = true;
       defaults.email = "knarkzel@gmail.com";
     };
-    
+
     # nginx service
     services.nginx = {
       enable = true;
@@ -67,15 +67,15 @@ in {
           enableACME = true;
           root = "/var/oddharald.xyz";
         };
-        
-        "fish.oddharald.xyz" =  {
+
+        "fish.oddharald.xyz" = {
           forceSSL = true;
           enableACME = true;
           locations."/" = {
             proxyPass = "http://0.0.0.0:5000";
           };
         };
-        
+
         "chat.oddharald.xyz" = {
           forceSSL = true;
           enableACME = true;
