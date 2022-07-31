@@ -13,23 +13,29 @@ in {
     modulesPath,
     ...
   }: {
-    # Environment and imports
+    # environment and imports
     system.stateVersion = "22.05";
     imports = [
       (modulesPath + "/virtualisation/openstack-config.nix")
       "${fish}/service.nix"
     ];
 
-    # Morph options
+    # morph options
     deployment = {
       targetUser = "root";
       targetHost = "oddharald.xyz";
     };
 
-    # Networking
+    # networking
     networking = {
       hostName = name;
       firewall.allowedTCPPorts = [80 443];
+    };
+
+    # acme, aka. ssl
+    security.acme = {
+      acceptTerms = true;
+      defaults.email = "knarkzel@gmail.com";
     };
 
     # fish service
@@ -44,23 +50,29 @@ in {
       siteUrl = "https://chat.oddharald.xyz";
     };
 
-    # acme, aka. ssl
-    security.acme = {
-      acceptTerms = true;
-      defaults.email = "knarkzel@gmail.com";
+    # calibre-web service
+    services.calibre-web = {
+      enable = true;
+      options = {
+        enableBookUploading = true;
+      };
+      listen = {
+        ip = "0.0.0.0";
+        port = 8083;
+      };
     };
 
     # nginx service
     services.nginx = {
       enable = true;
 
-      # Use recommended settings
+      # use recommended settings
       recommendedGzipSettings = lib.mkDefault true;
       recommendedOptimisation = lib.mkDefault true;
       recommendedProxySettings = lib.mkDefault true;
       recommendedTlsSettings = lib.mkDefault true;
 
-      # Virtual hosts
+      # virtual hosts
       virtualHosts = {
         "oddharald.xyz" = {
           forceSSL = true;
@@ -82,6 +94,15 @@ in {
           locations."/" = {
             proxyWebsockets = true;
             proxyPass = "http://0.0.0.0:8065";
+          };
+        };
+
+        "books.oddharald.xyz" = {
+          forceSSL = true;
+          enableACME = true;
+          locations."/" = {
+            proxyWebsockets = true;
+            proxyPass = "http://0.0.0.0:8083";
           };
         };
       };
