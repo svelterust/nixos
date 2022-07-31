@@ -9,9 +9,9 @@ in {
 
   oddharaldxyz = {
     lib,
-    name,
-    modulesPath,
-    ...
+      name,
+      modulesPath,
+      ...
   }: {
     # Environment and imports
     system.stateVersion = "22.05";
@@ -29,26 +29,60 @@ in {
     # Networking
     networking = {
       hostName = name;
-      firewall.allowedTCPPorts = [80];
-    };
-
-    # oddharald.xyz
-    services.nginx = {
-      enable = true;
-      virtualHosts."oddharald.xyz" = {
-        root = "/var/oddharald.xyz";
-      };
-      virtualHosts."fish.oddharald.xyz" =  {
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:5000";
-        };
-      };
+      firewall.allowedTCPPorts = [443];
     };
 
     # fish service
     services.fish = {
       enable = true;
       port = 5000;
+    };
+
+    # mattermost service
+    services.mattermost = {
+      enable = true;
+      siteUrl = "https://chat.oddharald.xyz";
+    };
+
+    # acme, aka. ssl
+    security.acme = {
+      acceptTerms = true;
+      defaults.email = "knarkzel@gmail.com";
+    };
+    
+    # nginx service
+    services.nginx = {
+      enable = true;
+
+      # Use recommended settings
+      recommendedGzipSettings = lib.mkDefault true;
+      recommendedOptimisation = lib.mkDefault true;
+      recommendedProxySettings = lib.mkDefault true;
+      recommendedTlsSettings = lib.mkDefault true;
+
+      # Virtual hosts
+      virtualHosts = {
+        "oddharald.xyz" = {
+          onlySSL = true;
+          enableACME = true;
+          root = "/var/oddharald.xyz";
+        };
+        "fish.oddharald.xyz" =  {
+          onlySSL = true;
+          enableACME = true;
+          locations."/" = {
+            proxyPass = "http://0.0.0.0:5000";
+          };
+        };
+        "chat.oddharald.xyz" = {
+          onlySSL = true;
+          enableACME = true;
+          locations."/" = {
+            proxyWebsockets = true;
+            proxyPass = "http://0.0.0.0:8065";
+          };
+        };
+      };
     };
   };
 }

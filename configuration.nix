@@ -94,7 +94,7 @@ in {
   programs.ssh.askPassword = "";
 
   # Make sure we're not on powersave
-  powerManagement.cpuFreqGovernor = "performance";
+  powerManagement.cpuFreqGovernor = "ondemand";
 
   # Configure console keymap
   console.keyMap = "colemak";
@@ -220,6 +220,9 @@ in {
       # database
       diesel-cli
       sqlite
+
+      # work
+      zoom-us
       
       # other
       zola
