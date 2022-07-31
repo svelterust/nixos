@@ -190,6 +190,7 @@ in {
       (rust-bin.stable.latest.default.override {extensions = ["rust-src"];})
       rust-analyzer
       mold
+      cargo-watch
 
       # zig
       zig
@@ -216,6 +217,10 @@ in {
       python310
       python-language-server
 
+      # database
+      diesel-cli
+      sqlite
+      
       # other
       zola
       starship
