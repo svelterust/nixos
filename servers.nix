@@ -67,6 +67,7 @@ in {
           enableACME = true;
           root = "/var/oddharald.xyz";
         };
+        
         "fish.oddharald.xyz" =  {
           forceSSL = true;
           enableACME = true;
@@ -74,6 +75,7 @@ in {
             proxyPass = "http://0.0.0.0:5000";
           };
         };
+        
         "chat.oddharald.xyz" = {
           forceSSL = true;
           enableACME = true;
