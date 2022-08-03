@@ -1,8 +1,8 @@
 let
   pkgs = import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/e3583ad6e533a9d8dd78f90bfa93812d390ea187.tar.gz") {};
   fish = fetchTarball {
-    url = "https://git.sr.ht/~knarkzel/fish/archive/5a671a1195b1979fdb20bebf9fe4e3b54d722043.tar.gz";
-    sha256 = "1kv0xc5v8vay68sg8ih7r0nsnf68nx9jrv7ny28i49s0x7dxsl4j";
+    url = "https://git.sr.ht/~knarkzel/fish/archive/e96951531dce452be8f1dd7357f81b69445285a.tar.gz";
+    sha256 = "02kwvmzkka0gip36l099gdqmal4bxbzr9agyr6bv8k1j4vbab44h";
   };
 in {
   network.pkgs = pkgs;
@@ -50,18 +50,6 @@ in {
       siteUrl = "https://chat.oddharald.xyz";
     };
 
-    # calibre-web service
-    services.calibre-web = {
-      enable = true;
-      options = {
-        enableBookUploading = true;
-      };
-      listen = {
-        ip = "0.0.0.0";
-        port = 8083;
-      };
-    };
-
     # nginx service
     services.nginx = {
       enable = true;
@@ -74,12 +62,6 @@ in {
 
       # virtual hosts
       virtualHosts = {
-        "oddharald.xyz" = {
-          forceSSL = true;
-          enableACME = true;
-          root = "/var/oddharald.xyz";
-        };
-
         "fish.oddharald.xyz" = {
           forceSSL = true;
           enableACME = true;
@@ -94,15 +76,6 @@ in {
           locations."/" = {
             proxyWebsockets = true;
             proxyPass = "http://0.0.0.0:8065";
-          };
-        };
-
-        "books.oddharald.xyz" = {
-          forceSSL = true;
-          enableACME = true;
-          locations."/" = {
-            proxyWebsockets = true;
-            proxyPass = "http://0.0.0.0:8083";
           };
         };
       };

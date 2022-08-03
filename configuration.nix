@@ -226,6 +226,7 @@ in {
 
       # work
       zoom-us
+      slack
 
       # other
       zola
@@ -239,6 +240,8 @@ in {
       lxrandr
       dolphin-emu-beta
       morph
+      imagemagick
+      exif
     ];
   };
 
