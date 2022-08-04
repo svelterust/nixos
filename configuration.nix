@@ -88,7 +88,11 @@ in {
   nixpkgs.config.allowUnfree = true;
 
   # Allow experimental features
-  nix.extraOptions = ''experimental-features = nix-command flakes'';
+  nix.extraOptions = ''
+    experimental-features = nix-command flakes
+    keep-outputs = true
+    keep-derivations = true
+  '';
 
   # Don't use that ugly GUI program for password
   programs.ssh.askPassword = "";
@@ -168,6 +172,12 @@ in {
     dig
     e2fsprogs
     dosfstools
+    direnv
+    nix-direnv
+  ];
+
+  environment.pathsToLink = [
+    "/share/nix-direnv"
   ];
 
   # Define user account.
@@ -221,14 +231,17 @@ in {
       python-language-server
 
       # database
-      diesel-cli
       sqlite
 
+      # common lisp
+      sbcl
+      
       # work
       zoom-us
       slack
 
       # other
+      ncdu
       zola
       starship
       alacritty
