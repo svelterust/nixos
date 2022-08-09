@@ -252,6 +252,7 @@ in {
       docker-compose
 
       # other
+      gimp
       ncdu
       zola
       starship

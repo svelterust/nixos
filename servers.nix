@@ -1,23 +1,33 @@
 let
   pkgs = import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/e3583ad6e533a9d8dd78f90bfa93812d390ea187.tar.gz") {};
   fish = fetchTarball {
-    url = "https://git.sr.ht/~knarkzel/fish/archive/e96951531dce452be8f1dd7357f81b69445285a.tar.gz";
-    sha256 = "02kwvmzkka0gip36l099gdqmal4bxbzr9agyr6bv8k1j4vbab44h";
+    url = "https://git.sr.ht/~knarkzel/fish/archive/d26119c4e635b2cb94ae3bf3143634c89aec35fe.tar.gz";
+    sha256 = "10lhdddhhrv19mga9cifizb2dr0mvcyl66ns04dqbpwlbbnd4mpy";
   };
 in {
   network.pkgs = pkgs;
 
   oddharaldxyz = {
     lib,
-    name,
-    modulesPath,
-    ...
+      name,
+      modulesPath,
+      ...
   }: {
     # environment and imports
     system.stateVersion = "22.05";
     imports = [
       (modulesPath + "/virtualisation/openstack-config.nix")
       "${fish}/service.nix"
+    ];
+    environment.systemPackages = with pkgs; [
+      fd
+      git
+      ripgrep
+      zip
+      unzip
+      file
+      psmisc
+      tldr
     ];
 
     # morph options
@@ -42,6 +52,7 @@ in {
     services.fish = {
       enable = true;
       port = 5000;
+      georust = "http://0.0.0.0:8080";
     };
 
     # mattermost service
@@ -68,6 +79,12 @@ in {
 
       # virtual hosts
       virtualHosts = {
+        "crustyahh.xyz" = {
+          forceSSL = true;
+          enableACME = true;
+          root = "/var/crustyahh.xyz";
+        };
+        
         "fish.oddharald.xyz" = {
           forceSSL = true;
           enableACME = true;
