@@ -103,6 +103,9 @@ in {
   # Configure console keymap
   console.keyMap = "colemak";
 
+  # Docker
+  virtualisation.docker.enable = true;
+
   # Capslock as Control + Escape everywhere
   services.interception-tools = let
     dfkConfig = pkgs.writeText "dual-function-keys.yaml" ''
@@ -184,7 +187,7 @@ in {
   users.users.odd = {
     isNormalUser = true;
     description = "Odd-Harald";
-    extraGroups = ["networkmanager" "wheel"];
+    extraGroups = ["networkmanager" "wheel" "docker"];
 
     packages = with pkgs; [
       # window manager
@@ -235,10 +238,18 @@ in {
 
       # common lisp
       sbcl
+
+      # scala
+      scala
+      metals
+
+      # prolog
+      swiProlog
       
       # work
       zoom-us
       slack
+      docker-compose
 
       # other
       ncdu
