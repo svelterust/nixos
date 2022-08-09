@@ -35,11 +35,10 @@ in {
   services.usbmuxd.enable = true;
 
   # Configure graphics
+  services.xserver.videoDrivers = ["nvidia"];
   nixpkgs.config.packageOverrides = pkgs: {
     vaapiIntel = pkgs.vaapiIntel.override {enableHybridCodec = true;};
   };
-
-  services.xserver.videoDrivers = ["nvidia"];
   hardware.opengl = {
     enable = true;
     extraPackages = with pkgs; [
@@ -179,6 +178,7 @@ in {
     nix-direnv
   ];
 
+  # For direnv
   environment.pathsToLink = [
     "/share/nix-direnv"
   ];
