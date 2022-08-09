@@ -50,6 +50,12 @@ in {
       siteUrl = "https://chat.oddharald.xyz";
     };
 
+    # miniflux
+    services.miniflux = {
+      enable = true;
+      adminCredentialsFile = /etc/nixos/miniflux-admin-credentials;
+    };
+
     # nginx service
     services.nginx = {
       enable = true;
@@ -70,6 +76,14 @@ in {
           };
         };
 
+        "rss.oddharald.xyz" = {
+          forceSSL = true;
+          enableACME = true;
+          locations."/" = {
+            proxyPass = "http://0.0.0.0:8080";
+          };
+        };
+        
         "chat.oddharald.xyz" = {
           forceSSL = true;
           enableACME = true;
