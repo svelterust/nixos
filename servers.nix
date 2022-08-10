@@ -1,8 +1,12 @@
 let
   pkgs = import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/e3583ad6e533a9d8dd78f90bfa93812d390ea187.tar.gz") {};
   fish = fetchTarball {
-    url = "https://git.sr.ht/~knarkzel/fish/archive/d26119c4e635b2cb94ae3bf3143634c89aec35fe.tar.gz";
-    sha256 = "10lhdddhhrv19mga9cifizb2dr0mvcyl66ns04dqbpwlbbnd4mpy";
+    url = "https://git.sr.ht/~knarkzel/fish/archive/ae8da8b3d54d0aa5b8d56c7511525a241875c4f6.tar.gz";
+    sha256 = "0clhl68qffqwz1w2cwakhv9m0dawd21gmlmf523rq20nkjbhf013";
+  };
+  georust = fetchTarball {
+    url = "https://git.sr.ht/~knarkzel/georust/archive/0661affe0c42364a31a75581c2bc12f6e05b9e6c.tar.gz";
+    sha256 = "0f47mw7xahv0wkzrzljy4ci2rh6jy95dm334fp0va92pfi064cnd";
   };
 in {
   network.pkgs = pkgs;
@@ -18,6 +22,7 @@ in {
     imports = [
       (modulesPath + "/virtualisation/openstack-config.nix")
       "${fish}/service.nix"
+      "${georust}/service.nix"
     ];
     environment.systemPackages = with pkgs; [
       fd
@@ -52,9 +57,15 @@ in {
     services.fish = {
       enable = true;
       port = 5000;
-      georust = "http://0.0.0.0:8080";
+      georust = "http://0.0.0.0:9000";
     };
 
+    # georust service
+    services.georust = {
+      enable = true;
+      port = 9000;
+    };
+    
     # mattermost service
     services.mattermost = {
       enable = true;
@@ -93,6 +104,14 @@ in {
           };
         };
 
+        "georust.oddharald.xyz" = {
+          forceSSL = true;
+          enableACME = true;
+          locations."/" = {
+            proxyPass = "http://0.0.0.0:9000";
+          };
+        };
+        
         "rss.oddharald.xyz" = {
           forceSSL = true;
           enableACME = true;
@@ -100,7 +119,7 @@ in {
             proxyPass = "http://0.0.0.0:8080";
           };
         };
-        
+
         "chat.oddharald.xyz" = {
           forceSSL = true;
           enableACME = true;
