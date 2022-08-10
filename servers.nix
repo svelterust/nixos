@@ -90,6 +90,12 @@ in {
 
       # virtual hosts
       virtualHosts = {
+        "oddharald.xyz" = {
+          forceSSL = true;
+          enableACME = true;
+          root = "/var/oddharald.xyz";
+        };
+        
         "crustyahh.xyz" = {
           forceSSL = true;
           enableACME = true;

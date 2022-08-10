@@ -248,7 +248,6 @@ in {
       
       # work
       zoom-us
-      slack
       docker-compose
 
       # other
