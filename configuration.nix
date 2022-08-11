@@ -214,7 +214,6 @@ in {
 
       # haskell
       ghc
-      cabal-install
       haskell-language-server
 
       # typescript
@@ -222,22 +221,15 @@ in {
       nodePackages.typescript-language-server
 
       # nix
-      niv
       rnix-lsp
 
       # latex
-      texlab
       texlive.combined.scheme-full
+      texlab
 
       # python
       python310
       python-language-server
-
-      # database
-      sqlite
-
-      # common lisp
-      sbcl
 
       # scala
       scala
@@ -263,10 +255,9 @@ in {
       scrot
       mupdf
       lxrandr
-      dolphin-emu-beta
       morph
-      imagemagick
       exif
+      imagemagick
     ];
   };
 
