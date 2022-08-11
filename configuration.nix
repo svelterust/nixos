@@ -200,7 +200,7 @@ in {
       ((emacsPackagesFor emacsNativeComp).emacsWithPackages (epkgs: [epkgs.vterm]))
 
       # rust
-      (rust-bin.stable.latest.default.override {
+      (rust-bin.nightly.latest.default.override {
         extensions = ["rust-src"];
         targets = ["wasm32-unknown-unknown"];
       })
@@ -248,6 +248,7 @@ in {
       
       # work
       zoom-us
+      postman
       docker-compose
 
       # other
