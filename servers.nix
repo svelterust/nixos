@@ -5,8 +5,8 @@ let
     sha256 = "0clhl68qffqwz1w2cwakhv9m0dawd21gmlmf523rq20nkjbhf013";
   };
   georust = fetchTarball {
-    url = "https://git.sr.ht/~knarkzel/georust/archive/0661affe0c42364a31a75581c2bc12f6e05b9e6c.tar.gz";
-    sha256 = "0f47mw7xahv0wkzrzljy4ci2rh6jy95dm334fp0va92pfi064cnd";
+    url = "https://git.sr.ht/~knarkzel/georust/archive/9effd65e33bcf1349b7e8083a84b96da2f3e15b9.tar.gz";
+    sha256 = "0zp4bq36f0w98syy3cp8v6ypz97vznjy389zxpiwrkqqgavfgm4l";
   };
 in {
   network.pkgs = pkgs;

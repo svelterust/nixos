@@ -105,6 +105,11 @@ in {
   # Docker
   virtualisation.docker.enable = true;
 
+  # Postgresql
+  services.postgresql = {
+    enable = true;
+  };
+
   # Capslock as Control + Escape everywhere
   services.interception-tools = let
     dfkConfig = pkgs.writeText "dual-function-keys.yaml" ''
@@ -204,9 +209,15 @@ in {
         extensions = ["rust-src"];
         targets = ["wasm32-unknown-unknown"];
       })
-      rust-analyzer
       mold
+      rust-analyzer
       cargo-watch
+      cargo-bloat
+      cargo-udeps
+      cargo-audit
+      cargo-diet
+      cargo-nextest
+      cargo-outdated
 
       # zig
       zig
@@ -244,20 +255,23 @@ in {
       docker-compose
 
       # other
+      mpv
       gimp
       ncdu
       zola
+      exif
+      scrot
+      tokei
+      mupdf
+      morph
+      ffmpeg
+      firefox
+      lxrandr
       starship
       alacritty
-      firefox
-      ffmpeg
-      mpv
-      scrot
-      mupdf
-      lxrandr
-      morph
-      exif
       imagemagick
+      retroarchFull
+      emulationstation
     ];
   };
 
