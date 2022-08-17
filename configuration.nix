@@ -80,6 +80,10 @@ in {
     jack.enable = true;
   };
 
+  # Bluetooth
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
+
   # System config
   system.stateVersion = "22.05";
 
