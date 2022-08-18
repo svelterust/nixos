@@ -110,9 +110,10 @@ in {
   virtualisation.docker.enable = true;
 
   # Postgresql
-  services.postgresql = {
-    enable = true;
-  };
+  services.postgresql.enable = true;
+
+  # Transmission
+  services.transmission.enable = true;
 
   # Capslock as Control + Escape everywhere
   services.interception-tools = let
@@ -196,7 +197,7 @@ in {
   users.users.odd = {
     isNormalUser = true;
     description = "Odd-Harald";
-    extraGroups = ["networkmanager" "wheel" "docker"];
+    extraGroups = ["networkmanager" "wheel" "docker" "transmission"];
 
     packages = with pkgs; [
       # window manager
@@ -266,9 +267,9 @@ in {
       exif
       scrot
       tokei
-      mupdf
       morph
       ffmpeg
+      zathura
       firefox
       lxrandr
       starship
@@ -276,6 +277,7 @@ in {
       imagemagick
       retroarchFull
       emulationstation
+      transmission-gtk
     ];
   };
 
