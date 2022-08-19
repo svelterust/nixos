@@ -102,18 +102,6 @@ in {
           root = "/var/crustyahh.xyz";
         };
         
-        "speed.oddharald.xyz" = {
-          forceSSL = true;
-          enableACME = true;
-          root = "/var/rust-crates";
-        };
-
-        "crab.oddharald.xyz" = {
-          forceSSL = true;
-          enableACME = true;
-          root = "/var/knarkzel.srht.site";
-        };
-        
         "fish.oddharald.xyz" = {
           forceSSL = true;
           enableACME = true;
