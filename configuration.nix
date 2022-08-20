@@ -11,6 +11,7 @@
 in {
   imports = [
     ./hardware-configuration.nix
+    ./cachix.nix
   ];
 
   # Bootloader.
@@ -173,6 +174,7 @@ in {
     interception-tools
     fd
     git
+    git-lfs
     ripgrep
     zip
     unzip
