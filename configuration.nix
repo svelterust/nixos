@@ -5,13 +5,12 @@
   ...
 }: let
   hosts = pkgs.fetchurl {
-    url = "https://raw.githubusercontent.com/StevenBlack/hosts/bc271a3f6a55c8da8a0b6fd46ad34647861019c0/alternates/fakenews-gambling-porn-social/hosts";
-    sha256 = "x8Deah7rEfPMUhXGJX8DB7EcA9Mo52JebzX6XaPJtNY=";
+    url = "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts";
+    sha256 = "afnASfDtw0yLfTM8uHimjzvb3C0JQBslkj6VcXvw3Bw=";
   };
 in {
   imports = [
     ./hardware-configuration.nix
-    ./cachix.nix
   ];
 
   # Bootloader.
@@ -188,6 +187,7 @@ in {
     dosfstools
     direnv
     nix-direnv
+    omnisharp-roslyn
   ];
 
   # For direnv
@@ -214,9 +214,11 @@ in {
       # rust
       (rust-bin.nightly.latest.default.override {
         extensions = ["rust-src"];
-        targets = ["wasm32-unknown-unknown"];
+        targets = ["wasm32-wasi"];
       })
       mold
+      trunk
+      diesel-cli
       rust-analyzer
       cargo-watch
       cargo-bloat
@@ -247,21 +249,33 @@ in {
 
       # python
       python310
+      python310Packages.requests
+      virtualenv
       python-language-server
 
+      # hacking
+      nmap
+      amass
+      gobuster
+      dnsrecon
+      
       # scala
       scala
       metals
 
+      # dotnet
+      dotnet-sdk
+
       # prolog
       swiProlog
-      
+
       # work
       zoom-us
       postman
       docker-compose
 
       # other
+      xxd
       mpv
       gimp
       ncdu
@@ -270,13 +284,17 @@ in {
       scrot
       tokei
       morph
+      wmname
       ffmpeg
+      blender
       zathura
       firefox
+      gnumake
       lxrandr
       starship
       alacritty
       imagemagick
+      libreoffice
       retroarchFull
       emulationstation
       transmission-gtk
