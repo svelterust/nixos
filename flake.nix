@@ -39,8 +39,8 @@
             ...
           }: let
             hosts = pkgs.fetchurl {
-              url = "https://git.sr.ht/~knarkzel/block/blob/f92546c1466a5ce27717aedb05348a01707a680d/hosts";
-              sha256 = "NK5Vbr8zQVm/e1dVMNl/IrD8wydZG5vB2zeXdV/lvRI=";
+              url = "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts";
+              sha256 = "1ndSVlbPsV+jahc4OwautG1qV6qIdy9BGDaJF6xfHgQ=";
             };
           in {
             imports = [
@@ -60,8 +60,8 @@
                   src = prev.fetchFromSourcehut {
                     owner = "~knarkzel";
                     repo = "dwm";
-                    rev = "a91eb88ce69cdaf67413faba4251e89e0e08348f";
-                    sha256 = "NOOuiNFSC1BOZiF73ZM63+VrJYaa3wUg716Pho0M+SY=";
+                    rev = "1bfa906a9f657c5ab2f1333ca8ba2e4f2a17aed4";
+                    sha256 = "0e3rTugz98pqe1FtfpfqiXygrCWLgJwEZ10AkOAnDSc=";
                   };
                 });
               })
@@ -181,6 +181,11 @@
             # Transmission
             services.transmission.enable = true;
 
+            # Flutter
+            programs.adb.enable = true;
+            virtualisation.libvirtd.enable = true;
+            nixpkgs.config.android_sdk.accept_license = true;
+
             # Capslock as Control + Escape everywhere
             services.interception-tools = let
               dfkConfig = pkgs.writeText "dual-function-keys.yaml" ''
@@ -280,7 +285,7 @@
                 # rust
                 (rust-bin.nightly.latest.default.override {
                   extensions = ["rust-src"];
-                  targets = ["wasm32-wasi"];
+                  targets = ["wasm32-wasi" "wasm32-unknown-unknown"];
                 })
                 mold
                 trunk
@@ -302,6 +307,10 @@
                 ghc
                 haskell-language-server
 
+                # c++
+                gcc
+                ccls
+                
                 # typescript
                 nodePackages.typescript
                 nodePackages.typescript-language-server
@@ -325,7 +334,7 @@
                 dnsrecon
 
                 # scala
-                scala
+                dotty
                 metals
 
                 # dotnet
@@ -339,9 +348,15 @@
                 postman
                 docker-compose
 
+                # flutter
+                flutter
+                android-tools
+                android-studio
+                
                 # other
                 xxd
                 mpv
+                zeal
                 gimp
                 ncdu
                 zola

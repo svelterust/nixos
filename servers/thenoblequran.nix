@@ -38,6 +38,14 @@ in {
       defaults.email = "knarkzel@gmail.com";
     };
 
+    # peertube
+    services.peertube = {
+      enable = true;
+      localDomain = "127.0.0.1";
+      redis.createLocally = true;
+      database.createLocally = true;
+    };
+    
     # quran
     services.quran = {
       enable = true;
@@ -55,6 +63,15 @@ in {
 
       # virtual hosts
       virtualHosts = {
+        "oddharald.xyz" = {
+          forceSSL = true;
+          enableACME = true;
+          locations."/" = {
+            proxyPass = "http://0.0.0.0:9000";
+            extraConfig = "proxy_set_header Host $host;";
+          };
+        };
+        
         "thenoblequran.xyz" = {
           forceSSL = true;
           enableACME = true;
