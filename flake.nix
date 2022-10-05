@@ -44,7 +44,7 @@
             };
           in {
             imports = [
-              ./hardware-configuration.nix
+              ./hardware/desktop.nix
             ];
 
             nixpkgs.overlays = [
@@ -102,16 +102,13 @@
 
             # Configure graphics
             services.xserver.videoDrivers = ["nvidia"];
-            nixpkgs.config.packageOverrides = pkgs: {
-              vaapiIntel = pkgs.vaapiIntel.override {enableHybridCodec = true;};
-            };
             hardware.opengl = {
               enable = true;
               extraPackages = with pkgs; [
-                intel-media-driver
                 vaapiIntel
                 vaapiVdpau
                 libvdpau-va-gl
+                intel-media-driver
               ];
             };
 
@@ -175,17 +172,6 @@
             # Docker
             virtualisation.docker.enable = true;
 
-            # Postgresql
-            services.postgresql.enable = true;
-
-            # Transmission
-            services.transmission.enable = true;
-
-            # Flutter
-            programs.adb.enable = true;
-            virtualisation.libvirtd.enable = true;
-            nixpkgs.config.android_sdk.accept_license = true;
-
             # Capslock as Control + Escape everywhere
             services.interception-tools = let
               dfkConfig = pkgs.writeText "dual-function-keys.yaml" ''
@@ -202,7 +188,6 @@
               udevmonConfig = ''
                 - JOB: "${pkgs.interception-tools}/bin/intercept -g $DEVNODE | ${pkgs.interception-tools-plugins.dual-function-keys}/bin/dual-function-keys -c ${dfkConfig} | ${pkgs.interception-tools}/bin/uinput -d $DEVNODE"
                   DEVICE:
-                    NAME: "Kinesis Advantage2 Keyboard"
                     EVENTS:
                       EV_KEY: [[KEY_CAPSLOCK, KEY_ESC, KEY_LEFTCTRL]]
               '';
@@ -211,9 +196,9 @@
             # Configure X11
             services.xserver = {
               enable = true;
-              windowManager.dwm.enable = true;
               layout = "us";
               xkbVariant = "colemak";
+              windowManager.dwm.enable = true;
               libinput = {
                 enable = true;
                 mouse.accelSpeed = "0";
@@ -288,50 +273,25 @@
                   targets = ["wasm32-wasi" "wasm32-unknown-unknown"];
                 })
                 mold
-                trunk
-                diesel-cli
-                cargo-diet
                 cargo-watch
-                cargo-bloat
-                cargo-udeps
-                cargo-audit
                 rust-analyzer
                 cargo-nextest
-                cargo-outdated
 
                 # zig
                 zig
                 zls
 
-                # haskell
-                ghc
-                haskell-language-server
-
                 # c++
                 gcc
                 ccls
                 
-                # typescript
-                nodePackages.typescript
-                nodePackages.typescript-language-server
-
                 # nix
                 rnix-lsp
-
-                # latex
-                texlab
-                texlive.combined.scheme-full
 
                 # python
                 python310
                 virtualenv
                 python-language-server
-
-                # hacking
-                nmap
-                amass
-                gobuster
-                dnsrecon
 
                 # scala
                 dotty
@@ -344,15 +304,8 @@
                 swiProlog
 
                 # work
-                zoom-us
-                postman
                 docker-compose
 
-                # flutter
-                flutter
-                android-tools
-                android-studio
-                
                 # other
                 xxd
                 mpv
@@ -360,13 +313,9 @@
                 gimp
                 ncdu
                 zola
-                exif
                 scrot
-                tokei
                 morph
                 ffmpeg
-                blender
-                zathura
                 firefox
                 gnumake
                 lxrandr
@@ -374,8 +323,6 @@
                 alacritty
                 imagemagick
                 libreoffice
-                emulationstation
-                transmission-gtk
               ];
             };
 
