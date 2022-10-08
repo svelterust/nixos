@@ -290,8 +290,6 @@
 
                 # python
                 python310
-                virtualenv
-                python-language-server
 
                 # scala
                 dotty
@@ -303,6 +301,9 @@
                 # prolog
                 swiProlog
 
+                # latex
+                texlive.combined.scheme-full
+                
                 # work
                 docker-compose
 
