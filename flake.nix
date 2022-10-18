@@ -263,6 +263,9 @@
                 # emacs
                 ((emacsPackagesFor emacs28NativeComp).emacsWithPackages (epkgs: [epkgs.vterm]))
 
+                # finance
+                ledger
+
                 # rust
                 (rust-bin.nightly.latest.default.override {
                   extensions = ["rust-src"];
