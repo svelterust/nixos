@@ -19,7 +19,6 @@
     self,
     nixpkgs,
     rust-overlay,
-    emacs-overlay,
     ...
   } @ inputs: {
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
@@ -45,9 +44,6 @@
             nixpkgs.overlays = [
               # rust
               rust-overlay.overlays.default
-
-              # emacs
-              emacs-overlay.overlay
 
               # dwm
               (final: prev: {
