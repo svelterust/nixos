@@ -13,11 +13,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
-    emacs-overlay = {
-      url = "github:nix-community/emacs-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
-    };
   };
 
   outputs = {
@@ -39,8 +34,8 @@
             ...
           }: let
             hosts = pkgs.fetchurl {
-              url = "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts";
-              sha256 = "1ndSVlbPsV+jahc4OwautG1qV6qIdy9BGDaJF6xfHgQ=";
+              url = "https://raw.githubusercontent.com/StevenBlack/hosts/2924bf615ccd07e49f47550f78d8c2aeee4c0e7b/alternates/fakenews-gambling-porn-social/hosts";
+              sha256 = "yQrr9+Co8KAsE1pl3kayEQYFTqgeekPZrcT5Ni2eYkg=";
             };
           in {
             imports = [
@@ -159,7 +154,12 @@
               keep-outputs = true
               keep-derivations = true
             '';
-
+            
+            # Gaming
+            programs.steam = {
+              enable = true;
+            };
+            
             # Don't use that ugly GUI program for password
             programs.ssh.askPassword = "";
 
@@ -265,7 +265,7 @@
                 hsetroot
 
                 # emacs
-                ((emacsPackagesFor emacsNativeComp).emacsWithPackages (epkgs: [epkgs.vterm]))
+                ((emacsPackagesFor emacs28NativeComp).emacsWithPackages (epkgs: [epkgs.vterm]))
 
                 # rust
                 (rust-bin.nightly.latest.default.override {
@@ -273,6 +273,7 @@
                   targets = ["wasm32-wasi" "wasm32-unknown-unknown"];
                 })
                 mold
+                cargo-expand
                 cargo-watch
                 rust-analyzer
                 cargo-nextest
@@ -280,6 +281,7 @@
                 # zig
                 zig
                 zls
+                qemu
 
                 # c++
                 gcc
@@ -307,11 +309,17 @@
                 # work
                 docker-compose
 
+                # hacking
+                nmap
+                john
+                burpsuite
+                
                 # other
                 xxd
                 mpv
                 zeal
                 gimp
+                entr
                 ncdu
                 zola
                 scrot
