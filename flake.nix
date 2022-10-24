@@ -68,6 +68,18 @@
                   };
                 });
               })
+
+              # bitlbee-discord
+              (final: prev: {
+                bitlbee-discord = prev.bitlbee-discord.overrideAttrs (drv: {
+                  src = prev.fetchFromGitHub {
+                    owner = "sm00th";
+                    repo = "bitlbee-discord";
+                    rev = "607f9887ca85f246e970778e3d40aa5c346365a7";
+                    sha256 = "h3Wrd0dCzyOHGkBrMHrJBOMgAR6hJ7aBV6JTxUWHfEo=";
+                  };
+                });
+              })
             ];
 
             # Bootloader.
@@ -168,6 +180,15 @@
             
             # Gaming
             programs.steam.enable = true;
+
+            # Disable cursor while typing
+            services.xbanish.enable = true;
+
+            # IRC gateway
+            services.bitlbee = {
+              enable = true;
+              plugins = [ pkgs.bitlbee-discord ];
+            };
             
             # Don't use that ugly GUI program for password
             programs.ssh.askPassword = "";
@@ -231,7 +252,6 @@
                   xset s off
                   xset r rate 200 50
                   dunst &
-                  xbanish &
                   hsetroot -solid "#f7f3ee"
                 '';
               };
@@ -269,7 +289,6 @@
                 # window manager
                 dmenu
                 dunst
-                xbanish
                 hsetroot
 
                 # emacs
