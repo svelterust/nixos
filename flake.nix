@@ -167,9 +167,7 @@
             '';
             
             # Gaming
-            programs.steam = {
-              enable = true;
-            };
+            programs.steam.enable = true;
             
             # Don't use that ugly GUI program for password
             programs.ssh.askPassword = "";
@@ -183,6 +181,17 @@
             # Docker
             virtualisation.docker.enable = true;
 
+            # Fonts
+            fonts.fonts = with pkgs; [
+              hack-font
+              noto-fonts-emoji
+            ];
+
+            # For direnv
+            environment.pathsToLink = [
+              "/share/nix-direnv"
+            ];
+            
             # Capslock as Control + Escape everywhere
             services.interception-tools = let
               dfkConfig = pkgs.writeText "dual-function-keys.yaml" ''
@@ -227,13 +236,7 @@
                 '';
               };
             };
-
-            # Fonts
-            fonts.fonts = with pkgs; [
-              hack-font
-              noto-fonts-emoji
-            ];
-
+            
             # System packages
             environment.systemPackages = with pkgs; [
               fd
@@ -254,11 +257,6 @@
               libimobiledevice
               omnisharp-roslyn
               interception-tools
-            ];
-
-            # For direnv
-            environment.pathsToLink = [
-              "/share/nix-direnv"
             ];
 
             # Define user account.
