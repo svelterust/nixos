@@ -122,6 +122,21 @@
               };
             };
 
+            # GnuPG
+            programs.gnupg.agent = {                                                      
+              enable = true;
+              enableSSHSupport = true;
+              pinentryFlavor = "gnome3";
+            };
+
+            # Enable cron service
+            services.cron = {
+              enable = true;
+              systemCronJobs = [
+                "*/5 * * * * odd ${pkgs.isync}/bin/mbsync -a; ${pkgs.notmuch}/bin/notmuch new"
+              ];
+            };
+            
             # Enable sound with pipewire.
             sound.enable = true;
             hardware.pulseaudio.enable = false;
@@ -232,7 +247,6 @@
               p7zip
               psmisc
               direnv
-              git-lfs
               ripgrep
               e2fsprogs
               dosfstools
@@ -272,7 +286,7 @@
                   targets = ["wasm32-wasi" "wasm32-unknown-unknown"];
                 })
                 mold
-                cargo-expand
+                bacon
                 cargo-watch
                 rust-analyzer
                 cargo-nextest
@@ -311,7 +325,12 @@
                 # hacking
                 nmap
                 john
-                burpsuite
+
+                # email
+                pass
+                isync
+                msmtp
+                notmuch
                 
                 # other
                 xxd
@@ -332,28 +351,6 @@
                 imagemagick
                 libreoffice
               ];
-            };
-
-            # Make sure dotfiles exist
-            systemd.services.dotfiles = {
-              description = "Initializes bare dotfiles repository";
-              wantedBy = ["multi-user.target"];
-              unitConfig = {
-                ConditionPathExists = "!/home/odd/.cfg";
-                Requires = "network-online.target";
-                After = "network-online.target";
-              };
-              serviceConfig = {
-                Type = "oneshot";
-                User = "odd";
-                ExecStart = [
-                  ''${pkgs.git}/bin/git clone --bare git@git.sr.ht:~knarkzel/dotfiles /home/odd/.cfg''
-                  ''${pkgs.git}/bin/git --git-dir=/home/odd/.cfg --work-tree=/home/odd/ checkout -f''
-                  ''${pkgs.git}/bin/git --git-dir=/home/odd/.cfg --work-tree=/home/odd/ config status.showUntrackedFiles no''
-                  ''${pkgs.coreutils}/bin/mkdir -p /home/odd/downloads''
-                  ''${pkgs.coreutils}/bin/mkdir -p /home/odd/source''
-                ];
-              };
             };
           }
         )
