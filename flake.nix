@@ -178,16 +178,19 @@
               keep-derivations = true
             '';
             
-            # Gaming
-            programs.steam.enable = true;
-
             # Disable cursor while typing
             services.xbanish.enable = true;
 
             # IRC gateway
+            nixpkgs.config.bitlbee.enableLibPurple = true;
             services.bitlbee = {
               enable = true;
-              plugins = [ pkgs.bitlbee-discord ];
+              plugins = [
+                pkgs.bitlbee-discord
+              ];
+              libpurple_plugins = [
+                pkgs.purple-slack
+              ];
             };
             
             # Don't use that ugly GUI program for password
