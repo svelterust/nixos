@@ -333,6 +333,10 @@
                 # dotnet
                 dotnet-sdk
 
+                # typescript
+                nodePackages.typescript
+                nodePackages.typescript-language-server
+                
                 # prolog
                 swiProlog
 
