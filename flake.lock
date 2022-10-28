@@ -15,6 +15,21 @@
         "type": "github"
       }
     },
+    "flake-utils_2": {
+      "locked": {
+        "lastModified": 1631561581,
+        "narHash": "sha256-3VQMV5zvxaVLvqqUrNz3iJelLw30mIVSfZmAaauM3dA=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "7e5bf3925f6fbdfaf50a2a7ca0be2879c4261d19",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1663410121,
@@ -35,7 +50,8 @@
       "inputs": {
         "flake-utils": "flake-utils",
         "nixpkgs": "nixpkgs",
-        "rust-overlay": "rust-overlay"
+        "rust-overlay": "rust-overlay",
+        "zig-nightly": "zig-nightly"
       }
     },
     "rust-overlay": {
@@ -58,6 +74,27 @@
       "original": {
         "owner": "oxalica",
         "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "zig-nightly": {
+      "inputs": {
+        "flake-utils": "flake-utils_2",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1666918117,
+        "narHash": "sha256-JhmUeqdmAp93a1XsT3f5cpJ9BXoBcV+Rx5yEbSdEbZ0=",
+        "owner": "chivay",
+        "repo": "zig-nightly",
+        "rev": "cd57e60a833cf0a6a1f82337567ebde20c236829",
+        "type": "github"
+      },
+      "original": {
+        "owner": "chivay",
+        "repo": "zig-nightly",
         "type": "github"
       }
     }

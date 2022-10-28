@@ -13,12 +13,17 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
+    zig-nightly = {
+      url = "github:chivay/zig-nightly";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
     self,
     nixpkgs,
     rust-overlay,
+    zig-nightly,
     ...
   } @ inputs: {
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
@@ -39,6 +44,7 @@
           in {
             imports = [
               ./hardware/desktop.nix
+              ./cachix.nix
             ];
 
             nixpkgs.overlays = [
@@ -312,7 +318,7 @@
                 cargo-nextest
 
                 # zig
-                zig
+                zig-nightly.packages.${system}.zig-nightly
                 zls
                 qemu
 
@@ -321,6 +327,7 @@
                 ccls
                 
                 # nix
+                cachix
                 rnix-lsp
 
                 # python
