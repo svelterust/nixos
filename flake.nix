@@ -172,9 +172,6 @@
               keep-derivations = true
             '';
             
-            # Disable cursor while typing
-            services.xbanish.enable = true;
-
             # Don't use that ugly GUI program for password
             programs.ssh.askPassword = "";
 
@@ -244,6 +241,7 @@
                   xset s off
                   xset r rate 200 50
                   dunst &
+                  xbanish &
                   hsetroot -solid "#f7f3ee"
                 '';
               };
@@ -281,6 +279,7 @@
                 # window manager
                 dmenu
                 dunst
+                xbanish
                 hsetroot
 
                 # rust
