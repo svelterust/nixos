@@ -57,8 +57,8 @@
                   src = prev.fetchFromSourcehut {
                     owner = "~knarkzel";
                     repo = "dwm";
-                    rev = "1bfa906a9f657c5ab2f1333ca8ba2e4f2a17aed4";
-                    sha256 = "0e3rTugz98pqe1FtfpfqiXygrCWLgJwEZ10AkOAnDSc=";
+                    rev = "a071d3e648e146b3f8663d4b86b33f5e47ccefab";
+                    sha256 = "epPYG2Ju4mEsniW32v7E3jZSiZk3u008mZdMR44+5gE=";
                   };
                 });
               })
@@ -186,7 +186,14 @@
 
             # Docker
             virtualisation.docker.enable = true;
-            
+
+            # Emacs
+            services.emacs = {
+              enable = true;
+              defaultEditor = true;
+              package = with pkgs; ((emacsPackagesFor emacs28NativeComp).emacsWithPackages (epkgs: [epkgs.vterm]));
+            };
+
             # Fonts
             fonts.fonts = with pkgs; [
               hack-font
@@ -276,12 +283,6 @@
                 dunst
                 hsetroot
 
-                # emacs
-                ((emacsPackagesFor emacs28NativeComp).emacsWithPackages (epkgs: [epkgs.vterm]))
-
-                # finance
-                ledger
-
                 # rust
                 (rust-bin.nightly.latest.default.override {
                   extensions = ["rust-src"];
@@ -334,11 +335,13 @@
                 john
 
                 # email
-                pass
                 isync
                 msmtp
                 notmuch
 
+                # finance
+                ledger
+                
                 # bash
                 autojump
                 starship
