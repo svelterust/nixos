@@ -74,18 +74,6 @@
                   };
                 });
               })
-
-              # bitlbee-discord
-              (final: prev: {
-                bitlbee-discord = prev.bitlbee-discord.overrideAttrs (drv: {
-                  src = prev.fetchFromGitHub {
-                    owner = "sm00th";
-                    repo = "bitlbee-discord";
-                    rev = "607f9887ca85f246e970778e3d40aa5c346365a7";
-                    sha256 = "h3Wrd0dCzyOHGkBrMHrJBOMgAR6hJ7aBV6JTxUWHfEo=";
-                  };
-                });
-              })
             ];
 
             # Bootloader.
@@ -187,18 +175,6 @@
             # Disable cursor while typing
             services.xbanish.enable = true;
 
-            # IRC gateway
-            nixpkgs.config.bitlbee.enableLibPurple = true;
-            services.bitlbee = {
-              enable = true;
-              plugins = [
-                pkgs.bitlbee-discord
-              ];
-              libpurple_plugins = [
-                pkgs.purple-slack
-              ];
-            };
-            
             # Don't use that ugly GUI program for password
             programs.ssh.askPassword = "";
 
@@ -210,7 +186,7 @@
 
             # Docker
             virtualisation.docker.enable = true;
-
+            
             # Fonts
             fonts.fonts = with pkgs; [
               hack-font
@@ -318,7 +294,7 @@
                 cargo-nextest
 
                 # zig
-                zig-nightly.packages.${system}.zig-nightly
+                zig-nightly.packages.${system}.zig-nightly-bin
                 zls
                 qemu
 
@@ -362,6 +338,10 @@
                 isync
                 msmtp
                 notmuch
+
+                # bash
+                autojump
+                starship
                 
                 # other
                 xxd
@@ -377,7 +357,6 @@
                 firefox
                 gnumake
                 lxrandr
-                starship
                 alacritty
                 imagemagick
                 libreoffice
