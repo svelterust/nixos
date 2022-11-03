@@ -310,8 +310,7 @@
                 python310
 
                 # scala
-                dotty
-                metals
+                scala
 
                 # dotnet
                 dotnet-sdk
@@ -327,6 +326,7 @@
                 texlive.combined.scheme-full
                 
                 # work
+                wasmer
                 docker-compose
 
                 # hacking
@@ -359,6 +359,8 @@
                 firefox
                 gnumake
                 lxrandr
+                bintools
+                valgrind
                 alacritty
                 imagemagick
                 libreoffice
