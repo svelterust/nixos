@@ -201,7 +201,12 @@
             environment.pathsToLink = [
               "/share/nix-direnv"
             ];
-            
+
+            # Steam
+            programs.steam = {
+              enable = true;
+            };
+
             # Capslock as Control + Escape everywhere
             services.interception-tools = let
               dfkConfig = pkgs.writeText "dual-function-keys.yaml" ''
@@ -248,6 +253,8 @@
             };
             
             # System packages
+            environment.binsh = "${pkgs.dash}/bin/dash";
+            
             environment.systemPackages = with pkgs; [
               fd
               git
@@ -255,6 +262,7 @@
               dig
               file
               tldr
+              dash
               unzip
               clang
               p7zip
@@ -283,7 +291,7 @@
                 hsetroot
 
                 # rust
-                (rust-bin.nightly.latest.default.override {
+                (rust-bin.stable.latest.default.override {
                   extensions = ["rust-src"];
                   targets = ["wasm32-wasi" "wasm32-unknown-unknown"];
                 })
@@ -344,11 +352,18 @@
                 # bash
                 autojump
                 starship
+
+                # hacking
+                zap
+                wmname
+                metasploit
+                burpsuite
                 
                 # other
                 xxd
                 mpv
                 zeal
+                zoom
                 gimp
                 entr
                 ncdu
@@ -359,6 +374,7 @@
                 firefox
                 gnumake
                 lxrandr
+                openvpn
                 bintools
                 valgrind
                 alacritty
