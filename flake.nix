@@ -241,6 +241,7 @@
                   xset s off
                   xset r rate 200 50
                   dunst &
+                  sxhkd &
                   xbanish &
                   hsetroot -solid "#f7f3ee"
                 '';
@@ -365,6 +366,7 @@
                 zola
                 scrot
                 morph
+                sxhkd
                 ffmpeg
                 firefox
                 gnumake
