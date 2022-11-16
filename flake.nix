@@ -202,11 +202,6 @@
               "/share/nix-direnv"
             ];
 
-            # Steam
-            programs.steam = {
-              enable = true;
-            };
-
             # Capslock as Control + Escape everywhere
             services.interception-tools = let
               dfkConfig = pkgs.writeText "dual-function-keys.yaml" ''
