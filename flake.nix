@@ -272,7 +272,10 @@
               omnisharp-roslyn
               interception-tools
             ];
-
+            
+            # autojump
+            programs.autojump.enable = true;
+            
             # Define user account.
             users.users.odd = {
               isNormalUser = true;
@@ -346,7 +349,7 @@
                 ledger
                 
                 # bash
-                autojump
+                fzf
                 starship
 
                 # hacking
