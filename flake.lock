@@ -1,5 +1,25 @@
 {
   "nodes": {
+    "bun-flake": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1668869909,
+        "narHash": "sha256-4ufquDHju8YRWNbIG783nPPr2dlga1nxTf3iKbByVRA=",
+        "owner": "knarkzel",
+        "repo": "bun-flake",
+        "rev": "da656b63ed4bc86411274296a374514ae4809f3f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "knarkzel",
+        "repo": "bun-flake",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "locked": {
         "lastModified": 1667395993,
@@ -48,6 +68,7 @@
     },
     "root": {
       "inputs": {
+        "bun-flake": "bun-flake",
         "flake-utils": "flake-utils",
         "nixpkgs": "nixpkgs",
         "rust-overlay": "rust-overlay",

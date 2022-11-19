@@ -17,6 +17,10 @@
       url = "github:chivay/zig-nightly";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    bun-flake = {
+      url = "github:knarkzel/bun-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -24,6 +28,7 @@
     nixpkgs,
     rust-overlay,
     zig-nightly,
+    bun-flake,
     ...
   } @ inputs: {
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
@@ -162,6 +167,7 @@
             # System config
             system.stateVersion = "22.05";
 
+
             # Allow unfree packages
             nixpkgs.config.allowUnfree = true;
 
@@ -275,7 +281,7 @@
             
             # autojump
             programs.autojump.enable = true;
-            
+
             # Define user account.
             users.users.odd = {
               isNormalUser = true;
@@ -325,6 +331,7 @@
                 # typescript
                 nodePackages.typescript
                 nodePackages.typescript-language-server
+                bun-flake.packages.${system}.default
                 
                 # prolog
                 swiProlog
@@ -339,6 +346,8 @@
                 # hacking
                 nmap
                 john
+                sqlmap
+                thc-hydra
 
                 # email
                 isync
