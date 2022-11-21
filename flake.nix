@@ -48,7 +48,7 @@
             };
           in {
             imports = [
-              ./hardware/desktop.nix
+              ./hardware/laptop.nix
               ./cachix.nix
             ];
 
@@ -103,7 +103,7 @@
             services.usbmuxd.enable = true;
 
             # Configure graphics
-            services.xserver.videoDrivers = ["nvidia"];
+            # services.xserver.videoDrivers = ["nvidia"];
             hardware.opengl = {
               enable = true;
               extraPackages = with pkgs; [
@@ -232,7 +232,7 @@
             # Configure X11
             services.xserver = {
               enable = true;
-              layout = "us";
+              layout = "no";
               xkbVariant = "colemak";
               windowManager.dwm.enable = true;
               libinput = {
