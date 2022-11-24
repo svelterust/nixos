@@ -45,7 +45,7 @@ in {
       redis.createLocally = true;
       database.createLocally = true;
     };
-    
+
     # quran
     services.quran = {
       enable = true;
@@ -71,7 +71,7 @@ in {
             extraConfig = "proxy_set_header Host $host;";
           };
         };
-        
+
         "thenoblequran.xyz" = {
           forceSSL = true;
           enableACME = true;

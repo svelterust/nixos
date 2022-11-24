@@ -41,9 +41,19 @@
               url = "https://raw.githubusercontent.com/StevenBlack/hosts/2924bf615ccd07e49f47550f78d8c2aeee4c0e7b/alternates/fakenews-gambling-porn-social/hosts";
               sha256 = "yQrr9+Co8KAsE1pl3kayEQYFTqgeekPZrcT5Ni2eYkg=";
             };
+            settings = {
+              layout = "us";
+              videoDrivers = ["nvidia"];
+              hardware = ./hardware/desktop.nix;
+            };
+            # settings = {
+            #   layout = "no";
+            #   videoDrivers = [];
+            #   hardware = ./hardware/laptop.nix;
+            # };
           in {
             imports = [
-              ./hardware/desktop.nix
+              settings.hardware
             ];
 
             nixpkgs.overlays = [
@@ -97,7 +107,7 @@
             services.usbmuxd.enable = true;
 
             # Configure graphics
-            services.xserver.videoDrivers = ["nvidia"];
+            services.xserver.videoDrivers = settings.videoDrivers;
             hardware.opengl = {
               enable = true;
               extraPackages = with pkgs; [
@@ -128,7 +138,7 @@
             };
 
             # GnuPG
-            programs.gnupg.agent = {                                                      
+            programs.gnupg.agent = {
               enable = true;
               enableSSHSupport = true;
               pinentryFlavor = "gnome3";
@@ -141,7 +151,7 @@
                 "*/5 * * * * odd ${pkgs.isync}/bin/mbsync -a; ${pkgs.notmuch}/bin/notmuch new"
               ];
             };
-            
+
             # Enable sound with pipewire.
             sound.enable = true;
             hardware.pulseaudio.enable = false;
@@ -161,7 +171,6 @@
             # System config
             system.stateVersion = "22.05";
 
-
             # Allow unfree packages
             nixpkgs.config.allowUnfree = true;
 
@@ -171,7 +180,7 @@
               keep-outputs = true
               keep-derivations = true
             '';
-            
+
             # Don't use that ugly GUI program for password
             programs.ssh.askPassword = "";
 
@@ -226,7 +235,7 @@
             # Configure X11
             services.xserver = {
               enable = true;
-              layout = "us";
+              layout = settings.layout;
               xkbVariant = "colemak";
               windowManager.dwm.enable = true;
               libinput = {
@@ -247,10 +256,10 @@
                 '';
               };
             };
-            
+
             # System packages
             environment.binsh = "${pkgs.dash}/bin/dash";
-            
+
             environment.systemPackages = with pkgs; [
               fd
               git
@@ -272,7 +281,7 @@
               omnisharp-roslyn
               interception-tools
             ];
-            
+
             # autojump
             programs.autojump.enable = true;
 
@@ -308,7 +317,7 @@
                 # c++
                 gcc
                 ccls
-                
+
                 # nix
                 rnix-lsp
 
@@ -324,18 +333,18 @@
                 # elm
                 elmPackages.elm
                 elmPackages.elm-language-server
-                
+
                 # typescript
                 nodePackages.typescript
                 nodePackages.typescript-language-server
                 bun-flake.packages.${system}.default
-                
+
                 # prolog
                 swiProlog
 
                 # latex
                 texlive.combined.scheme-full
-                
+
                 # work
                 wasmer
                 docker-compose
@@ -353,7 +362,7 @@
 
                 # finance
                 ledger
-                
+
                 # bash
                 fzf
                 starship
@@ -363,7 +372,7 @@
                 wmname
                 metasploit
                 burpsuite
-                
+
                 # other
                 xxd
                 mpv
