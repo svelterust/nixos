@@ -144,6 +144,12 @@
               pinentryFlavor = "gnome3";
             };
 
+            # Don't use that ugly GUI program for password
+            programs.ssh.askPassword = "";
+            
+            # autojump
+            programs.autojump.enable = true;
+            
             # Enable cron service
             services.cron = {
               enable = true;
@@ -180,9 +186,6 @@
               keep-outputs = true
               keep-derivations = true
             '';
-
-            # Don't use that ugly GUI program for password
-            programs.ssh.askPassword = "";
 
             # Make sure we're not on powersave
             powerManagement.cpuFreqGovernor = "performance";
@@ -281,9 +284,6 @@
               omnisharp-roslyn
               interception-tools
             ];
-
-            # autojump
-            programs.autojump.enable = true;
 
             # Define user account.
             users.users.odd = {
