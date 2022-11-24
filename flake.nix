@@ -13,17 +13,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
-    bun-flake = {
-      url = "github:knarkzel/bun-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs = {
     self,
     nixpkgs,
     rust-overlay,
-    bun-flake,
     ...
   } @ inputs: {
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
@@ -137,6 +132,14 @@
               };
             };
 
+            # Enable cron service
+            services.cron = {
+              enable = true;
+              systemCronJobs = [
+                "*/5 * * * * odd ${pkgs.isync}/bin/mbsync -a; ${pkgs.notmuch}/bin/notmuch new"
+              ];
+            };
+
             # GnuPG
             programs.gnupg.agent = {
               enable = true;
@@ -150,14 +153,7 @@
             # autojump
             programs.autojump.enable = true;
             
-            # Enable cron service
-            services.cron = {
-              enable = true;
-              systemCronJobs = [
-                "*/5 * * * * odd ${pkgs.isync}/bin/mbsync -a; ${pkgs.notmuch}/bin/notmuch new"
-              ];
-            };
-
+            
             # Enable sound with pipewire.
             sound.enable = true;
             hardware.pulseaudio.enable = false;
@@ -170,6 +166,11 @@
               jack.enable = true;
             };
 
+            # For direnv
+            environment.pathsToLink = [
+              "/share/nix-direnv"
+            ];
+            
             # Bluetooth
             hardware.bluetooth.enable = true;
             services.blueman.enable = true;
@@ -207,11 +208,6 @@
             fonts.fonts = with pkgs; [
               hack-font
               noto-fonts-emoji
-            ];
-
-            # For direnv
-            environment.pathsToLink = [
-              "/share/nix-direnv"
             ];
 
             # Capslock as Control + Escape everywhere
@@ -260,30 +256,31 @@
               };
             };
 
-            # System packages
-            environment.binsh = "${pkgs.dash}/bin/dash";
-
-            environment.systemPackages = with pkgs; [
-              fd
-              git
-              zip
-              dig
-              file
-              tldr
-              dash
-              unzip
-              clang
-              p7zip
-              psmisc
-              direnv
-              ripgrep
-              e2fsprogs
-              dosfstools
-              nix-direnv
-              libimobiledevice
-              omnisharp-roslyn
-              interception-tools
-            ];
+            # Environment
+            environment = {
+              binsh = "${pkgs.dash}/bin/dash";
+              systemPackages = with pkgs; [
+                fd
+                git
+                zip
+                dig
+                file
+                tldr
+                dash
+                unzip
+                clang
+                p7zip
+                psmisc
+                direnv
+                ripgrep
+                e2fsprogs
+                dosfstools
+                nix-direnv
+                libimobiledevice
+                omnisharp-roslyn
+                interception-tools
+              ];
+            };
 
             # Define user account.
             users.users.odd = {
@@ -337,7 +334,6 @@
                 # typescript
                 nodePackages.typescript
                 nodePackages.typescript-language-server
-                bun-flake.packages.${system}.default
 
                 # prolog
                 swiProlog
