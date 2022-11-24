@@ -321,6 +321,10 @@
                 # dotnet
                 dotnet-sdk
 
+                # elm
+                elmPackages.elm
+                elmPackages.elm-language-server
+                
                 # typescript
                 nodePackages.typescript
                 nodePackages.typescript-language-server
