@@ -36,16 +36,17 @@
               url = "https://raw.githubusercontent.com/StevenBlack/hosts/2924bf615ccd07e49f47550f78d8c2aeee4c0e7b/alternates/fakenews-gambling-porn-social/hosts";
               sha256 = "yQrr9+Co8KAsE1pl3kayEQYFTqgeekPZrcT5Ni2eYkg=";
             };
-            settings = {
+            desktop = {
               layout = "us";
               videoDrivers = ["nvidia"];
               hardware = ./hardware/desktop.nix;
             };
-            # settings = {
-            #   layout = "no";
-            #   videoDrivers = [];
-            #   hardware = ./hardware/laptop.nix;
-            # };
+            laptop = {
+              layout = "no";
+              videoDrivers = [];
+              hardware = ./hardware/laptop.nix;
+            };
+            settings = laptop;
           in {
             imports = [
               settings.hardware
@@ -58,12 +59,13 @@
               # dwm
               (final: prev: {
                 dwm = prev.dwm.overrideAttrs (drv: {
-                  src = prev.fetchFromSourcehut {
-                    owner = "~knarkzel";
-                    repo = "dwm";
-                    rev = "a071d3e648e146b3f8663d4b86b33f5e47ccefab";
-                    sha256 = "epPYG2Ju4mEsniW32v7E3jZSiZk3u008mZdMR44+5gE=";
-                  };
+                  src = /home/odd/source/c/dwm;
+                  # src = prev.fetchFromSourcehut {
+                  #   owner = "~knarkzel";
+                  #   repo = "dwm";
+                  #   rev = "a071d3e648e146b3f8663d4b86b33f5e47ccefab";
+                  #   sha256 = "epPYG2Ju4mEsniW32v7E3jZSiZk3u008mZdMR44+5gE=";
+                  # };
                 });
               })
 
@@ -342,6 +344,7 @@
                 texlive.combined.scheme-full
 
                 # work
+                wabt
                 wasmer
                 docker-compose
 
@@ -356,38 +359,35 @@
                 msmtp
                 notmuch
 
-                # finance
-                ledger
-
                 # bash
                 fzf
                 starship
 
                 # hacking
-                zap
                 wmname
-                metasploit
                 burpsuite
+                metasploit
 
+                # video
+                mpv
+                xclip
+                yt-dlp
+                
                 # other
                 xxd
-                mpv
-                zeal
-                zoom
                 gimp
-                entr
                 ncdu
-                zola
                 scrot
                 morph
                 sxhkd
                 ffmpeg
-                firefox
+                bottom
+                brave
+                ripcord
                 gnumake
                 lxrandr
                 openvpn
                 bintools
-                valgrind
                 alacritty
                 imagemagick
                 libreoffice
