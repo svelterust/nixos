@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs = {
-      url = "github:NixOS/nixpkgs/nixos-22.05";
+      url = "github:NixOS/nixpkgs/nixos-22.11";
     };
     flake-utils = {
       url = "github:numtide/flake-utils";
@@ -46,8 +46,11 @@
               videoDrivers = [];
               hardware = ./hardware/laptop.nix;
             };
-            settings = laptop;
+            settings = desktop;
           in {
+            # System config
+            system.stateVersion = "22.11";
+
             imports = [
               settings.hardware
             ];
@@ -59,13 +62,12 @@
               # dwm
               (final: prev: {
                 dwm = prev.dwm.overrideAttrs (drv: {
-                  src = /home/odd/source/c/dwm;
-                  # src = prev.fetchFromSourcehut {
-                  #   owner = "~knarkzel";
-                  #   repo = "dwm";
-                  #   rev = "a071d3e648e146b3f8663d4b86b33f5e47ccefab";
-                  #   sha256 = "epPYG2Ju4mEsniW32v7E3jZSiZk3u008mZdMR44+5gE=";
-                  # };
+                  src = prev.fetchFromSourcehut {
+                    owner = "~knarkzel";
+                    repo = "dwm";
+                    rev = "812b3101f65da147752101a0560ac65b3c6703cd";
+                    sha256 = "SQ8cxjFWZl2jGOjg8iUUc7YEstmZWKwY0tafwSsnUKA=";
+                  };
                 });
               })
 
@@ -176,9 +178,6 @@
             # Bluetooth
             hardware.bluetooth.enable = true;
             services.blueman.enable = true;
-
-            # System config
-            system.stateVersion = "22.05";
 
             # Allow unfree packages
             nixpkgs.config.allowUnfree = true;
@@ -331,6 +330,9 @@
 
                 # elm
                 elmPackages.elm
+                elmPackages.elm-live
+                elmPackages.elm-format
+                elmPackages.elm-review
                 elmPackages.elm-language-server
 
                 # typescript
