@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs = {
-      url = "github:NixOS/nixpkgs/nixos-22.11";
+      url = "github:NixOS/nixpkgs/nixos-unstable";
     };
     flake-utils = {
       url = "github:numtide/flake-utils";
@@ -153,10 +153,9 @@
 
             # Don't use that ugly GUI program for password
             programs.ssh.askPassword = "";
-            
+
             # autojump
             programs.autojump.enable = true;
-            
             
             # Enable sound with pipewire.
             sound.enable = true;
@@ -322,9 +321,6 @@
                 # python
                 python310
 
-                # scala
-                scala
-
                 # dotnet
                 dotnet-sdk
 
@@ -338,9 +334,6 @@
                 # typescript
                 nodePackages.typescript
                 nodePackages.typescript-language-server
-
-                # prolog
-                swiProlog
 
                 # latex
                 texlive.combined.scheme-full
@@ -376,6 +369,7 @@
                 yt-dlp
                 
                 # other
+                bun
                 xxd
                 gimp
                 ncdu
@@ -393,6 +387,7 @@
                 alacritty
                 imagemagick
                 libreoffice
+                appimage-run
               ];
             };
           }
