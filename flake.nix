@@ -36,6 +36,12 @@
               url = "https://raw.githubusercontent.com/StevenBlack/hosts/2924bf615ccd07e49f47550f78d8c2aeee4c0e7b/alternates/fakenews-gambling-porn-social/hosts";
               sha256 = "yQrr9+Co8KAsE1pl3kayEQYFTqgeekPZrcT5Ni2eYkg=";
             };
+            extra = ''
+              0.0.0.0 news.ycombinator.com
+              0.0.0.0 lobste.rs
+              0.0.0.0 youtube.com
+              0.0.0.0 netflix.com
+            '';
             desktop = {
               layout = "us";
               videoDrivers = ["nvidia"];
@@ -94,7 +100,7 @@
             networking.firewall.enable = true;
             networking.networkmanager.enable = true;
             networking.nameservers = ["1.1.1.1" "1.0.0.1" "8.8.8.8"];
-            networking.extraHosts = builtins.readFile hosts;
+            networking.extraHosts = (builtins.readFile hosts) + extra;
 
             # Set your time zone.
             time.timeZone = "Europe/Oslo";
@@ -134,21 +140,6 @@
                 day = 6500;
                 night = 2000;
               };
-            };
-
-            # Enable cron service
-            services.cron = {
-              enable = true;
-              systemCronJobs = [
-                "*/5 * * * * odd ${pkgs.isync}/bin/mbsync -a; ${pkgs.notmuch}/bin/notmuch new"
-              ];
-            };
-
-            # GnuPG
-            programs.gnupg.agent = {
-              enable = true;
-              enableSSHSupport = true;
-              pinentryFlavor = "gnome3";
             };
 
             # Don't use that ugly GUI program for password
@@ -273,6 +264,7 @@
                 psmisc
                 direnv
                 ripgrep
+                minecraft
                 e2fsprogs
                 dosfstools
                 nix-direnv
@@ -335,6 +327,10 @@
                 nodePackages.typescript
                 nodePackages.typescript-language-server
 
+                # common lisp
+                sbcl
+                lispPackages.quicklisp
+                
                 # latex
                 texlive.combined.scheme-full
 
@@ -349,18 +345,12 @@
                 sqlmap
                 thc-hydra
 
-                # email
-                isync
-                msmtp
-                notmuch
-
                 # bash
                 fzf
                 starship
 
                 # hacking
                 wmname
-                burpsuite
                 metasploit
 
                 # video
@@ -369,7 +359,6 @@
                 yt-dlp
                 
                 # other
-                bun
                 xxd
                 gimp
                 ncdu
@@ -387,7 +376,7 @@
                 alacritty
                 imagemagick
                 libreoffice
-                appimage-run
+                nodePackages.npm
               ];
             };
           }
