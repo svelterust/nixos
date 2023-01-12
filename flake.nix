@@ -39,8 +39,9 @@
             extra = ''
               0.0.0.0 news.ycombinator.com
               0.0.0.0 lobste.rs
-              0.0.0.0 youtube.com
               0.0.0.0 netflix.com
+              0.0.0.0 youtube.com
+              0.0.0.0 www.youtube.com
             '';
             desktop = {
               layout = "us";
