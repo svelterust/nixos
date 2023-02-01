@@ -40,8 +40,7 @@
               0.0.0.0 news.ycombinator.com
               0.0.0.0 lobste.rs
               0.0.0.0 netflix.com
-              0.0.0.0 youtube.com
-              0.0.0.0 www.youtube.com
+              0.0.0.0 animedao.to
             '';
             desktop = {
               layout = "us";
@@ -199,6 +198,7 @@
             # Fonts
             fonts.fonts = with pkgs; [
               hack-font
+              noto-fonts
               noto-fonts-emoji
             ];
 
