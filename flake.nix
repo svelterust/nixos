@@ -358,6 +358,9 @@
                 mpv
                 xclip
                 yt-dlp
+
+                # octave
+                (octave.withPackages (pkgs: [ pkgs.symbolic ]))
                 
                 # other
                 xxd
