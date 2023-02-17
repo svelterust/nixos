@@ -37,10 +37,9 @@
               sha256 = "yQrr9+Co8KAsE1pl3kayEQYFTqgeekPZrcT5Ni2eYkg=";
             };
             extra = ''
-              0.0.0.0 news.ycombinator.com
               0.0.0.0 lobste.rs
-              0.0.0.0 netflix.com
               0.0.0.0 animedao.to
+              0.0.0.0 news.ycombinator.com
             '';
             desktop = {
               layout = "us";
@@ -185,9 +184,9 @@
             # Configure console keymap
             console.keyMap = "colemak";
 
-            # Docker
+            # Work
             virtualisation.docker.enable = true;
-
+              
             # Emacs
             services.emacs = {
               enable = true;
