@@ -13,12 +13,17 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
+    emacs-overlay = {
+      url = "github:nix-community/emacs-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
     self,
     nixpkgs,
     rust-overlay,
+    emacs-overlay,
     ...
   } @ inputs: {
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
@@ -37,9 +42,8 @@
               sha256 = "yQrr9+Co8KAsE1pl3kayEQYFTqgeekPZrcT5Ni2eYkg=";
             };
             extra = ''
-              0.0.0.0 lobste.rs
               0.0.0.0 animedao.to
-              0.0.0.0 news.ycombinator.com
+              0.0.0.0 netflix.com
             '';
             desktop = {
               layout = "us";
@@ -61,6 +65,9 @@
             ];
 
             nixpkgs.overlays = [
+              # latest emacs
+              emacs-overlay.overlays.default
+              
               # rust
               rust-overlay.overlays.default
 
@@ -191,7 +198,7 @@
             services.emacs = {
               enable = true;
               defaultEditor = true;
-              package = with pkgs; ((emacsPackagesFor emacs28NativeComp).emacsWithPackages (epkgs: [epkgs.vterm]));
+              package = with pkgs; ((emacsPackagesFor emacsGit).emacsWithPackages (epkgs: [epkgs.vterm]));
             };
 
             # Fonts
@@ -362,6 +369,7 @@
                 (octave.withPackages (pkgs: [ pkgs.symbolic ]))
                 
                 # other
+                bun
                 xxd
                 gimp
                 ncdu
