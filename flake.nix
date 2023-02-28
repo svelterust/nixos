@@ -38,12 +38,12 @@
             ...
           }: let
             hosts = pkgs.fetchurl {
-              url = "https://raw.githubusercontent.com/StevenBlack/hosts/2924bf615ccd07e49f47550f78d8c2aeee4c0e7b/alternates/fakenews-gambling-porn-social/hosts";
-              sha256 = "yQrr9+Co8KAsE1pl3kayEQYFTqgeekPZrcT5Ni2eYkg=";
+              url = "https://raw.githubusercontent.com/StevenBlack/hosts/6d4674abda33850fb0d0b7ce436e36cdc341b506/alternates/fakenews-gambling-porn/hosts";
+              sha256 = "18KYiZAZ+yrcDIOoBWWURrePWKHScAd9gq25UegC2TU=";
             };
             extra = ''
               0.0.0.0 animedao.to
-              0.0.0.0 netflix.com
+              0.0.0.0 tiktok.com
             '';
             desktop = {
               layout = "us";
@@ -387,6 +387,7 @@
                 alacritty
                 imagemagick
                 libreoffice
+                teams-for-linux
                 nodePackages.npm
               ];
             };
