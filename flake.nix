@@ -271,12 +271,10 @@
                 psmisc
                 direnv
                 ripgrep
-                minecraft
                 e2fsprogs
                 dosfstools
                 nix-direnv
                 libimobiledevice
-                omnisharp-roslyn
                 interception-tools
               ];
             };
@@ -323,21 +321,12 @@
                 # dotnet
                 dotnet-sdk
 
-                # elm
-                elmPackages.elm
-                elmPackages.elm-live
-                elmPackages.elm-format
-                elmPackages.elm-review
-                elmPackages.elm-language-server
-
                 # typescript
+                nodejs                
+                nodePackages.npm                
                 nodePackages.typescript
                 nodePackages.typescript-language-server
 
-                # common lisp
-                sbcl
-                lispPackages.quicklisp
-                
                 # latex
                 texlive.combined.scheme-full
 
@@ -387,8 +376,6 @@
                 alacritty
                 imagemagick
                 libreoffice
-                teams-for-linux
-                nodePackages.npm
               ];
             };
           }
