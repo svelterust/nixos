@@ -13,12 +13,17 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
+    emacs-overlay = {
+      url = "github:nix-community/emacs-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
     self,
     nixpkgs,
     rust-overlay,
+    emacs-overlay,
     ...
   } @ inputs: {
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
@@ -33,14 +38,12 @@
             ...
           }: let
             hosts = pkgs.fetchurl {
-              url = "https://raw.githubusercontent.com/StevenBlack/hosts/2924bf615ccd07e49f47550f78d8c2aeee4c0e7b/alternates/fakenews-gambling-porn-social/hosts";
-              sha256 = "yQrr9+Co8KAsE1pl3kayEQYFTqgeekPZrcT5Ni2eYkg=";
+              url = "https://raw.githubusercontent.com/StevenBlack/hosts/6d4674abda33850fb0d0b7ce436e36cdc341b506/alternates/fakenews-gambling-porn/hosts";
+              sha256 = "18KYiZAZ+yrcDIOoBWWURrePWKHScAd9gq25UegC2TU=";
             };
             extra = ''
-              0.0.0.0 news.ycombinator.com
-              0.0.0.0 lobste.rs
-              0.0.0.0 netflix.com
               0.0.0.0 animedao.to
+              0.0.0.0 tiktok.com
             '';
             desktop = {
               layout = "us";
@@ -81,6 +84,9 @@
             ];
 
             nixpkgs.overlays = [
+              # latest emacs
+              emacs-overlay.overlays.default
+              
               # rust
               rust-overlay.overlays.default
 
@@ -202,14 +208,14 @@
             # Configure console keymap
             console.keyMap = "colemak";
 
-            # Docker
+            # Work
             virtualisation.docker.enable = true;
-
+              
             # Emacs
             services.emacs = {
               enable = true;
               defaultEditor = true;
-              package = with pkgs; ((emacsPackagesFor emacs28NativeComp).emacsWithPackages (epkgs: [epkgs.vterm]));
+              package = with pkgs; ((emacsPackagesFor emacsGit).emacsWithPackages (epkgs: [epkgs.vterm]));
             };
 
             # Fonts
@@ -282,12 +288,10 @@
                 psmisc
                 direnv
                 ripgrep
-                minecraft
                 e2fsprogs
                 dosfstools
                 nix-direnv
                 libimobiledevice
-                omnisharp-roslyn
                 interception-tools
               ];
             };
@@ -306,7 +310,7 @@
                 hsetroot
 
                 # rust
-                (rust-bin.stable.latest.default.override {
+                (rust-bin.nightly.latest.default.override {
                   extensions = ["rust-src"];
                   targets = ["wasm32-wasi" "wasm32-unknown-unknown"];
                 })
@@ -315,6 +319,7 @@
                 cargo-watch
                 rust-analyzer
                 cargo-nextest
+                cargo-expand
 
                 # zig
                 zig
@@ -334,20 +339,11 @@
                 # dotnet
                 dotnet-sdk
 
-                # elm
-                elmPackages.elm
-                elmPackages.elm-live
-                elmPackages.elm-format
-                elmPackages.elm-review
-                elmPackages.elm-language-server
-
                 # typescript
+                nodejs                
+                nodePackages.npm                
                 nodePackages.typescript
                 nodePackages.typescript-language-server
-
-                # common lisp
-                sbcl
-                lispPackages.quicklisp
 
                 # latex
                 texlive.combined.scheme-full
@@ -355,6 +351,7 @@
                 # work
                 wabt
                 wasmer
+                binaryen
                 docker-compose
 
                 # hacking
@@ -380,6 +377,7 @@
                 (octave.withPackages (pkgs: [pkgs.symbolic]))
 
                 # other
+                bun
                 xxd
                 gimp
                 ncdu
@@ -399,7 +397,6 @@
                 libreoffice
                 stalonetray
                 networkmanagerapplet
-                nodePackages.npm
               ];
             };
           }
