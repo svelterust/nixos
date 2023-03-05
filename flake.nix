@@ -46,13 +46,32 @@
               layout = "us";
               videoDrivers = ["nvidia"];
               hardware = ./hardware/desktop.nix;
+              bootLoader = {
+                grub.enable = true;
+                grub.device = "/dev/sda";
+                grub.useOSProber = true;
+              };
             };
-            laptop = {
+            thinkpad = {
               layout = "no";
               videoDrivers = [];
-              hardware = ./hardware/laptop.nix;
+              hardware = ./hardware/thinkpad.nix;
+              bootLoader = {
+                grub.enable = true;
+                grub.device = "/dev/sda";
+                grub.useOSProber = true;
+              };
             };
-            settings = desktop;
+            hp = {
+              layout = "no";
+              videoDrivers = [];
+              hardware = ./hardware/hp.nix;
+              bootLoader = {
+                systemd-boot.enable = true;
+                efi.canTouchEfiVariables = true;
+              };
+            };
+            settings = hp;
           in {
             # System config
             system.stateVersion = "22.11";
@@ -91,9 +110,7 @@
             ];
 
             # Bootloader.
-            boot.loader.grub.enable = true;
-            boot.loader.grub.device = "/dev/sda";
-            boot.loader.grub.useOSProber = true;
+            boot.loader = settings.bootLoader;
 
             # Enable networking
             networking.hostName = "odd";
@@ -147,7 +164,7 @@
 
             # autojump
             programs.autojump.enable = true;
-            
+
             # Enable sound with pipewire.
             sound.enable = true;
             hardware.pulseaudio.enable = false;
@@ -164,7 +181,7 @@
             environment.pathsToLink = [
               "/share/nix-direnv"
             ];
-            
+
             # Bluetooth
             hardware.bluetooth.enable = true;
             services.blueman.enable = true;
@@ -331,7 +348,7 @@
                 # common lisp
                 sbcl
                 lispPackages.quicklisp
-                
+
                 # latex
                 texlive.combined.scheme-full
 
@@ -360,8 +377,8 @@
                 yt-dlp
 
                 # octave
-                (octave.withPackages (pkgs: [ pkgs.symbolic ]))
-                
+                (octave.withPackages (pkgs: [pkgs.symbolic]))
+
                 # other
                 xxd
                 gimp
@@ -380,6 +397,8 @@
                 alacritty
                 imagemagick
                 libreoffice
+                stalonetray
+                networkmanagerapplet
                 nodePackages.npm
               ];
             };
