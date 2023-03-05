@@ -293,7 +293,7 @@
                 hsetroot
 
                 # rust
-                (rust-bin.stable.latest.default.override {
+                (rust-bin.nightly.latest.default.override {
                   extensions = ["rust-src"];
                   targets = ["wasm32-wasi" "wasm32-unknown-unknown"];
                 })
@@ -302,6 +302,7 @@
                 cargo-watch
                 rust-analyzer
                 cargo-nextest
+                cargo-expand
 
                 # zig
                 zig
@@ -333,6 +334,7 @@
                 # work
                 wabt
                 wasmer
+                binaryen
                 docker-compose
 
                 # hacking
