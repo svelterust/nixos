@@ -17,6 +17,9 @@
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    zig-overlay = {
+      url = "github:mitchellh/zig-overlay";
+    };
   };
 
   outputs = {
@@ -24,8 +27,9 @@
     nixpkgs,
     rust-overlay,
     emacs-overlay,
+    zig-overlay,
     ...
-  } @ inputs: {
+  }: {
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
     nixosConfigurations."odd" = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
@@ -44,6 +48,9 @@
             extra = ''
               0.0.0.0 animedao.to
               0.0.0.0 tiktok.com
+              0.0.0.0 netflix.com
+              0.0.0.0 lobste.rs
+              0.0.0.0 news.ycombinator.com
             '';
             desktop = {
               layout = "us";
@@ -71,6 +78,9 @@
               # rust
               rust-overlay.overlays.default
 
+              # zig
+              zig-overlay.overlays.default
+              
               # dwm
               (final: prev: {
                 dwm = prev.dwm.overrideAttrs (drv: {
@@ -305,7 +315,7 @@
                 cargo-expand
 
                 # zig
-                zig
+                zigpkgs.master
                 zls
                 qemu
 
@@ -314,7 +324,7 @@
                 ccls
 
                 # nix
-                rnix-lsp
+                nil
 
                 # python
                 python310
