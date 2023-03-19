@@ -48,7 +48,6 @@
             extra = ''
               0.0.0.0 animedao.to
               0.0.0.0 tiktok.com
-              0.0.0.0 netflix.com
               0.0.0.0 lobste.rs
               0.0.0.0 news.ycombinator.com
             '';
@@ -180,6 +179,12 @@
             environment.pathsToLink = [
               "/share/nix-direnv"
             ];
+
+            # ZRam
+            zramSwap = {
+              enable = true;
+              memoryPercent = 50;
+            };
             
             # Bluetooth
             hardware.bluetooth.enable = true;
@@ -293,7 +298,7 @@
             users.users.odd = {
               isNormalUser = true;
               description = "Odd-Harald";
-              extraGroups = ["networkmanager" "wheel" "docker" "transmission"];
+              extraGroups = ["networkmanager" "wheel" "docker" "transmission" "dialout"];
 
               packages = with pkgs; [
                 # window manager
@@ -368,6 +373,9 @@
 
                 # octave
                 (octave.withPackages (pkgs: [ pkgs.symbolic ]))
+
+                # arduino
+                arduino
                 
                 # other
                 bun
