@@ -2,7 +2,7 @@
 
 set -Eeuo pipefail
 
-git clone --bare git@git.sr.ht:~knarkzel/dotfiles /home/odd/.cfg
+git clone --bare https://git.sr.ht/~knarkzel/dotfiles /home/odd/.cfg
 git --git-dir=/home/odd/.cfg --work-tree=/home/odd/ checkout -f
 git --git-dir=/home/odd/.cfg --work-tree=/home/odd/ config status.showUntrackedFiles no
 mkdir -p /home/odd/downloads

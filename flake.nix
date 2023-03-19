@@ -55,11 +55,30 @@
               layout = "us";
               videoDrivers = ["nvidia"];
               hardware = ./hardware/desktop.nix;
+              bootLoader = {
+                grub.enable = true;
+                grub.device = "/dev/sda";
+                grub.useOSProber = true;
+              };
             };
-            laptop = {
+            thinkpad = {
               layout = "no";
               videoDrivers = [];
-              hardware = ./hardware/laptop.nix;
+              hardware = ./hardware/thinkpad.nix;
+              bootLoader = {
+                grub.enable = true;
+                grub.device = "/dev/sda";
+                grub.useOSProber = true;
+              };
+            };
+            hp = {
+              layout = "no";
+              videoDrivers = [];
+              hardware = ./hardware/hp.nix;
+              bootLoader = {
+                systemd-boot.enable = true;
+                efi.canTouchEfiVariables = true;
+              };
             };
             settings = desktop;
           in {
@@ -106,9 +125,7 @@
             ];
 
             # Bootloader.
-            boot.loader.grub.enable = true;
-            boot.loader.grub.device = "/dev/sda";
-            boot.loader.grub.useOSProber = true;
+            boot.loader = settings.bootLoader;
 
             # Enable networking
             networking.hostName = "odd";
@@ -162,7 +179,7 @@
 
             # autojump
             programs.autojump.enable = true;
-            
+
             # Enable sound with pipewire.
             sound.enable = true;
             hardware.pulseaudio.enable = false;
@@ -183,7 +200,7 @@
             # ZRam
             zramSwap = {
               enable = true;
-              memoryPercent = 50;
+              memoryPercent = 100;
             };
             
             # Bluetooth
@@ -396,6 +413,8 @@
                 alacritty
                 imagemagick
                 libreoffice
+                stalonetray
+                networkmanagerapplet
               ];
             };
           }
