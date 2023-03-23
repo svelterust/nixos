@@ -336,6 +336,7 @@
                 cargo-nextest
                 cargo-expand
                 cargo-wasi
+                wasmtime
                 
                 # zig
                 zigpkgs.master
@@ -346,12 +347,10 @@
                 gcc
                 ccls
 
-                # nix
-                nil
-
                 # python
-                python310
+                (python310.withPackages(pypkgs: [ pypkgs.openai ]))
 
+                  
                 # dotnet
                 dotnet-sdk
 
@@ -370,19 +369,9 @@
                 binaryen
                 docker-compose
 
-                # hacking
-                nmap
-                john
-                sqlmap
-                thc-hydra
-
                 # bash
                 fzf
                 starship
-
-                # hacking
-                wmname
-                metasploit
 
                 # video
                 mpv
@@ -392,9 +381,6 @@
                 # octave
                 (octave.withPackages (pkgs: [ pkgs.symbolic ]))
 
-                # arduino
-                arduino
-                
                 # other
                 bun
                 xxd
@@ -416,6 +402,7 @@
                 libreoffice
                 stalonetray
                 networkmanagerapplet
+                openai
               ];
             };
           }
