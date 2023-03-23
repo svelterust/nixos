@@ -335,7 +335,8 @@
                 rust-analyzer
                 cargo-nextest
                 cargo-expand
-
+                cargo-wasi
+                
                 # zig
                 zigpkgs.master
                 zls
