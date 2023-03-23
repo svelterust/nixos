@@ -330,13 +330,10 @@
                   targets = ["wasm32-wasi" "wasm32-unknown-unknown"];
                 })
                 mold
-                bacon
                 cargo-watch
                 rust-analyzer
                 cargo-nextest
                 cargo-expand
-                cargo-wasi
-                wasmtime
                 
                 # zig
                 zigpkgs.master
@@ -348,8 +345,7 @@
                 ccls
 
                 # python
-                (python310.withPackages(pypkgs: [ pypkgs.openai ]))
-
+                python310
                   
                 # dotnet
                 dotnet-sdk
@@ -395,14 +391,12 @@
                 ripcord
                 gnumake
                 lxrandr
-                openvpn
                 bintools
                 alacritty
                 imagemagick
                 libreoffice
                 stalonetray
                 networkmanagerapplet
-                openai
               ];
             };
           }
