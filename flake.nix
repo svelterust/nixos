@@ -92,13 +92,13 @@
             nixpkgs.overlays = [
               # latest emacs
               emacs-overlay.overlays.default
-              
+
               # rust
               rust-overlay.overlays.default
 
               # zig
               zig-overlay.overlays.default
-              
+
               # dwm
               (final: prev: {
                 dwm = prev.dwm.overrideAttrs (drv: {
@@ -200,9 +200,9 @@
             # ZRam
             zramSwap = {
               enable = true;
-              memoryPercent = 100;
+              memoryPercent = 50;
             };
-            
+
             # Bluetooth
             hardware.bluetooth.enable = true;
             services.blueman.enable = true;
@@ -225,7 +225,7 @@
 
             # Work
             virtualisation.docker.enable = true;
-              
+
             # Emacs
             services.emacs = {
               enable = true;
@@ -334,11 +334,10 @@
                 rust-analyzer
                 cargo-nextest
                 cargo-expand
-                
+
                 # zig
-                zigpkgs.master
                 zls
-                qemu
+                zigpkgs.master
 
                 # c++
                 gcc
@@ -346,13 +345,13 @@
 
                 # python
                 python310
-                  
+
                 # dotnet
                 dotnet-sdk
 
                 # typescript
-                nodejs                
-                nodePackages.npm                
+                nodejs
+                nodePackages.npm
                 nodePackages.typescript
                 nodePackages.typescript-language-server
 
@@ -375,7 +374,7 @@
                 yt-dlp
 
                 # octave
-                (octave.withPackages (pkgs: [ pkgs.symbolic ]))
+                (octave.withPackages (pkgs: [pkgs.symbolic]))
 
                 # other
                 bun
