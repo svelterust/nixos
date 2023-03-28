@@ -48,8 +48,6 @@
             extra = ''
               0.0.0.0 animedao.to
               0.0.0.0 tiktok.com
-              0.0.0.0 lobste.rs
-              0.0.0.0 news.ycombinator.com
             '';
             desktop = {
               layout = "us";
@@ -354,7 +352,9 @@
                 nodePackages.npm
                 nodePackages.typescript
                 nodePackages.typescript-language-server
-
+                nodePackages.svelte-language-server
+                nodePackages.vercel
+                
                 # latex
                 texlive.combined.scheme-full
 
