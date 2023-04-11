@@ -17,9 +17,6 @@
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    zig-overlay = {
-      url = "github:mitchellh/zig-overlay";
-    };
   };
 
   outputs = {
@@ -27,7 +24,6 @@
     nixpkgs,
     rust-overlay,
     emacs-overlay,
-    zig-overlay,
     ...
   }: {
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
@@ -85,6 +81,7 @@
 
             imports = [
               settings.hardware
+              ./cachix.nix
             ];
 
             nixpkgs.overlays = [
@@ -93,9 +90,6 @@
 
               # rust
               rust-overlay.overlays.default
-
-              # zig
-              zig-overlay.overlays.default
 
               # dwm
               (final: prev: {
@@ -134,7 +128,7 @@
 
             # Set your time zone.
             time.timeZone = "Europe/Oslo";
-
+            
             # Select internationalisation properties.
             i18n.defaultLocale = "en_US.utf8";
 
@@ -180,7 +174,6 @@
 
             # Enable sound with pipewire.
             sound.enable = true;
-            hardware.pulseaudio.enable = false;
             security.rtkit.enable = true;
             services.pipewire = {
               enable = true;
@@ -207,6 +200,9 @@
 
             # Allow unfree packages
             nixpkgs.config.allowUnfree = true;
+            nixpkgs.config.permittedInsecurePackages = [
+              "python-2.7.18.6"
+            ];
 
             # Allow experimental features
             nix.extraOptions = ''
@@ -236,6 +232,7 @@
               hack-font
               noto-fonts
               noto-fonts-emoji
+              orbitron
             ];
 
             # Capslock as Control + Escape everywhere
@@ -333,10 +330,6 @@
                 cargo-nextest
                 cargo-expand
 
-                # zig
-                zls
-                zigpkgs.master
-
                 # c++
                 gcc
                 ccls
@@ -358,6 +351,10 @@
                 # latex
                 texlive.combined.scheme-full
 
+                # zig
+                zig
+                zls
+                
                 # work
                 wabt
                 wasmer
@@ -376,10 +373,12 @@
                 # octave
                 (octave.withPackages (pkgs: [pkgs.symbolic]))
 
-                # other
-                bun
-                xxd
+                # graphics
                 gimp
+                inkscape
+                
+                # other
+                xxd
                 ncdu
                 scrot
                 morph
@@ -395,6 +394,9 @@
                 imagemagick
                 libreoffice
                 stalonetray
+                audacity
+                kdenlive
+                cachix
                 networkmanagerapplet
               ];
             };
