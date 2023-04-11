@@ -17,6 +17,9 @@
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    devenv = {
+      url = "github:cachix/devenv/latest";
+    };
   };
 
   outputs = {
@@ -24,6 +27,7 @@
     nixpkgs,
     rust-overlay,
     emacs-overlay,
+    devenv,
     ...
   }: {
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
@@ -361,6 +365,9 @@
                 binaryen
                 docker-compose
 
+                # nix
+                devenv.packages.x86_64-linux.devenv
+                
                 # bash
                 fzf
                 starship
