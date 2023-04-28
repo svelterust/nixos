@@ -29,7 +29,7 @@
     emacs-overlay,
     devenv,
     ...
-  }: {
+  } @ inputs: {
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
     nixosConfigurations."odd" = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
@@ -214,7 +214,10 @@
               keep-outputs = true
               keep-derivations = true
             '';
-
+            nix.registry.nixpkgs.flake = inputs.nixpkgs;
+            nix.nixPath = [ "nixpkgs=/etc/channels/nixpkgs" "nixos-config=/etc/nixos/configuration.nix" "/nix/var/nix/profiles/per-user/root/channels" ];
+            environment.etc."channels/nixpkgs".source = inputs.nixpkgs.outPath;
+            
             # Make sure we're not on powersave
             powerManagement.cpuFreqGovernor = "performance";
 
