@@ -380,6 +380,9 @@
                 xclip
                 yt-dlp
 
+                # dart
+                dart
+                
                 # octave
                 (octave.withPackages (pkgs: [pkgs.symbolic]))
 
