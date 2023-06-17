@@ -17,8 +17,9 @@
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    devenv = {
-      url = "github:cachix/devenv/latest";
+    typst-lsp = {
+      url = "github:nvarner/typst-lsp";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -27,7 +28,7 @@
     nixpkgs,
     rust-overlay,
     emacs-overlay,
-    devenv,
+    typst-lsp,
     ...
   } @ inputs: {
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
@@ -42,11 +43,10 @@
             ...
           }: let
             hosts = pkgs.fetchurl {
-              url = "https://raw.githubusercontent.com/StevenBlack/hosts/6d4674abda33850fb0d0b7ce436e36cdc341b506/alternates/fakenews-gambling-porn/hosts";
-              sha256 = "18KYiZAZ+yrcDIOoBWWURrePWKHScAd9gq25UegC2TU=";
+              url = "https://raw.githubusercontent.com/knarkzel/hosts/114607681682ed7257749c7ad3e11c404c13f96b/alternates/fakenews-gambling-porn/hosts";
+              sha256 = "xtRzClDbXbW0oYYCdfV8aROzDWVM7zEk94k+oWLVMLw=";
             };
             extra = ''
-              0.0.0.0 animedao.to
               0.0.0.0 tiktok.com
             '';
             desktop = {
@@ -170,6 +170,16 @@
               };
             };
 
+            # Compositor
+            services.picom = {
+              enable = true;
+              fade = true;
+              fadeDelta = 3;
+              shadow = true;
+              shadowOpacity = 0.25;
+              inactiveOpacity = 0.98;
+            };
+
             # Don't use that ugly GUI program for password
             programs.ssh.askPassword = "";
 
@@ -208,6 +218,9 @@
               "python-2.7.18.6"
             ];
 
+            # User can use cachix
+            nix.settings.trusted-users = [ "root" "odd" ];
+            
             # Allow experimental features
             nix.extraOptions = ''
               experimental-features = nix-command flakes
@@ -242,6 +255,9 @@
               orbitron
             ];
 
+            # Steam
+            programs.steam.enable = true;
+            
             # Capslock as Control + Escape everywhere
             services.interception-tools = let
               dfkConfig = pkgs.writeText "dual-function-keys.yaml" ''
@@ -287,7 +303,7 @@
                 '';
               };
             };
-
+            
             # Environment
             environment = {
               binsh = "${pkgs.dash}/bin/dash";
@@ -344,33 +360,37 @@
                 # python
                 python310
 
+                # typst
+                typst
+                typst-lsp.packages.x86_64-linux.default
+                
+                # zig
+                zig
+                zls
+                
+                # vlang
+                vlang
+                
                 # dotnet
                 dotnet-sdk
 
                 # typescript
                 nodejs
                 nodePackages.npm
+                nodePackages.pnpm
                 nodePackages.typescript
                 nodePackages.typescript-language-server
                 nodePackages.svelte-language-server
-                nodePackages.vercel
                 
                 # latex
                 texlive.combined.scheme-full
 
-                # zig
-                zig
-                zls
-                
                 # work
                 wabt
                 wasmer
                 binaryen
                 docker-compose
 
-                # nix
-                devenv.packages.x86_64-linux.devenv
-                
                 # bash
                 fzf
                 starship
@@ -408,8 +428,14 @@
                 libreoffice
                 stalonetray
                 audacity
-                kdenlive
                 cachix
+                entr
+                gdb
+                bun
+                typst
+                obs-studio
+                shotcut
+                pocketbase
                 networkmanagerapplet
               ];
             };
