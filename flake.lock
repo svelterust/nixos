@@ -75,8 +75,7 @@
         "emacs-overlay": "emacs-overlay",
         "flake-utils": "flake-utils_2",
         "nixpkgs": "nixpkgs",
-        "rust-overlay": "rust-overlay",
-        "typst-lsp": "typst-lsp"
+        "rust-overlay": "rust-overlay"
       }
     },
     "rust-overlay": {
@@ -114,26 +113,6 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
-        "type": "github"
-      }
-    },
-    "typst-lsp": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1685377230,
-        "narHash": "sha256-bi+DOggvNClWisg6d7h2JlIveCc0VSrXmcva637x+yM=",
-        "owner": "nvarner",
-        "repo": "typst-lsp",
-        "rev": "011b579b6e9eaee74353e700996a57f6c3782445",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nvarner",
-        "repo": "typst-lsp",
         "type": "github"
       }
     }

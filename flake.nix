@@ -17,10 +17,6 @@
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    typst-lsp = {
-      url = "github:nvarner/typst-lsp";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs = {
@@ -28,7 +24,6 @@
     nixpkgs,
     rust-overlay,
     emacs-overlay,
-    typst-lsp,
     ...
   } @ inputs: {
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
@@ -128,7 +123,7 @@
             networking.firewall.enable = true;
             networking.networkmanager.enable = true;
             networking.nameservers = ["1.1.1.1" "1.0.0.1" "8.8.8.8"];
-            networking.extraHosts = (builtins.readFile hosts) + extra;
+            # networking.extraHosts = (builtins.readFile hosts) + extra;
 
             # Set your time zone.
             time.timeZone = "Europe/Oslo";
@@ -139,6 +134,9 @@
             # Enable iPhone tethering
             services.usbmuxd.enable = true;
 
+            # VSCode
+            services.gnome.gnome-keyring.enable = true;
+            
             # Configure graphics
             services.xserver.videoDrivers = settings.videoDrivers;
             hardware.opengl = {
@@ -162,22 +160,19 @@
               enable = true;
               brightness = {
                 day = "1.0";
-                night = "0.6";
+                night = "0.5";
               };
               temperature = {
                 day = 6500;
-                night = 2000;
+                night = 1000;
               };
             };
 
             # Compositor
             services.picom = {
               enable = true;
-              fade = true;
-              fadeDelta = 3;
               shadow = true;
               shadowOpacity = 0.25;
-              inactiveOpacity = 0.98;
             };
 
             # Don't use that ugly GUI program for password
@@ -308,7 +303,6 @@
             environment = {
               binsh = "${pkgs.dash}/bin/dash";
               systemPackages = with pkgs; [
-                fd
                 git
                 zip
                 dig
@@ -360,24 +354,13 @@
                 # python
                 python310
 
-                # typst
-                typst
-                typst-lsp.packages.x86_64-linux.default
-                
                 # zig
                 zig
                 zls
                 
-                # vlang
-                vlang
-                
-                # dotnet
-                dotnet-sdk
-
                 # typescript
                 nodejs
                 nodePackages.npm
-                nodePackages.pnpm
                 nodePackages.typescript
                 nodePackages.typescript-language-server
                 nodePackages.svelte-language-server
@@ -400,12 +383,6 @@
                 xclip
                 yt-dlp
 
-                # dart
-                dart
-                
-                # octave
-                (octave.withPackages (pkgs: [pkgs.symbolic]))
-
                 # graphics
                 gimp
                 inkscape
@@ -419,7 +396,6 @@
                 ffmpeg
                 bottom
                 brave
-                ripcord
                 gnumake
                 lxrandr
                 bintools
@@ -431,11 +407,15 @@
                 cachix
                 entr
                 gdb
-                bun
-                typst
                 obs-studio
-                shotcut
-                pocketbase
+                kdenlive
+                vlc
+                sqlite
+                exodus
+                obsidian
+                rustup
+                discord
+                vscode
                 networkmanagerapplet
               ];
             };
