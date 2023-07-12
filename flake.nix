@@ -123,7 +123,7 @@
             networking.firewall.enable = true;
             networking.networkmanager.enable = true;
             networking.nameservers = ["1.1.1.1" "1.0.0.1" "8.8.8.8"];
-            # networking.extraHosts = (builtins.readFile hosts) + extra;
+            networking.extraHosts = (builtins.readFile hosts) + extra;
 
             # Set your time zone.
             time.timeZone = "Europe/Oslo";
