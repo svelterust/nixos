@@ -160,11 +160,11 @@
               enable = true;
               brightness = {
                 day = "1.0";
-                night = "0.5";
+                night = "0.6";
               };
               temperature = {
                 day = 6500;
-                night = 1000;
+                night = 1250;
               };
             };
 
@@ -346,6 +346,7 @@
                 rust-analyzer
                 cargo-nextest
                 cargo-expand
+                sccache
 
                 # c++
                 gcc
@@ -416,6 +417,7 @@
                 rustup
                 discord
                 vscode
+                sxiv
                 networkmanagerapplet
               ];
             };
