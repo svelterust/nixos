@@ -117,7 +117,8 @@
 
             # Bootloader.
             boot.loader = settings.bootLoader;
-
+            boot.supportedFilesystems = [ "ntfs" ];
+            
             # Enable networking
             networking.hostName = "odd";
             networking.firewall.enable = true;
@@ -419,6 +420,8 @@
                 vscode
                 sxiv
                 networkmanagerapplet
+                wasm-pack
+                wasm-bindgen-cli
               ];
             };
           }
