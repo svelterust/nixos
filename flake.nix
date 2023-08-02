@@ -126,6 +126,9 @@
             networking.nameservers = ["1.1.1.1" "1.0.0.1" "8.8.8.8"];
             networking.extraHosts = (builtins.readFile hosts) + extra;
 
+            # teamviewer
+            services.teamviewer.enable = true;
+            
             # Set your time zone.
             time.timeZone = "Europe/Oslo";
             
@@ -251,9 +254,6 @@
               orbitron
             ];
 
-            # Steam
-            programs.steam.enable = true;
-            
             # Capslock as Control + Escape everywhere
             services.interception-tools = let
               dfkConfig = pkgs.writeText "dual-function-keys.yaml" ''
@@ -419,6 +419,7 @@
                 discord
                 vscode
                 sxiv
+                stripe-cli
                 networkmanagerapplet
                 wasm-pack
                 wasm-bindgen-cli
