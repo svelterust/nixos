@@ -76,11 +76,10 @@
             settings = desktop;
           in {
             # System config
-            system.stateVersion = "22.11";
+            system.stateVersion = "23.11";
 
             imports = [
               settings.hardware
-              ./cachix.nix
             ];
 
             nixpkgs.overlays = [
@@ -91,28 +90,28 @@
               rust-overlay.overlays.default
 
               # dwm
-              (final: prev: {
-                dwm = prev.dwm.overrideAttrs (drv: {
-                  src = prev.fetchFromSourcehut {
-                    owner = "~knarkzel";
-                    repo = "dwm";
-                    rev = "812b3101f65da147752101a0560ac65b3c6703cd";
-                    sha256 = "SQ8cxjFWZl2jGOjg8iUUc7YEstmZWKwY0tafwSsnUKA=";
-                  };
-                });
-              })
+              # (final: prev: {
+              #   dwm = prev.dwm.overrideAttrs (drv: {
+              #     src = prev.fetchFromSourcehut {
+              #       owner = "~knarkzel";
+              #       repo = "dwm";
+              #       rev = "812b3101f65da147752101a0560ac65b3c6703cd";
+              #       sha256 = "SQ8cxjFWZl2jGOjg8iUUc7YEstmZWKwY0tafwSsnUKA=";
+              #     };
+              #   });
+              # })
 
-              # dmenu
-              (final: prev: {
-                dmenu = prev.dmenu.overrideAttrs (drv: {
-                  src = prev.fetchFromSourcehut {
-                    owner = "~knarkzel";
-                    repo = "dmenu";
-                    rev = "b6a57bf5e771fcf0dd8df27cc1930d807cfed173";
-                    sha256 = "aMpKlMNlW4aUylv3FrozgtTFNwlMaaaAzs56/F16ZyY=";
-                  };
-                });
-              })
+              # # dmenu
+              # (final: prev: {
+              #   dmenu = prev.dmenu.overrideAttrs (drv: {
+              #     src = prev.fetchFromSourcehut {
+              #       owner = "~knarkzel";
+              #       repo = "dmenu";
+              #       rev = "b6a57bf5e771fcf0dd8df27cc1930d807cfed173";
+              #       sha256 = "aMpKlMNlW4aUylv3FrozgtTFNwlMaaaAzs56/F16ZyY=";
+              #     };
+              #   });
+              # })
             ];
 
             # Bootloader.
@@ -145,6 +144,8 @@
             services.xserver.videoDrivers = settings.videoDrivers;
             hardware.opengl = {
               enable = true;
+              driSupport = true;
+              driSupport32Bit = true;
               extraPackages = with pkgs; [
                 vaapiIntel
                 vaapiVdpau
@@ -172,19 +173,18 @@
               };
             };
 
-            # Compositor
-            services.picom = {
-              enable = true;
-              shadow = true;
-              shadowOpacity = 0.25;
-            };
-
             # Don't use that ugly GUI program for password
             programs.ssh.askPassword = "";
 
+            # steam
+            programs.steam.enable = true;            
+            
             # autojump
             programs.autojump.enable = true;
 
+            # make dbus faster
+            services.dbus.implementation = "broker";
+            
             # Enable sound with pipewire.
             sound.enable = true;
             security.rtkit.enable = true;
@@ -221,11 +221,20 @@
             nix.settings.trusted-users = [ "root" "odd" ];
             
             # Allow experimental features
-            nix.extraOptions = ''
-              experimental-features = nix-command flakes
-              keep-outputs = true
-              keep-derivations = true
-            '';
+            nix.settings = {
+              experimental-features = [ "nix-command" "flakes" ];
+              auto-optimise-store = true;
+              keep-derivations = true;
+              keep-outputs = true;
+            };
+
+            # Garbage collect
+            nix.gc = {
+              automatic = true;
+              dates = "weekly";
+              options = "--delete-older-than 7d";
+            };
+            
             nix.registry.nixpkgs.flake = inputs.nixpkgs;
             nix.nixPath = [ "nixpkgs=/etc/channels/nixpkgs" "nixos-config=/etc/nixos/configuration.nix" "/nix/var/nix/profiles/per-user/root/channels" ];
             environment.etc."channels/nixpkgs".source = inputs.nixpkgs.outPath;
@@ -243,11 +252,11 @@
             services.emacs = {
               enable = true;
               defaultEditor = true;
-              package = with pkgs; ((emacsPackagesFor emacsGit).emacsWithPackages (epkgs: [epkgs.vterm]));
+              package = with pkgs; ((emacsPackagesFor emacs-pgtk).emacsWithPackages (epkgs: [epkgs.vterm]));
             };
 
             # Fonts
-            fonts.fonts = with pkgs; [
+            fonts.packages = with pkgs; [
               hack-font
               noto-fonts
               noto-fonts-emoji
@@ -275,35 +284,62 @@
               '';
             };
 
-            # Configure X11
-            services.xserver = {
+            # Setup wayland
+            programs.hyprland = {
               enable = true;
-              layout = settings.layout;
-              xkbVariant = "colemak";
-              windowManager.dwm.enable = true;
-              libinput = {
-                enable = true;
-                mouse.accelSpeed = "0";
-              };
-              displayManager = {
-                autoLogin.enable = true;
-                autoLogin.user = "odd";
-                sessionCommands = ''
-                  xset -dpms
-                  xset s off
-                  xset r rate 200 50
-                  dunst &
-                  sxhkd &
-                  xbanish &
-                  hsetroot -solid "#f7f3ee"
-                '';
+              xwayland.enable = true;
+              enableNvidiaPatches = false;
+            };
+            hardware.nvidia.modesetting.enable = true;
+            hardware.nvidia.powerManagement.enable = true;
+            
+            services.greetd = {
+              enable = true;
+              settings = {
+                default_session.command = ''
+                  ${pkgs.greetd.tuigreet}/bin/tuigreet \
+                    --time \                          
+                    --asterisks \                     
+                    --user-menu \
+                    --cmd Hyprland
+                  '';
               };
             };
+
+            environment.etc."greetd/environments".text = ''
+              Hyprland
+            '';             
+            
+            # Configure X11
+            # services.xserver = {
+            #   enable = true;
+            #   layout = settings.layout;
+            #   xkbVariant = "colemak";
+            #   # windowManager.dwm.enable = true;
+            #   libinput = {
+            #     enable = true;
+            #     mouse.accelSpeed = "0";
+            #   };
+            #   displayManager = {
+            #     autoLogin.enable = true;
+            #     autoLogin.user = "odd";
+            #     sessionCommands = ''
+            #       xset -dpms
+            #       xset s off
+            #       xset r rate 200 50
+            #       dunst &
+            #       sxhkd &
+            #       xbanish &
+            #       hsetroot -solid "#f7f3ee"
+            #     '';
+            #   };
+            # };
             
             # Environment
             environment = {
               binsh = "${pkgs.dash}/bin/dash";
               systemPackages = with pkgs; [
+                greetd.tuigreet
                 git
                 zip
                 dig
@@ -361,11 +397,12 @@
                 zls
                 
                 # typescript
+                bun
                 nodejs
                 nodePackages.npm
                 nodePackages.typescript
-                nodePackages.typescript-language-server
                 nodePackages.svelte-language-server
+                nodePackages.typescript-language-server
                 
                 # latex
                 texlive.combined.scheme-full
@@ -387,7 +424,6 @@
 
                 # graphics
                 gimp
-                inkscape
                 
                 # other
                 xxd
@@ -399,6 +435,7 @@
                 bottom
                 brave
                 gnumake
+                firefox
                 lxrandr
                 bintools
                 alacritty
@@ -406,21 +443,20 @@
                 libreoffice
                 stalonetray
                 audacity
-                cachix
                 entr
                 gdb
                 obs-studio
                 kdenlive
                 vlc
                 sqlite
-                exodus
-                obsidian
-                rustup
                 discord
                 vscode
                 sxiv
                 stripe-cli
                 networkmanagerapplet
+                zathura
+                just
+                typst
                 wasm-pack
                 wasm-bindgen-cli
               ];

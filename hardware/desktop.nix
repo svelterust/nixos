@@ -18,7 +18,7 @@
       fsType = "ext4";
     };
 
-  fileSystems."/home/odd/storage" =
+  fileSystems."/home/odd/source/storage" =
     { device = "/dev/disk/by-uuid/86e55879-4b55-441b-9221-8fc909f4d772";
       fsType = "ext4";
     };
