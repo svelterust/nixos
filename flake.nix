@@ -172,13 +172,13 @@
               gnome.gnome-keyring.enable = true;
               xserver = {
                 enable = true;
-                # xkbVariant = "colemak";
-                # layout = settings.layout;
+                xkbVariant = "colemak";
+                layout = settings.layout;
                 videoDrivers = settings.videoDrivers;
-                # libinput = {
-                #   enable = true;
-                #   mouse.accelSpeed = "0";
-                # };
+                libinput = {
+                  enable = true;
+                  mouse.accelSpeed = "0";
+                };
                 displayManager = {
                   autoLogin.enable = true;
                   autoLogin.user = "odd";
@@ -559,32 +559,28 @@
                     # other
                     xxd
                     ncdu
-                    scrot
                     morph
                     ffmpeg
                     bottom
-                    brave
                     gnumake
                     lxrandr
                     bintools
                     imagemagick
                     libreoffice
-                    stalonetray
                     audacity
-                    entr
-                    gdb
+                    stripe-cli
                     obs-studio
                     kdenlive
+                    entr
+                    gdb
                     vlc
                     sqlite
                     discord
                     vscode
-                    sxiv
-                    stripe-cli
-                    networkmanagerapplet
-                    zathura
                     just
                     typst
+                    stalonetray
+                    networkmanagerapplet
                   ];
                 };
               };
