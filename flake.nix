@@ -181,10 +181,8 @@
                   sessionCommands = ''
                     xset -dpms
                     xset s off
-                    xset r rate 200 50
-                    dunst &
-                    sxhkd &
                     xbanish &
+                    xset r rate 200 50
                     hsetroot -solid "#f7f3ee"
                   '';
                 };
@@ -308,7 +306,7 @@
 
             # Manage user account with home manager
             home-manager = {
-              users.odd = {pkgs, ...}: {
+              users.odd = {pkgs, config, ...}: {
                 # Overlays
                 nixpkgs = {
                   config.allowUnfree = true;
@@ -438,13 +436,31 @@
                   };
                 };
 
+                # Fonts
+                fonts = {
+                  fontconfig.enable = true;
+                };
+
+                # User dirs
+                xdg.userDirs = {
+                  enable = true;
+                  desktop = "${config.home.homeDirectory}";
+                  documents = "${config.home.homeDirectory}";
+                  download = "${config.home.homeDirectory}/downloads";
+                  music = "${config.home.homeDirectory}";
+                  pictures = "${config.home.homeDirectory}";
+                  publicShare = "${config.home.homeDirectory}";
+                  templates = "${config.home.homeDirectory}";
+                  videos = "${config.home.homeDirectory}";
+                };
+                
+                
                 # Packages for home
                 home = {
                   stateVersion = "23.11";
                   packages = with pkgs; [
                     # window manager
                     dmenu
-                    dunst
                     xbanish
                     hsetroot
 
@@ -491,7 +507,6 @@
                     ncdu
                     scrot
                     morph
-                    sxhkd
                     ffmpeg
                     bottom
                     brave
