@@ -1,8 +1,8 @@
 ;;; -*- lexical-binding: t; -*-
 
 ;; straight bug
-(defvar native-comp-deferred-compilation-deny-list ())
 (defvar eglot-server-programs ())
+(defvar native-comp-deferred-compilation-deny-list ())
 
 ;; speed
 (defvar comp-deferred-compliation)
