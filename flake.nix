@@ -328,22 +328,44 @@
                   ];
                 };
 
+                # Fonts
+                fonts = {
+                  fontconfig.enable = true;
+                };
+
+                # User dirs
+                xdg.userDirs = {
+                  enable = true;
+                  desktop = "${config.home.homeDirectory}";
+                  documents = "${config.home.homeDirectory}";
+                  download = "${config.home.homeDirectory}/downloads";
+                  music = "${config.home.homeDirectory}";
+                  pictures = "${config.home.homeDirectory}";
+                  publicShare = "${config.home.homeDirectory}";
+                  templates = "${config.home.homeDirectory}";
+                  videos = "${config.home.homeDirectory}";
+                };
+                
                 # Configure programs
                 programs = {
-                  firefox = {
+                  starship = {
                     enable = true;
-                    profiles.default = {
-                      bookmarks = [
-                        {
-                          name = "google";
-                          tags = [ "google" ];
-                          keyword = "google";
-                          url = "https://google.com";
-                        }
+                    settings = {
+                      add_newline = false;
+                      format = lib.concatStrings [
+                        "$directory"
+                        "$nix_shell"
+                        "$character"
                       ];
+                      line_break = {
+                        disabled = true;
+                      };
+                      nix_shell = {
+                        format = "via [(\($name\))](bold blue) ";
+                      };
                     };
                   };
-
+                  
                   nushell = {
                     enable = true;
                     shellAliases = {
@@ -359,6 +381,20 @@
                         show_banner: false,
                       }
                     '';
+                  };
+
+                  firefox = {
+                    enable = true;
+                    profiles.default = {
+                      bookmarks = [
+                        {
+                          name = "google";
+                          tags = [ "google" ];
+                          keyword = "google";
+                          url = "https://google.com";
+                        }
+                      ];
+                    };
                   };
                   
                   git = {
@@ -435,25 +471,6 @@
                     };
                   };
                 };
-
-                # Fonts
-                fonts = {
-                  fontconfig.enable = true;
-                };
-
-                # User dirs
-                xdg.userDirs = {
-                  enable = true;
-                  desktop = "${config.home.homeDirectory}";
-                  documents = "${config.home.homeDirectory}";
-                  download = "${config.home.homeDirectory}/downloads";
-                  music = "${config.home.homeDirectory}";
-                  pictures = "${config.home.homeDirectory}";
-                  publicShare = "${config.home.homeDirectory}";
-                  templates = "${config.home.homeDirectory}";
-                  videos = "${config.home.homeDirectory}";
-                };
-                
                 
                 # Packages for home
                 home = {
