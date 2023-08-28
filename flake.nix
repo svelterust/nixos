@@ -274,7 +274,6 @@
             environment = {
               binsh = "${pkgs.dash}/bin/dash";
               systemPackages = with pkgs; [
-                git
                 zip
                 dig
                 file
@@ -331,6 +330,115 @@
                   ];
                 };
 
+                # Configure programs
+                programs = {
+                  firefox = {
+                    enable = true;
+                    profiles.default = {
+                      bookmarks = [
+                        {
+                          name = "google";
+                          tags = [ "google" ];
+                          keyword = "google";
+                          url = "https://google.com";
+                        }
+                      ];
+                    };
+                  };
+
+                  nushell = {
+                    enable = true;
+                    shellAliases = {
+                      su = "sudo nixos-rebuild switch";
+                    };
+                    environmentVariables = {
+                      BROWSER = "firefox";
+                      TERM = "xterm-256color";
+                      _JAVA_AWT_WM_NONREPARENTING = "1";
+                    };
+                    configFile.text = ''
+                      $env.config = {
+                        show_banner: false,
+                      }
+                    '';
+                  };
+                  
+                  git = {
+                    enable = true;
+                    delta.enable = true;
+                    extraConfig = {
+                      "init" = {
+                        defaultBranch = "master";
+                      };
+                      "credential" = {
+                        helper = "store";
+                      };
+                      "pull" = {
+                        rebase = false;
+                      };
+                      "core" = {
+                        editor = "nano";
+                      };
+                      "user" = {
+                        name = "Knarkzel";
+                        email = "knarkzel@gmail.com";
+                      };
+                      "push" = {
+                        default = "simple";
+                        autoSetupRemote = true;
+                      };
+                    };
+                  };
+
+                  alacritty = {
+                    enable = true;
+                    settings = {
+                      font = {
+                        size = 22.5;
+                      };
+                      key_bindings = [
+                        {
+                          key = "C";
+                          mods = "Alt";
+                          action = "Copy";
+                        }
+                        {
+                          key = "V";
+                          mods = "Alt";
+                          action = "Paste";
+                        }
+                      ];
+                      colors = {
+                        primary = {
+                          background = "0xf7f3ee";
+                          foreground = "0x586e75";
+                        };
+                        normal = {
+                          black = "0x073642";
+                          red = "0xdc322f";
+                          green = "0x859900";
+                          yellow = "0xb58900";
+                          blue = "0x268bd2";
+                          magenta = "0xd33682";
+                          cyan = "0x2aa198";
+                          white = "0xeee8d5";
+                        };
+                        bright = {
+                          black = "0x002b36";
+                          red = "0xcb4b16";
+                          green = "0x586e75";
+                          yellow = "0x657b83";
+                          blue = "0x839496";
+                          magenta = "0x6c71c4";
+                          cyan = "0x93a1a1";
+                          white = "0xfdf6e3";
+                        };
+                      };
+                    };
+                  };
+                };
+
+                # Packages for home
                 home = {
                   stateVersion = "23.11";
                   packages = with pkgs; [
@@ -391,7 +499,6 @@
                     firefox
                     lxrandr
                     bintools
-                    alacritty
                     imagemagick
                     libreoffice
                     stalonetray
