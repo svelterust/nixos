@@ -179,16 +179,8 @@
                 displayManager = {
                   autoLogin.enable = true;
                   autoLogin.user = "odd";
-                  sessionCommands = ''
-                    xset -dpms
-                    xset s off
-                    xbanish &
-                    xset r rate 200 50
-                    hsetroot -solid "#f7f3ee"
-                  '';
                 };
               };
-              # Emacs
               emacs = {
                 enable = true;
                 defaultEditor = true;
@@ -493,6 +485,19 @@
                       };
                     };
                   };
+                };
+
+                # XSession
+                xsession = {
+                  enable = true;
+                  initExtra = ''
+                    xset -dpms
+                    xset s off
+                    xbanish &
+                    xset r rate 200 50
+                    xrandr --output DP-0 --right-of DP-2
+                    hsetroot -solid "#f7f3ee"
+                  '';
                 };
                 
                 # Packages for home
