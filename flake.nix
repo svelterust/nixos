@@ -172,13 +172,13 @@
               gnome.gnome-keyring.enable = true;
               xserver = {
                 enable = true;
-                xkbVariant = "colemak";
-                layout = settings.layout;
+                # xkbVariant = "colemak";
+                # layout = settings.layout;
                 videoDrivers = settings.videoDrivers;
-                libinput = {
-                  enable = true;
-                  mouse.accelSpeed = "0";
-                };
+                # libinput = {
+                #   enable = true;
+                #   mouse.accelSpeed = "0";
+                # };
                 displayManager = {
                   autoLogin.enable = true;
                   autoLogin.user = "odd";
@@ -517,8 +517,6 @@
                   packages = with pkgs; [
                     # wayland
                     tofi
-                    waypaper
-                    swww
                     
                     # rust
                     (rust-bin.nightly.latest.default.override {
