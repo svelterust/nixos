@@ -328,11 +328,6 @@
                   ];
                 };
 
-                # Fonts
-                fonts = {
-                  fontconfig.enable = true;
-                };
-
                 # User dirs
                 xdg.userDirs = {
                   enable = true;
@@ -345,9 +340,35 @@
                   templates = "${config.home.homeDirectory}";
                   videos = "${config.home.homeDirectory}";
                 };
+
+                # Fonts
+                fonts = {
+                  fontconfig.enable = true;
+                };
+                
+                # Custom dotfiles
+                home.file = {
+                  ".cargo" = {
+                    source = ./dotfiles/cargo;
+                    recursive = true;
+                  };
+                  ".emacs.d" = {
+                    source = ./dotfiles/emacs;
+                    recursive = true;
+                  };
+                };
                 
                 # Configure programs
                 programs = {
+                  bat = {
+                    enable = true;
+                  };
+
+                  direnv = {
+                    enable = true;
+                    nix-direnv.enable = true;
+                  };
+                  
                   starship = {
                     enable = true;
                     settings = {
@@ -372,6 +393,7 @@
                       su = "sudo nixos-rebuild switch";
                     };
                     environmentVariables = {
+                      VISUAL = "bat";
                       BROWSER = "firefox";
                       TERM = "xterm-256color";
                       _JAVA_AWT_WM_NONREPARENTING = "1";
