@@ -344,6 +344,10 @@
                     source = ./dotfiles/emacs;
                     recursive = true;
                   };
+                  ".config/hypr" = {
+                    source = ./dotfiles/hyprland;
+                    recursive = true;
+                  };
                   ".config/tofi/config" = {
                     source = pkgs.writeText "config" ''
                       width = 100%
