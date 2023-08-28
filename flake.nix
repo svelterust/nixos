@@ -517,6 +517,8 @@
                   packages = with pkgs; [
                     # wayland
                     tofi
+                    waypaper
+                    swww
                     
                     # rust
                     (rust-bin.nightly.latest.default.override {
