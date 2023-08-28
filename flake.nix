@@ -1,6 +1,4 @@
 {
-  description = "Knarkzel's NixOS Flake";
-
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
@@ -104,7 +102,7 @@
               overlays = [
                 # latest emacs
                 emacs-overlay.overlays.default
-                
+
                 # dwm
                 (final: prev: {
                   dwm = prev.dwm.overrideAttrs (drv: {
@@ -299,14 +297,18 @@
 
             # Manage user account with home manager
             home-manager = {
-              users.odd = {pkgs, config, ...}: {
+              users.odd = {
+                pkgs,
+                config,
+                ...
+              }: {
                 # Overlays
                 nixpkgs = {
                   config.allowUnfree = true;
                   overlays = [
-                    #rust 
+                    #rust
                     rust-overlay.overlays.default
-                    
+
                     # dmenu
                     (final: prev: {
                       dmenu = prev.dmenu.overrideAttrs (drv: {
@@ -338,7 +340,7 @@
                 fonts = {
                   fontconfig.enable = true;
                 };
-                
+
                 # Custom dotfiles
                 home.file = {
                   ".cargo" = {
@@ -350,7 +352,7 @@
                     recursive = true;
                   };
                 };
-                
+
                 # Configure programs
                 programs = {
                   bat = {
@@ -361,7 +363,7 @@
                     enable = true;
                     nix-direnv.enable = true;
                   };
-                  
+
                   starship = {
                     enable = true;
                     settings = {
@@ -379,7 +381,7 @@
                       };
                     };
                   };
-                  
+
                   nushell = {
                     enable = true;
                     shellAliases = {
@@ -404,14 +406,14 @@
                       bookmarks = [
                         {
                           name = "google";
-                          tags = [ "google" ];
+                          tags = ["google"];
                           keyword = "google";
                           url = "https://google.com";
                         }
                       ];
                     };
                   };
-                  
+
                   git = {
                     enable = true;
                     delta.enable = true;
@@ -499,7 +501,7 @@
                     hsetroot -solid "#f7f3ee"
                   '';
                 };
-                
+
                 # Packages for home
                 home = {
                   stateVersion = "23.11";
@@ -540,7 +542,7 @@
 
                     # python
                     python310
-                    
+
                     # latex
                     texlive.combined.scheme-full
 
@@ -556,7 +558,6 @@
                     bottom
                     brave
                     gnumake
-                    firefox
                     lxrandr
                     bintools
                     imagemagick
