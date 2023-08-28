@@ -103,7 +103,7 @@
               overlays = [
                 # latest emacs
                 emacs-overlay.overlays.default
-
+                
                 # dwm
                 (final: prev: {
                   dwm = prev.dwm.overrideAttrs (drv: {
@@ -112,18 +112,6 @@
                       repo = "dwm";
                       rev = "812b3101f65da147752101a0560ac65b3c6703cd";
                       sha256 = "SQ8cxjFWZl2jGOjg8iUUc7YEstmZWKwY0tafwSsnUKA=";
-                    };
-                  });
-                })
-
-                # dmenu
-                (final: prev: {
-                  dmenu = prev.dmenu.overrideAttrs (drv: {
-                    src = prev.fetchFromSourcehut {
-                      owner = "~knarkzel";
-                      repo = "dmenu";
-                      rev = "b6a57bf5e771fcf0dd8df27cc1930d807cfed173";
-                      sha256 = "aMpKlMNlW4aUylv3FrozgtTFNwlMaaaAzs56/F16ZyY=";
                     };
                   });
                 })
@@ -150,8 +138,8 @@
               hostName = "odd";
               firewall.enable = true;
               networkmanager.enable = true;
-              nameservers = ["1.1.1.1" "1.0.0.1" "8.8.8.8"];
               extraHosts = builtins.readFile hosts;
+              nameservers = ["1.1.1.1" "1.0.0.1" "8.8.8.8"];
             };
 
             # Enable OpenGL and bluetooth
@@ -172,6 +160,11 @@
 
             # Services
             services = {
+              dbus.implementation = "broker";
+              teamviewer.enable = true;
+              usbmuxd.enable = true;
+              blueman.enable = true;
+              gnome.gnome-keyring.enable = true;
               xserver = {
                 enable = true;
                 xkbVariant = "colemak";
@@ -196,11 +189,12 @@
                   '';
                 };
               };
-              dbus.implementation = "broker";
-              teamviewer.enable = true;
-              usbmuxd.enable = true;
-              blueman.enable = true;
-              gnome.gnome-keyring.enable = true;
+              # Emacs
+              emacs = {
+                enable = true;
+                defaultEditor = true;
+                package = with pkgs; ((emacsPackagesFor emacs-git).emacsWithPackages (epkgs: [epkgs.vterm]));
+              };
               picom = {
                 enable = true;
                 shadow = true;
@@ -223,11 +217,6 @@
                 alsa.support32Bit = true;
                 pulse.enable = true;
                 jack.enable = true;
-              };
-              emacs = {
-                enable = true;
-                defaultEditor = true;
-                package = with pkgs; ((emacsPackagesFor emacs-git).emacsWithPackages (epkgs: [epkgs.vterm]));
               };
             };
 
@@ -321,103 +310,108 @@
             # Manage user account with home manager
             home-manager = {
               users.odd = {pkgs, ...}: {
+                # Overlays
                 nixpkgs = {
                   config.allowUnfree = true;
                   overlays = [
-                    rust-overlay.overlays.default # rust
+                    #rust 
+                    rust-overlay.overlays.default
+                    
+                    # dmenu
+                    (final: prev: {
+                      dmenu = prev.dmenu.overrideAttrs (drv: {
+                        src = prev.fetchFromSourcehut {
+                          owner = "~knarkzel";
+                          repo = "dmenu";
+                          rev = "b6a57bf5e771fcf0dd8df27cc1930d807cfed173";
+                          sha256 = "aMpKlMNlW4aUylv3FrozgtTFNwlMaaaAzs56/F16ZyY=";
+                        };
+                      });
+                    })
                   ];
                 };
-                home.stateVersion = "23.11";
-                home.packages = with pkgs; [
-                  # window manager
-                  dmenu
-                  dunst
-                  xbanish
-                  hsetroot
 
-                  # rust
-                  (rust-bin.nightly.latest.default.override {
-                    extensions = ["rust-src"];
-                    targets = ["wasm32-wasi" "wasm32-unknown-unknown"];
-                  })
-                  mold
-                  cargo-watch
-                  rust-analyzer
-                  cargo-nextest
-                  cargo-expand
-                  sccache
+                home = {
+                  stateVersion = "23.11";
+                  packages = with pkgs; [
+                    # window manager
+                    dmenu
+                    dunst
+                    xbanish
+                    hsetroot
 
-                  # c++
-                  # gcc
-                  ccls
+                    # rust
+                    (rust-bin.nightly.latest.default.override {
+                      extensions = ["rust-src"];
+                      targets = ["wasm32-wasi" "wasm32-unknown-unknown"];
+                    })
+                    mold
+                    cargo-watch
+                    rust-analyzer
+                    cargo-nextest
+                    cargo-expand
+                    sccache
 
-                  # python
-                  python310
+                    # zig
+                    zig
+                    zls
 
-                  # zig
-                  zig
-                  zls
+                    # typescript
+                    bun
+                    nodejs
+                    nodePackages.npm
+                    nodePackages.typescript
+                    nodePackages.svelte-language-server
+                    nodePackages.typescript-language-server
 
-                  # typescript
-                  bun
-                  nodejs
-                  nodePackages.npm
-                  nodePackages.typescript
-                  nodePackages.svelte-language-server
-                  nodePackages.typescript-language-server
+                    # video
+                    mpv
+                    xclip
+                    yt-dlp
 
-                  # latex
-                  texlive.combined.scheme-full
+                    # python
+                    python310
+                    
+                    # latex
+                    texlive.combined.scheme-full
 
-                  # work
-                  wabt
-                  wasmer
-                  binaryen
-                  docker-compose
+                    # graphics
+                    gimp
 
-                  # video
-                  mpv
-                  xclip
-                  yt-dlp
-
-                  # graphics
-                  gimp
-
-                  # other
-                  xxd
-                  ncdu
-                  scrot
-                  morph
-                  sxhkd
-                  ffmpeg
-                  bottom
-                  brave
-                  gnumake
-                  firefox
-                  lxrandr
-                  bintools
-                  alacritty
-                  imagemagick
-                  libreoffice
-                  stalonetray
-                  audacity
-                  entr
-                  gdb
-                  obs-studio
-                  kdenlive
-                  vlc
-                  sqlite
-                  discord
-                  vscode
-                  sxiv
-                  stripe-cli
-                  networkmanagerapplet
-                  zathura
-                  just
-                  typst
-                  wasm-pack
-                  wasm-bindgen-cli
-                ];
+                    # other
+                    xxd
+                    ncdu
+                    scrot
+                    morph
+                    sxhkd
+                    ffmpeg
+                    bottom
+                    brave
+                    gnumake
+                    firefox
+                    lxrandr
+                    bintools
+                    alacritty
+                    imagemagick
+                    libreoffice
+                    stalonetray
+                    audacity
+                    entr
+                    gdb
+                    obs-studio
+                    kdenlive
+                    vlc
+                    sqlite
+                    discord
+                    vscode
+                    sxiv
+                    stripe-cli
+                    networkmanagerapplet
+                    zathura
+                    just
+                    typst
+                  ];
+                };
               };
             };
           }
