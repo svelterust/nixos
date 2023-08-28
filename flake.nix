@@ -422,6 +422,19 @@
                       settings = {
                         "layout.frame_rate" = 144;
                         "extensions.autoDisableScopes" = 0;
+                        "browser.sessionstore.restore_on_demand" = false;
+                      };
+                      search.engines = {
+                        "Nix packages" = {
+                          urls = [{
+                            template = "https://search.nixos.org/packages";
+                            params = [
+                              { name = "channel"; value = "unstable"; }
+                              { name = "query"; value = "{searchTerms}"; }
+                            ];
+                          }];
+                          definedAliases = ["!nix"];
+                        };
                       };
                       extensions = with firefox-addons.packages."x86_64-linux"; [
                         sponsorblock
