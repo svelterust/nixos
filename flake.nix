@@ -16,6 +16,11 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
   };
 
   outputs = {
@@ -24,6 +29,7 @@
     rust-overlay,
     emacs-overlay,
     home-manager,
+    firefox-addons,
     ...
   } @ inputs: {
     nixosConfigurations."odd" = nixpkgs.lib.nixosSystem {
@@ -57,7 +63,7 @@
               bootLoader = {
                 grub.enable = true;
                 grub.device = "/dev/sda";
-                grub.useOSProber = true;
+                 grub.useOSProber = true;
               };
             };
             hp = {
@@ -102,18 +108,6 @@
               overlays = [
                 # latest emacs
                 emacs-overlay.overlays.default
-
-                # dwm
-                (final: prev: {
-                  dwm = prev.dwm.overrideAttrs (drv: {
-                    src = prev.fetchFromSourcehut {
-                      owner = "~knarkzel";
-                      repo = "dwm";
-                      rev = "812b3101f65da147752101a0560ac65b3c6703cd";
-                      sha256 = "SQ8cxjFWZl2jGOjg8iUUc7YEstmZWKwY0tafwSsnUKA=";
-                    };
-                  });
-                })
               ];
             };
 
@@ -126,6 +120,9 @@
             boot = {
               loader = settings.bootLoader;
               supportedFilesystems = ["ntfs"];
+              extraModprobeConfig = ''
+                options nvidia NVreg_RegistryDwords="PowerMizerEnable=0x1; PerfLevelSrc=0x2222; PowerMizerLevel=0x3; PowerMizerDefault=0x3; PowerMizerDefaultAC=0x3"
+              '';
             };
 
             # Enable sound
@@ -157,6 +154,15 @@
               };
             };
 
+            # Hyprland
+            programs.hyprland = {
+              enable = true;
+              xwayland = {
+                enable = true;
+              };
+              enableNvidiaPatches = true;
+            };
+            
             # Services
             services = {
               dbus.implementation = "broker";
@@ -169,7 +175,6 @@
                 xkbVariant = "colemak";
                 layout = settings.layout;
                 videoDrivers = settings.videoDrivers;
-                windowManager.dwm.enable = true;
                 libinput = {
                   enable = true;
                   mouse.accelSpeed = "0";
@@ -182,7 +187,7 @@
               emacs = {
                 enable = true;
                 defaultEditor = true;
-                package = with pkgs; ((emacsPackagesFor emacs-git).emacsWithPackages (epkgs: [epkgs.vterm]));
+                package = with pkgs; ((emacsPackagesFor emacs-pgtk).emacsWithPackages (epkgs: [epkgs.vterm]));
               };
               picom = {
                 enable = true;
@@ -308,18 +313,6 @@
                   overlays = [
                     #rust
                     rust-overlay.overlays.default
-
-                    # dmenu
-                    (final: prev: {
-                      dmenu = prev.dmenu.overrideAttrs (drv: {
-                        src = prev.fetchFromSourcehut {
-                          owner = "~knarkzel";
-                          repo = "dmenu";
-                          rev = "b6a57bf5e771fcf0dd8df27cc1930d807cfed173";
-                          sha256 = "aMpKlMNlW4aUylv3FrozgtTFNwlMaaaAzs56/F16ZyY=";
-                        };
-                      });
-                    })
                   ];
                 };
 
@@ -350,6 +343,23 @@
                   ".emacs.d" = {
                     source = ./dotfiles/emacs;
                     recursive = true;
+                  };
+                  ".config/tofi/config" = {
+                    source = pkgs.writeText "config" ''
+                      width = 100%
+                      height = 100%
+                      border-width = 0
+                      outline-width = 0
+                      padding-left = 35%
+                      padding-top = 40%
+                      result-spacing = 5
+                      num-results = 5
+                      ascii-input = true
+                      hint-font = false
+                      background-color = #000C
+                      selection-color = #268bd2
+                      font = ${pkgs.hack-font}/share/fonts/hack/Hack-Regular.ttf
+                    '';
                   };
                 };
 
@@ -386,12 +396,14 @@
                     enable = true;
                     shellAliases = {
                       su = "sudo nixos-rebuild switch";
+                      edit = "emacseditor -nw";
                     };
                     environmentVariables = {
                       VISUAL = "bat";
                       BROWSER = "firefox";
                       TERM = "xterm-256color";
                       _JAVA_AWT_WM_NONREPARENTING = "1";
+                      WLR_NO_HARDWARE_CURSORS = "1";
                     };
                     configFile.text = ''
                       $env.config = {
@@ -403,13 +415,19 @@
                   firefox = {
                     enable = true;
                     profiles.default = {
-                      bookmarks = [
-                        {
-                          name = "google";
-                          tags = ["google"];
-                          keyword = "google";
-                          url = "https://google.com";
-                        }
+                      settings = {
+                        "layout.frame_rate" = 144;
+                        "extensions.autoDisableScopes" = 0;
+                      };
+                      extensions = with firefox-addons.packages."x86_64-linux"; [
+                        sponsorblock
+                        ublock-origin
+                        i-dont-care-about-cookies
+                        youtube-shorts-block
+                        auto-tab-discard
+                        automatic-dark
+                        df-youtube
+                        disconnect
                       ];
                     };
                   };
@@ -489,28 +507,13 @@
                   };
                 };
 
-                # XSession
-                xsession = {
-                  enable = true;
-                  initExtra = ''
-                    xset -dpms
-                    xset s off
-                    xbanish &
-                    xset r rate 200 50
-                    xrandr --output DP-0 --right-of DP-2
-                    hsetroot -solid "#f7f3ee"
-                  '';
-                };
-
                 # Packages for home
                 home = {
                   stateVersion = "23.11";
                   packages = with pkgs; [
-                    # window manager
-                    dmenu
-                    xbanish
-                    hsetroot
-
+                    # wayland
+                    tofi
+                    
                     # rust
                     (rust-bin.nightly.latest.default.override {
                       extensions = ["rust-src"];
