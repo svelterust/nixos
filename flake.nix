@@ -177,10 +177,11 @@
               greetd = {
                 enable = true;
                 settings = rec {
-                  default_session = {
+                  initial_session = {
                     command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
                     user = "odd";
                   };
+                  default_session = initial_session;
                 };
               };
               
@@ -563,6 +564,7 @@
                     hyprpicker
                     wl-clipboard
                     qt6.qtwayland
+                    greetd.tuigreet
                     raise.defaultPackage.x86_64-linux
                     
                     # rust
