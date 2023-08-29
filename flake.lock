@@ -151,11 +151,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1693310610,
-        "narHash": "sha256-ZM5KFMD0yq9Unau66mQ3azZddSPUw9sWjJFLtsQfxZw=",
+        "lastModified": 1693324073,
+        "narHash": "sha256-qmE1Hf5rjDEzNfChSDy1c8ryaalpmz97yXkSkpkYffg=",
         "owner": "knarkzel",
         "repo": "raise",
-        "rev": "9e27a526b6a6f87f621a9f8f7039468173b1407d",
+        "rev": "6f4379e309e7da3f417e0ae6363bedf722bace25",
         "type": "github"
       },
       "original": {

@@ -173,6 +173,16 @@
               usbmuxd.enable = true;
               blueman.enable = true;
               gnome.gnome-keyring.enable = true;
+
+              greetd = {
+                enable = true;
+                settings = rec {
+                  default_session = {
+                    command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+                    user = "odd";
+                  };
+                };
+              };
               
               xserver = {
                 enable = true;
@@ -182,10 +192,6 @@
                 libinput = {
                   enable = true;
                   mouse.accelSpeed = "0";
-                };
-                displayManager = {
-                  autoLogin.enable = true;
-                  autoLogin.user = "odd";
                 };
               };
 
@@ -212,13 +218,14 @@
                   night = 1250;
                 };
               };
-              
+
               pipewire = {
                 enable = true;
                 alsa.enable = true;
                 alsa.support32Bit = true;
                 pulse.enable = true;
                 jack.enable = true;
+                wireplumber.enable = true;
               };
             };
 
@@ -287,22 +294,18 @@
                 clang
                 p7zip
                 psmisc
-                direnv
                 ripgrep
                 alejandra
                 e2fsprogs
                 dosfstools
-                nix-direnv
                 libimobiledevice
                 interception-tools
               ];
               etc."channels/nixpkgs".source = inputs.nixpkgs.outPath;
-              pathsToLink = ["/share/nix-direnv"];
             };
 
             # Define user account.
             users = {
-              defaultUserShell = pkgs.nushell;
               users.odd = {
                 isNormalUser = true;
                 description = "Odd-Harald";
@@ -384,10 +387,26 @@
                   };
                 };
 
+                # Services
+                services = {
+                  mako = {
+                    enable = true;
+                  };
+                };
+
                 # Configure programs
                 programs = {
                   bat = {
                     enable = true;
+                    config = {
+                      theme = "base16-256";
+                    };
+                  };
+
+                  exa = {
+                    enable = true;
+                    enableAliases = true;
+                    extraOptions = ["--group-directories-first"];
                   };
 
                   direnv = {
@@ -413,24 +432,27 @@
                     };
                   };
 
-                  nushell = {
+                  bash = {
                     enable = true;
                     shellAliases = {
+                      cat = "bat";
+                      tmp = "cd $(mktemp -d); clear";
                       su = "sudo nixos-rebuild switch";
+                      cr = "cargo run";
+                      cb = "cargo check";
+                      ct = "cargo nextest run";
+                      cdo = "cargo doc --open";
+                      zb = "zig build";
+                      zr = "zig build run";
+                      zt = "zig build test";
                       edit = "emacseditor -nw";
                     };
-                    environmentVariables = {
+                    sessionVariables = {
                       VISUAL = "bat";
                       BROWSER = "firefox";
-                      TERM = "xterm-256color";
-                      NIXOS_OZONE_WL = "1";
-                      WLR_NO_HARDWARE_CURSORS = "1";
-                      _JAVA_AWT_WM_NONREPARENTING = "1";
                     };
-                    configFile.text = ''
-                      $env.config = {
-                        show_banner: false,
-                      }
+                    bashrcExtra = ''
+                      export DIRENV_LOG_FORMAT=
                     '';
                   };
 
@@ -441,18 +463,6 @@
                         "layout.frame_rate" = 144;
                         "extensions.autoDisableScopes" = 0;
                         "browser.sessionstore.restore_on_demand" = false;
-                      };
-                      search.engines = {
-                        "Nix packages" = {
-                          urls = [{
-                            template = "https://search.nixos.org/packages";
-                            params = [
-                              { name = "channel"; value = "unstable"; }
-                              { name = "query"; value = "{searchTerms}"; }
-                            ];
-                          }];
-                          definedAliases = ["!nix"];
-                        };
                       };
                       extensions = with firefox-addons.packages."x86_64-linux"; [
                         sponsorblock
@@ -548,6 +558,11 @@
                   packages = with pkgs; [
                     # wayland
                     tofi
+                    grim
+                    libnotify
+                    hyprpicker
+                    wl-clipboard
+                    qt6.qtwayland
                     raise.defaultPackage.x86_64-linux
                     
                     # rust
@@ -595,7 +610,6 @@
                     ffmpeg
                     bottom
                     gnumake
-                    lxrandr
                     bintools
                     imagemagick
                     libreoffice
@@ -605,7 +619,6 @@
                     kdenlive
                     entr
                     gdb
-                    vlc
                     sqlite
                     discord
                     vscode
