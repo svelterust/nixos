@@ -165,6 +165,18 @@
               };
               enableNvidiaPatches = true;
             };
+
+            # XDG Portals
+            xdg = {
+              autostart.enable = true;
+              portal = {
+                enable = true;
+                extraPortals = with pkgs; [
+                  xdg-desktop-portal
+                  xdg-desktop-portal-gtk
+                ];
+              };
+            };
             
             # Services
             services = {
@@ -174,17 +186,6 @@
               blueman.enable = true;
               gnome.gnome-keyring.enable = true;
 
-              greetd = {
-                enable = true;
-                settings = rec {
-                  initial_session = {
-                    command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
-                    user = "odd";
-                  };
-                  default_session = initial_session;
-                };
-              };
-              
               xserver = {
                 enable = true;
                 xkbVariant = "colemak";
@@ -193,6 +194,10 @@
                 libinput = {
                   enable = true;
                   mouse.accelSpeed = "0";
+                };
+                displayManager = {
+                  autoLogin.enable = true;
+                  autoLogin.user = "odd";
                 };
               };
 
@@ -564,7 +569,6 @@
                     hyprpicker
                     wl-clipboard
                     qt6.qtwayland
-                    greetd.tuigreet
                     raise.defaultPackage.x86_64-linux
                     
                     # rust
