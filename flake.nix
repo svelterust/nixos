@@ -21,6 +21,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
+    raise = {
+      url = "github:knarkzel/raise";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
   };
 
   outputs = {
@@ -30,6 +35,7 @@
     emacs-overlay,
     home-manager,
     firefox-addons,
+    raise,
     ...
   } @ inputs: {
     nixosConfigurations."odd" = nixpkgs.lib.nixosSystem {
@@ -167,6 +173,7 @@
               usbmuxd.enable = true;
               blueman.enable = true;
               gnome.gnome-keyring.enable = true;
+              
               xserver = {
                 enable = true;
                 xkbVariant = "colemak";
@@ -181,16 +188,19 @@
                   autoLogin.user = "odd";
                 };
               };
+
               emacs = {
                 enable = true;
                 defaultEditor = true;
                 package = with pkgs; ((emacsPackagesFor emacs-pgtk).emacsWithPackages (epkgs: [epkgs.vterm]));
               };
+
               picom = {
                 enable = true;
                 shadow = true;
                 shadowOpacity = 0.25;
               };
+              
               redshift = {
                 enable = true;
                 brightness = {
@@ -202,6 +212,7 @@
                   night = 1250;
                 };
               };
+              
               pipewire = {
                 enable = true;
                 alsa.enable = true;
@@ -218,11 +229,13 @@
                 "nixos-config=/etc/nixos/configuration.nix"
                 "/nix/var/nix/profiles/per-user/root/channels"
               ];
+              
               gc = {
                 automatic = true;
                 dates = "weekly";
                 options = "--delete-older-than 7d";
               };
+              
               settings = {
                 trusted-users = ["root" "odd"];
                 experimental-features = ["nix-command" "flakes"];
@@ -297,6 +310,9 @@
               };
             };
 
+            # Steam
+            programs.steam.enable = true;
+            
             # Manage user account with home manager
             home-manager = {
               backupFileExtension = "backup";
@@ -338,14 +354,17 @@
                     source = ./dotfiles/cargo;
                     recursive = true;
                   };
+                  
                   ".emacs.d" = {
                     source = ./dotfiles/emacs;
                     recursive = true;
                   };
+                  
                   ".config/hypr" = {
                     source = ./dotfiles/hyprland;
                     recursive = true;
                   };
+                  
                   ".config/tofi/config" = {
                     source = pkgs.writeText "config" ''
                       width = 100%
@@ -529,6 +548,7 @@
                   packages = with pkgs; [
                     # wayland
                     tofi
+                    raise.defaultPackage.x86_64-linux
                     
                     # rust
                     (rust-bin.nightly.latest.default.override {
