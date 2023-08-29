@@ -80,20 +80,20 @@
 (setq-default cursor-in-non-selected-windows nil) ;; don't show cursor in inactive window
 
 (use-package catppuccin-theme
-  :straight t
-  :config
-  (if recording-video
-      (load-theme 'catppuccin t)))
+  :straight t)
+  ;; :config
+  ;; (if recording-video
+  ;;     (load-theme 'catppuccin t)))
 
 (use-package doom-themes
-  :straight t
-  :config
-  (if (not recording-video) 
-      (progn
+  :straight t)
+  ;; :config
+  ;; (if (not recording-video) 
+      ;; (progn
         ;; fix color for lsp-ui-doc
-        (load-theme 'doom-flatwhite t)
-        (require 'markdown-mode)
-        (set-face-background 'markdown-code-face "#f1ece4"))))
+        ;; (load-theme 'doom-flatwhite t)
+        ;; (require 'markdown-mode)
+        ;; (set-face-background 'markdown-code-face "#f1ece4"))))
 
 (use-package theme-changer
   :demand t

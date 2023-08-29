@@ -299,6 +299,7 @@
 
             # Manage user account with home manager
             home-manager = {
+              backupFileExtension = "backup";
               users.odd = {
                 pkgs,
                 config,
@@ -403,8 +404,9 @@
                       VISUAL = "bat";
                       BROWSER = "firefox";
                       TERM = "xterm-256color";
-                      _JAVA_AWT_WM_NONREPARENTING = "1";
+                      NIXOS_OZONE_WL = "1";
                       WLR_NO_HARDWARE_CURSORS = "1";
+                      _JAVA_AWT_WM_NONREPARENTING = "1";
                     };
                     configFile.text = ''
                       $env.config = {
@@ -504,7 +506,7 @@
                           blue = "0x268bd2";
                           magenta = "0xd33682";
                           cyan = "0x2aa198";
-                          white = "0xeee8d5";
+                          white = "0x268bd2";
                         };
                         bright = {
                           black = "0x002b36";
@@ -589,8 +591,6 @@
                     vscode
                     just
                     typst
-                    stalonetray
-                    networkmanagerapplet
                   ];
                 };
               };
