@@ -469,6 +469,7 @@
                         "layout.frame_rate" = 144;
                         "extensions.autoDisableScopes" = 0;
                         "browser.sessionstore.restore_on_demand" = false;
+                        "browser.sessionstore.resume_from_crash" = false;
                       };
                       extensions = with firefox-addons.packages."x86_64-linux"; [
                         sponsorblock
