@@ -81,6 +81,8 @@
 
 (use-package catppuccin-theme
   :straight t
+  :custom
+  (catppuccin-flavor 'latte)
   :config
   (load-theme 'catppuccin t))
 

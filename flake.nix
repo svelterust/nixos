@@ -363,8 +363,12 @@
                     recursive = true;
                   };
 
-                  ".config/alacritty/catpuccin-mocha.yml" = {
-                    source = ./dotfiles/alacritty/catppuccin-mocha.yml;
+                  ".config/alacritty/catpuccin-latte.yml" = {
+                    source = ./dotfiles/alacritty/catppuccin-latte.yml;
+                  };
+
+                  ".mozilla/firefox/default/chrome" = {
+                    source = ./dotfiles/firefox/chrome;
                   };
                   
                   ".config/tofi/config" = {
@@ -467,6 +471,7 @@
                         "extensions.autoDisableScopes" = 0;
                         "browser.sessionstore.restore_on_demand" = false;
                         "browser.sessionstore.resume_from_crash" = false;
+                        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
                       };
                       extensions = with firefox-addons.packages."x86_64-linux"; [
                         sponsorblock
@@ -528,7 +533,7 @@
                         }
                       ];
                       import = [
-                        "~/.config/alacritty/catpuccin-mocha.yml"
+                        "~/.config/alacritty/catpuccin-latte.yml"
                       ];
                     };
                   };
@@ -538,9 +543,9 @@
                 gtk = {
                   enable = true;
                   theme = {
-                    name = "Catppuccin-Mocha";
+                    name = "Catppuccin-Latte";
                     package = pkgs.catppuccin-gtk.override {
-                      variant = "mocha";
+                      variant = "latte";
                     };
                   };
                 };
