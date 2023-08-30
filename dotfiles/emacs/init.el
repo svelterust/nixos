@@ -80,30 +80,9 @@
 (setq-default cursor-in-non-selected-windows nil) ;; don't show cursor in inactive window
 
 (use-package catppuccin-theme
-  :straight t)
-  ;; :config
-  ;; (if recording-video
-  ;;     (load-theme 'catppuccin t)))
-
-(use-package doom-themes
-  :straight t)
-  ;; :config
-  ;; (if (not recording-video) 
-      ;; (progn
-        ;; fix color for lsp-ui-doc
-        ;; (load-theme 'doom-flatwhite t)
-        ;; (require 'markdown-mode)
-        ;; (set-face-background 'markdown-code-face "#f1ece4"))))
-
-(use-package theme-changer
-  :demand t
   :straight t
-  :custom
-  (calendar-location-name "Froland, Norway") 
-  (calendar-latitude 58.0)
-  (calendar-longitude 9.0)
   :config
-  (change-theme 'doom-flatwhite 'catppuccin))
+  (load-theme 'catppuccin t))
 
 (use-package dired
   :defer t
