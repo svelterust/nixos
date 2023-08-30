@@ -367,6 +367,10 @@
                     source = ./dotfiles/alacritty/catppuccin-latte.yml;
                   };
 
+                  ".config/alacritty/catpuccin-mocha.yml" = {
+                    source = ./dotfiles/alacritty/catppuccin-mocha.yml;
+                  };
+
                   ".mozilla/firefox/default/chrome" = {
                     source = ./dotfiles/firefox/chrome;
                   };
@@ -534,7 +538,7 @@
                         }
                       ];
                       import = [
-                        "~/.config/alacritty/catpuccin-latte.yml"
+                        "~/.config/alacritty/theme.yml"
                       ];
                     };
                   };
