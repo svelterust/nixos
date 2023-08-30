@@ -407,9 +407,10 @@
                 programs = {
                   bat = {
                     enable = true;
-                    config = {
-                      theme = "base16-256";
-                    };
+                  };
+
+                  fzf = {
+                    enable = true;
                   };
 
                   exa = {
@@ -594,7 +595,7 @@
                     yt-dlp
 
                     # python
-                    (python311.withPackages(ps: with ps; [ pipx ]))
+                    (python311.withPackages(ps: with ps; [ epc orjson sexpdata six paramiko rapidfuzz ]))
                     
                     # latex
                     texlive.combined.scheme-full

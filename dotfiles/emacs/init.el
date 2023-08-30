@@ -12,7 +12,6 @@
   (xah-fly-keys-set-layout "colemak")
   (global-set-key (kbd "<escape>") 'xah-fly-command-mode-activate)
   (xah-fly-keys)
-  (add-hook 'xah-fly-command-mode-activate-hook (lambda () (interactive) (corfu-quit)))
 
   ;; keybindings
   (define-key xah-fly-command-map (kbd "A") 'org-agenda)
@@ -105,36 +104,6 @@
 (use-package flycheck
   :straight t)
 
-(use-package lsp-ui
-  :straight t
-  :custom
-  (lsp-ui-doc-max-width 45)
-  (lsp-ui-doc-max-height 20)
-  (lsp-ui-doc-show-with-cursor t)
-  (lsp-ui-doc-show-with-mouse nil)
-  (lsp-ui-doc-delay 0.25))
-
-(use-package lsp-mode
-  :straight t
-  :init
-  (define-key lsp-mode-map (kbd "C-c e") 'flycheck-next-error)
-  (define-key lsp-mode-map (kbd "C-c f") 'lsp-find-definition)
-  (define-key lsp-mode-map (kbd "C-c n") 'lsp-rename)
-  (define-key lsp-mode-map (kbd "C-c a") 'lsp-execute-code-action)
-  (define-key lsp-mode-map (kbd "C-c r") 'lsp-find-references)
-  (add-hook 'rust-ts-mode-hook 'lsp-deferred)
-  (add-hook 'zig-mode-hook 'lsp-deferred)
-  :custom
-  (lsp-enable-suggest-server-download nil)
-  (lsp-auto-guess-root t)
-  (lsp-idle-delay 0.500)
-  (lsp-log-io nil)
-  (lsp-headerline-breadcrumb-enable nil)
-  (lsp-lens-enable nil)
-  (lsp-signature-auto-activate nil)
-  (lsp-completion-provider :none)
-  (lsp-rust-analyzer-diagnostics-disabled ["unresolved-proc-macro"]))
-
 (use-package zig-mode
   :straight t)
 
@@ -184,18 +153,6 @@
   (which-key-idle-delay 0.5)
   :config
   (which-key-mode t))
-
-(use-package corfu
-  :straight t
-  :custom
-  (corfu-cycle t)
-  (corfu-auto t)
-  (corfu-count 5)
-  (corfu-auto-prefix 1)
-  (corfu-auto-delay 0.5)
-  (corfu-quit-no-match t)
-  :config
-  (global-corfu-mode))
 
 (use-package cape
   :straight t
@@ -376,10 +333,7 @@
   :straight '(css-in-js-mode :type git :host github :repo "orzechowskid/tree-sitter-css-in-js"))
 
 (use-package tsx-mode
-  :straight '(tsx-mode :type git :host github :repo "orzechowskid/tsx-mode.el" :branch "emacs29")
-  :init
-  (add-hook 'tsx-ts-mode-hook 'lsp)
-  (add-hook 'typescript-ts-mode-hook 'lsp))
+  :straight '(tsx-mode :type git :host github :repo "orzechowskid/tsx-mode.el" :branch "emacs29"))
 
 (use-package wgsl-mode
   :straight '(wgsl-mode :type git :host github :repo "acowley/wgsl-mode"))
@@ -401,19 +355,16 @@
 
 (use-package svelte-mode
   :hook ((svelte-mode . emmet-mode)
-         (svelte-mode . lsp-deferred)
          (svelte-mode . (lambda () (rainbow-delimiters-mode -1))))
   :straight t)
 
 (use-package javascript-mode
   :mode (("\\.js\\'" . javascript-mode)
          ("\\.cjs\\'" . javascript-mode))
-  :hook (javascript-mode . lsp-deferred)
   :custom
   (js-indent-level 2))
 
 (use-package typescript-mode
-  :hook (typescript-mode . lsp-deferred)
   :custom
   (typescript-indent-level 2)
   :straight t)
@@ -423,12 +374,8 @@
   :custom
   (css-indent-offset 2))
 
-(use-package lsp-dart
-  :straight t)
-
 (use-package dart-mode
-  :straight t
-  :hook (dart-mode . lsp-deferred))
+  :straight t)
 
 (use-package mhtml-mode
   :hook (mhtml-mode . emmet-mode))
@@ -447,9 +394,9 @@
   :hook ((typst-mode . (lambda () (eletric-pair-mode -1))))
   :straight (:type git :host github :repo "Ziqi-Yang/typst-mode.el"))
 
-(defun browse-web ()
-  (interactive)
-  (let ((input (read-string "Search for: ")))
-    (shell-command (concat "brave " "https://www.google.com/search?q=" "'" input "'"))))
+(use-package lsp-bridge
+  :straight '(lsp-bridge :type git :host github :repo "manateelazycat/lsp-bridge" :files (:defaults "*.py" "acm/*" "core/*"))
+  :init
+  (global-lsp-bridge-mode))
 
 (provide 'init)
