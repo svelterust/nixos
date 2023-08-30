@@ -384,7 +384,7 @@
                       ascii-input = true
                       hint-font = false
                       background-color = #000C
-                      selection-color = #268bd2
+                      selection-color = #1E66F5
                       font = ${pkgs.hack-font}/share/fonts/hack/Hack-Regular.ttf
                     '';
                   };
