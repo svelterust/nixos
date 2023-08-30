@@ -398,6 +398,8 @@
                 # hyprctl keyword misc:background_color 0x1E1E2E
                 # hyprctl keyword decoration:screen_shader ~/.config/hypr/blue-light-filter.glsl
                 # chmod +w ~/.config/alacritty/theme.yml && cp ~/.config/alacritty/catpuccin-mocha.yml ~/.config/alacritty/theme.yml
+                # https://github.com/hadronzoo/theme-changer
+                #   - use pre-hook and set variable
                 
                 # Services
                 services = {
