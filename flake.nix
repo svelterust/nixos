@@ -99,11 +99,6 @@
             virtualisation.docker.enable = true;
 
             # Location for redshift
-            location = {
-              latitude = 58.0;
-              longitude = 9.0;
-            };
-
             imports = [
               settings.hardware
               "${home-manager}/nixos"
@@ -213,18 +208,6 @@
                 shadowOpacity = 0.25;
               };
               
-              redshift = {
-                enable = true;
-                brightness = {
-                  day = "1.0";
-                  night = "0.6";
-                };
-                temperature = {
-                  day = 6500;
-                  night = 1250;
-                };
-              };
-
               pipewire = {
                 enable = true;
                 alsa.enable = true;
@@ -398,6 +381,12 @@
                   mako = {
                     enable = true;
                   };
+
+                  wlsunset = {
+                    enable = true;
+                    latitude = "58.0";
+                    longitude = "9.0";
+                  };
                 };
 
                 # Configure programs
@@ -457,9 +446,7 @@
                       VISUAL = "bat";
                       BROWSER = "firefox";
                     };
-                    bashrcExtra = ''
-                      export DIRENV_LOG_FORMAT=
-                    '';
+                    bashrcExtra = lib.readFile ./dotfiles/bash/.bashrc;
                   };
 
                   firefox = {
@@ -480,6 +467,7 @@
                         automatic-dark
                         df-youtube
                         disconnect
+                        darkreader
                       ];
                     };
                   };
@@ -566,6 +554,7 @@
                     # wayland
                     tofi
                     grim
+                    slurp
                     libnotify
                     hyprpicker
                     wl-clipboard
@@ -602,8 +591,8 @@
                     yt-dlp
 
                     # python
-                    python310
-
+                    (python311.withPackages(ps: with ps; [ pipx ]))
+                    
                     # latex
                     texlive.combined.scheme-full
 
