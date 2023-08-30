@@ -98,12 +98,18 @@
             # Work
             virtualisation.docker.enable = true;
 
-            # Location for redshift
+            # Imports
             imports = [
               settings.hardware
               "${home-manager}/nixos"
             ];
 
+            # Zram
+            zramSwap = {
+              enable = true;
+              memoryPercent = 50;
+            };
+            
             nixpkgs = {
               config.allowUnfree = true;
               overlays = [
