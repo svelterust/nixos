@@ -293,6 +293,16 @@
 (use-package lsp-bridge
   :straight '(lsp-bridge :type git :host github :repo "manateelazycat/lsp-bridge" :files (:defaults "*.py" "acm/*" "core/*") :build (:not compile))
   :custom
-  (lsp-bridge-python-lsp-server 'pyright)
+  (acm-enable-yas nil)
+  (acm-enable-icon nil)
+  (lsp-bridge-nix-lsp-server "nil")
   :init
-  (global-lsp-bridge-mode))
+  (global-lsp-bridge-mode)
+  (let ((filtered-list (cl-delete 'lsp-bridge-not-match-hide-characters lsp-bridge-completion-popup-predicates)))
+    (setq lsp-bridge-completion-popup-predicates filtered-list))
+  (define-key lsp-bridge-mode-map (kbd "C-c e") 'lsp-bridge-diagnostic-jump-next)
+  (define-key lsp-bridge-mode-map (kbd "C-c f") 'lsp-bridge-find-def)
+  (define-key lsp-bridge-mode-map (kbd "C-c n") 'lsp-bridge-rename)
+  (define-key lsp-bridge-mode-map (kbd "C-c a") 'lsp-bridge-code-action)
+  (define-key lsp-bridge-mode-map (kbd "C-c r") 'lsp-bridge-find-references)
+  (define-key lsp-bridge-mode-map (kbd "C-c .") 'lsp-bridge-popup-documentation))

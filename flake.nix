@@ -586,7 +586,10 @@
                     wl-clipboard
                     qt6.qtwayland
                     raise.defaultPackage.x86_64-linux
-
+                    
+                    # nix
+                    nil
+                    
                     # video
                     mpv
                     xclip
