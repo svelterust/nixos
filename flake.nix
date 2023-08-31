@@ -26,6 +26,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
+    hyprsome = {
+      url = "github:sopa0/hyprsome";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
   };
 
   outputs = {
@@ -36,6 +41,7 @@
     home-manager,
     firefox-addons,
     raise,
+    hyprsome,
     ...
   } @ inputs: {
     nixosConfigurations."odd" = nixpkgs.lib.nixosSystem {
@@ -578,6 +584,7 @@
                     wl-clipboard
                     qt6.qtwayland
                     raise.defaultPackage.x86_64-linux
+                    hyprsome.packages.x86_64-linux.default
                     
                     # nix
                     nil
