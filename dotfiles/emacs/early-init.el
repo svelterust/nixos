@@ -10,6 +10,7 @@
 (setq frame-inhibit-implied-resize t)
 
 ;; remove ugly early
+(setq use-dialog-box nil)
 (menu-bar-mode -1)
 (unless (and (display-graphic-p) (eq system-type 'darwin))
   (push '(menu-bar-lines . 0) default-frame-alist))
@@ -27,6 +28,7 @@
             (setq file-name-handler-alist me/-file-name-handler-alist)))
 
 ;; more speed
+
 (setq site-run-file nil)
 (setq inhibit-compacting-font-caches t)
 (when (boundp 'read-process-output-max)
@@ -126,16 +128,15 @@
 (customize-set-variable 'scroll-bar-mode nil)
 (customize-set-variable 'horizontal-scroll-bar-mode nil)
 
-(display-time-mode 1)
 (global-font-lock-mode 1)
 (column-number-mode 1)
 (winner-mode 1)
-(recentf-mode 1)
 (menu-bar-mode -1)
 (toggle-scroll-bar -1)
 (tool-bar-mode -1)
 (blink-cursor-mode -1)
 (global-hl-line-mode 1)
+(save-place-mode 1)
 
 (setq user-emacs-directory (expand-file-name "~/.cache/emacs/")
       url-history-file (expand-file-name "url/history" user-emacs-directory))
