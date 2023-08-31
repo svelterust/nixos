@@ -220,6 +220,33 @@
 
 (advice-add 'find-file :around 'my-find-file)
 
+;; Silence useless messages
+(defun advice-silence-messages (orig-fun &rest args)
+  "Advice function that silences all messages in ORIG-FUN."
+  (let ((inhibit-message t)      ;Don't show the messages in Echo area
+        (message-log-max nil))   ;Don't show the messages in the *Messages* buffer
+    (apply orig-fun args)))
+
+(dolist (fn '(push-mark pop-mark))
+  (advice-add fn :around #'advice-silence-messages))
+
+(defadvice previous-line (around silencer activate)
+  (condition-case nil
+      ad-do-it
+    ((beginning-of-buffer))))
+
+(defadvice next-line (around silencer activate)
+  (condition-case nil
+      ad-do-it
+    ((beginning-of-buffer))))
+
+(defadvice dired-jump (around silencer activate)
+  (condition-case nil
+      ad-do-it
+    ((beginning-of-buffer))))
+
+(setq-default cursor-in-non-selected-windows nil) ;; don't show cursor in inactive window
+
 (pixel-scroll-precision-mode t)
 
 (provide 'early-init)

@@ -51,33 +51,6 @@
 (use-package markdown-mode
   :straight t)
 
-;; Silence useless messages
-(defun advice-silence-messages (orig-fun &rest args)
-  "Advice function that silences all messages in ORIG-FUN."
-  (let ((inhibit-message t)      ;Don't show the messages in Echo area
-        (message-log-max nil))   ;Don't show the messages in the *Messages* buffer
-    (apply orig-fun args)))
-
-(dolist (fn '(push-mark pop-mark))
-  (advice-add fn :around #'advice-silence-messages))
-
-(defadvice previous-line (around silencer activate)
-  (condition-case nil
-      ad-do-it
-    ((beginning-of-buffer))))
-
-(defadvice next-line (around silencer activate)
-  (condition-case nil
-      ad-do-it
-    ((beginning-of-buffer))))
-
-(defadvice dired-jump (around silencer activate)
-  (condition-case nil
-      ad-do-it
-    ((beginning-of-buffer))))
-
-(setq-default cursor-in-non-selected-windows nil) ;; don't show cursor in inactive window
-
 (use-package catppuccin-theme
   :straight t
   :custom
@@ -107,16 +80,11 @@
 (use-package zig-mode
   :straight t)
 
-(use-package rust-ts-mode
-  :mode (("\\.rs\\'" . rust-ts-mode)))
-
 (use-package nix-mode
   :straight t)
 
-(use-package csharp-mode
-  :straight t
-  :mode (("\\.cs\\'" . csharp-mode)
-         ("\\.cshtml\\'" . mhtml-mode)))
+(use-package rust-ts-mode
+  :mode (("\\.rs\\'" . rust-ts-mode)))
 
 (use-package sudo-edit
   :straight t)
@@ -154,11 +122,6 @@
   :config
   (which-key-mode t))
 
-(use-package cape
-  :straight t
-  :init
-  (add-to-list 'completion-at-point-functions #'cape-file))
-
 (use-package magit
   :straight t
   :custom (magit-refresh-status-buffer nil))
@@ -189,15 +152,16 @@
    (quote
     ((auto-mode . emacs)
      ("\\.mm\\'" . default)
-     ("\\.x?html?\\'" . "brave %s")
-     ("\\.pdf\\'" . "brave %s"))))
-  :config
-  (set-face-attribute 'org-document-info-keyword nil
-                      :foreground "#9d8f7c")
-  (set-face-attribute 'org-document-info nil
-                      :foreground "#9d8f7c")
-  (set-face-attribute 'org-document-title nil
-                      :foreground "#9d8f7c" :bold nil))
+     ("\\.x?html?\\'" . "firefox %s")
+     ("\\.pdf\\'" . "firefox %s"))))
+  ;; :config
+  ;; (set-face-attribute 'org-document-info-keyword nil
+  ;;                     :foreground "#9d8f7c")
+  ;; (set-face-attribute 'org-document-info nil
+  ;;                     :foreground "#9d8f7c")
+  ;; (set-face-attribute 'org-document-title nil
+  ;;                     :foreground "#9d8f7c" :bold nil)
+  )
 
 (use-package org-agenda
   :custom
@@ -265,24 +229,10 @@
   :init
   (envrc-global-mode))
 
-(use-package emms
-  :straight t
-  :custom
-  (emms-source-file-default-directory "~/source/quran")
-  :config
-  (emms-all)
-  (emms-default-players))
-
 (use-package hyperbole
   :straight t
   :config
   (hyperbole-mode))
-
-(use-package prettify-symbols-mode
-  :hook (elisp-mode . prettify-symbols-mode)
-  :config
-  (defconst lisp--prettify-symbols-alist
-    '(("lambda"  . ?λ))))
 
 (use-package paredit
   :hook ((lisp-mode . paredit-mode)
@@ -296,31 +246,6 @@
   :straight t)
 
 (use-package rainbow-mode
-  :straight t)
-
-(defun odd/run-octave ()
-  (interactive)
-  (save-buffer)
-  (message nil)
-  (let* ((path (buffer-file-name (window-buffer (minibuffer-selected-window))))
-         (output (shell-command-to-string (format "octave --no-gui --persist %s" path)))
-         (buffer (get-buffer-create "*octave*")))
-    (with-current-buffer buffer
-      (visual-line-mode)
-      (erase-buffer)
-      (insert (s-trim output)))
-    (if (> (buffer-size buffer) 0)
-        (progn
-          (display-buffer-in-side-window buffer '(( side . right)))
-          (balance-windows)))))
-
-(use-package octave
-  :mode (("\\.m\\'" . octave-mode))
-  :bind (("C-c C-c" . odd/run-octave)))
-
-(use-package ac-octave
-  :hook ((octave-mode . ac-octave-setup)
-         (octave-mode . auto-complete-mode))
   :straight t)
 
 (use-package coverlay
@@ -374,24 +299,14 @@
   :custom
   (css-indent-offset 2))
 
-(use-package dart-mode
-  :straight t)
-
 (use-package mhtml-mode
   :hook (mhtml-mode . emmet-mode))
 
 (use-package asm-mode
   :hook (asm-mode . (lambda (electric-indent-mode -1))))
 
-(use-package vlang-mode
-  :straight '(vlang-mode :type git :host github :repo "Naheel-Azawy/vlang-mode"))
-
-(use-package writeroom-mode
-  :straight t)
-
 (use-package typst-mode
   :mode (("\\.typst\\'" . typst-mode))
-  :hook ((typst-mode . (lambda () (eletric-pair-mode -1))))
   :straight (:type git :host github :repo "Ziqi-Yang/typst-mode.el"))
 
 (use-package lsp-bridge

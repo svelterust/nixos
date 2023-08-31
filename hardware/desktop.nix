@@ -16,7 +16,7 @@
   boot.extraModprobeConfig = ''
     options nvidia NVreg_RegistryDwords="PowerMizerEnable=0x1; PerfLevelSrc=0x2222; PowerMizerLevel=0x3; PowerMizerDefault=0x3; PowerMizerDefaultAC=0x3"
   '';
-  
+
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/caf288af-82c8-4c26-802d-df773ec084ca";
     fsType = "ext4";

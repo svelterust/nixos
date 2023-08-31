@@ -56,6 +56,7 @@
               layout = "us";
               videoDrivers = ["nvidia"];
               hardware = ./hardware/desktop.nix;
+              frameRate = 144;
               bootLoader = {
                 grub.enable = true;
                 grub.device = "/dev/sda";
@@ -66,16 +67,18 @@
               layout = "no";
               videoDrivers = [];
               hardware = ./hardware/thinkpad.nix;
+              frameRate = 60;
               bootLoader = {
                 grub.enable = true;
                 grub.device = "/dev/sda";
-                 grub.useOSProber = true;
+                grub.useOSProber = true;
               };
             };
             hp = {
               layout = "no";
               videoDrivers = [];
               hardware = ./hardware/hp.nix;
+              frameRate = 60;
               bootLoader = {
                 systemd-boot.enable = true;
                 efi.canTouchEfiVariables = true;
@@ -109,7 +112,7 @@
               enable = true;
               memoryPercent = 50;
             };
-            
+
             nixpkgs = {
               config.allowUnfree = true;
               overlays = [
@@ -178,7 +181,7 @@
                 ];
               };
             };
-            
+
             # Services
             services = {
               dbus.implementation = "broker";
@@ -213,7 +216,7 @@
                 shadow = true;
                 shadowOpacity = 0.25;
               };
-              
+
               pipewire = {
                 enable = true;
                 alsa.enable = true;
@@ -231,13 +234,13 @@
                 "nixos-config=/etc/nixos/configuration.nix"
                 "/nix/var/nix/profiles/per-user/root/channels"
               ];
-              
+
               gc = {
                 automatic = true;
                 dates = "weekly";
                 options = "--delete-older-than 7d";
               };
-              
+
               settings = {
                 trusted-users = ["root" "odd"];
                 experimental-features = ["nix-command" "flakes"];
@@ -310,7 +313,7 @@
 
             # Steam
             programs.steam.enable = true;
-            
+
             # Manage user account with home manager
             home-manager = {
               backupFileExtension = "backup";
@@ -352,12 +355,12 @@
                     source = ./dotfiles/cargo;
                     recursive = true;
                   };
-                  
+
                   ".emacs.d" = {
                     source = ./dotfiles/emacs;
                     recursive = true;
                   };
-                  
+
                   ".config/hypr" = {
                     source = ./dotfiles/hyprland;
                     recursive = true;
@@ -374,7 +377,7 @@
                   ".mozilla/firefox/default/chrome" = {
                     source = ./dotfiles/firefox/chrome;
                   };
-                  
+
                   ".config/tofi/config" = {
                     source = pkgs.writeText "config" ''
                       width = 100%
@@ -400,7 +403,7 @@
                 # chmod +w ~/.config/alacritty/theme.yml && cp ~/.config/alacritty/catpuccin-mocha.yml ~/.config/alacritty/theme.yml
                 # https://github.com/hadronzoo/theme-changer
                 #   - use pre-hook and set variable
-                
+
                 # Services
                 services = {
                   mako = {
@@ -412,7 +415,7 @@
                       text-color=#4c4f69
                       border-color=#1e66f5
                       progress-color=over #ccd0da
-                      
+
                       [urgency=high]
                       border-color=#fe640b
                     '';
@@ -487,7 +490,7 @@
                     enable = true;
                     profiles.default = {
                       settings = {
-                        "layout.frame_rate" = 144;
+                        "layout.frame_rate" = settings.frameRate;
                         "extensions.autoDisableScopes" = 0;
                         "browser.sessionstore.restore_on_demand" = false;
                         "browser.sessionstore.resume_from_crash" = false;
@@ -569,7 +572,7 @@
                     };
                   };
                 };
-                
+
                 # Packages for home
                 home = {
                   stateVersion = "23.11";
@@ -599,8 +602,8 @@
                     # python
                     ruff
                     nodePackages.pyright
-                    (python311.withPackages(ps: with ps; [ epc orjson sexpdata six paramiko rapidfuzz ]))
-                    
+                    (python311.withPackages (ps: with ps; [epc orjson sexpdata six paramiko rapidfuzz]))
+
                     # typescript
                     bun
                     nodejs
@@ -608,7 +611,7 @@
                     nodePackages.typescript
                     nodePackages.svelte-language-server
                     nodePackages.typescript-language-server
-                    
+
                     # rust
                     (rust-bin.nightly.latest.default.override {
                       extensions = ["rust-src"];
@@ -621,12 +624,15 @@
                     cargo-expand
                     sccache
 
+                    # typst
+                    typst
+                    typst-lsp
+
                     # terminal applications
                     gdb
                     xxd
                     ncdu
                     just
-                    typst
                     morph
                     ffmpeg
                     bottom
