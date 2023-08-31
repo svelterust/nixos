@@ -5,9 +5,7 @@
 (defvar native-comp-deferred-compilation-deny-list ())
 
 ;; speed
-(defvar comp-deferred-compliation)
-(setq comp-deferred-compilation t)
-
+(setq native-comp-jit-compilation t)
 (setq package-enable-at-startup nil)
 (setq frame-inhibit-implied-resize t)
 

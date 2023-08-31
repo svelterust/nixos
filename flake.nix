@@ -423,6 +423,9 @@
                 programs = {
                   bat = {
                     enable = true;
+                    config = {
+                      theme = "ansi";
+                    };
                   };
 
                   fzf = {
@@ -580,6 +583,31 @@
                     wl-clipboard
                     qt6.qtwayland
                     raise.defaultPackage.x86_64-linux
+
+                    # video
+                    mpv
+                    xclip
+                    yt-dlp
+
+                    # emacs
+                    tabnine
+
+                    # zig
+                    zig
+                    zls
+
+                    # python
+                    ruff
+                    nodePackages.pyright
+                    (python311.withPackages(ps: with ps; [ epc orjson sexpdata six paramiko rapidfuzz ]))
+                    
+                    # typescript
+                    bun
+                    nodejs
+                    nodePackages.npm
+                    nodePackages.typescript
+                    nodePackages.svelte-language-server
+                    nodePackages.typescript-language-server
                     
                     # rust
                     (rust-bin.nightly.latest.default.override {
@@ -593,53 +621,27 @@
                     cargo-expand
                     sccache
 
-                    # zig
-                    zig
-                    zls
-
-                    # typescript
-                    bun
-                    nodejs
-                    nodePackages.npm
-                    nodePackages.typescript
-                    nodePackages.svelte-language-server
-                    nodePackages.typescript-language-server
-
-                    # video
-                    mpv
-                    xclip
-                    yt-dlp
-
-                    # python
-                    (python311.withPackages(ps: with ps; [ epc orjson sexpdata six paramiko rapidfuzz ]))
-                    
-                    # latex
-                    texlive.combined.scheme-full
-
-                    # graphics
-                    gimp
-
-                    # other
+                    # terminal applications
+                    gdb
                     xxd
                     ncdu
+                    just
+                    typst
                     morph
                     ffmpeg
                     bottom
                     gnumake
                     bintools
                     imagemagick
+
+                    # gui
+                    gimp
                     libreoffice
                     audacity
-                    stripe-cli
                     obs-studio
                     kdenlive
-                    entr
-                    gdb
-                    sqlite
                     discord
                     vscode
-                    just
-                    typst
                   ];
                 };
               };
