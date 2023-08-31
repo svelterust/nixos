@@ -395,7 +395,7 @@
   :straight (:type git :host github :repo "Ziqi-Yang/typst-mode.el"))
 
 (use-package lsp-bridge
-  :straight '(lsp-bridge :type git :host github :repo "manateelazycat/lsp-bridge" :files (:defaults "*.py" "acm/*" "core/*"))
+  :straight '(lsp-bridge :type git :host github :repo "manateelazycat/lsp-bridge" :files (:defaults "*.py" "acm/*" "core/*") :build (:not compile))
   :init
   (global-lsp-bridge-mode))
 
