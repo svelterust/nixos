@@ -1,16 +1,13 @@
 ;;; -*- lexical-binding: t; -*-
 
-;; straight bug
+;; optimizations
 (defvar eglot-server-programs ())
-(defvar native-comp-deferred-compilation-deny-list ())
-
-;; speed
 (setq native-comp-jit-compilation t)
 (setq package-enable-at-startup nil)
 (setq frame-inhibit-implied-resize t)
+(setq use-dialog-box nil)
 
 ;; remove ugly early
-(setq use-dialog-box nil)
 (menu-bar-mode -1)
 (unless (and (display-graphic-p) (eq system-type 'darwin))
   (push '(menu-bar-lines . 0) default-frame-alist))
@@ -28,7 +25,6 @@
             (setq file-name-handler-alist me/-file-name-handler-alist)))
 
 ;; more speed
-
 (setq site-run-file nil)
 (setq inhibit-compacting-font-caches t)
 (when (boundp 'read-process-output-max)
@@ -211,14 +207,14 @@
 (setq auto-revert-verbose nil)
 
 ;; Find-file should automatically create parents
-(defun my-find-file (orig-fun &rest args)
+(defun odd/find-file (orig-fun &rest args)
   (let* ((filename (car args))
          (directory (file-name-directory filename)))
     (if (not (file-directory-p directory))
         (make-directory directory t))
     (apply orig-fun args)))
 
-(advice-add 'find-file :around 'my-find-file)
+(advice-add 'find-file :around 'odd/find-file)
 
 ;; Silence useless messages
 (defun advice-silence-messages (orig-fun &rest args)

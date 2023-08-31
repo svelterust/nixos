@@ -113,12 +113,9 @@
               memoryPercent = 50;
             };
 
+            # Configuration
             nixpkgs = {
               config.allowUnfree = true;
-              overlays = [
-                # latest emacs
-                emacs-overlay.overlays.default
-              ];
             };
 
             # Programs
@@ -203,12 +200,6 @@
                   autoLogin.enable = true;
                   autoLogin.user = "odd";
                 };
-              };
-
-              emacs = {
-                enable = true;
-                defaultEditor = true;
-                package = with pkgs; ((emacsPackagesFor emacs-pgtk).emacsWithPackages (epkgs: [epkgs.vterm]));
               };
 
               picom = {
@@ -328,6 +319,8 @@
                   overlays = [
                     #rust
                     rust-overlay.overlays.default
+                    # latest emacs
+                    emacs-overlay.overlays.default
                   ];
                 };
 
@@ -477,7 +470,6 @@
                       zb = "zig build";
                       zr = "zig build run";
                       zt = "zig build test";
-                      edit = "emacseditor -nw";
                     };
                     sessionVariables = {
                       VISUAL = "bat";
@@ -597,6 +589,7 @@
 
                     # emacs
                     tabnine
+                    ((emacsPackagesFor emacs-pgtk).emacsWithPackages (epkgs: [epkgs.vterm]))
 
                     # zig
                     zig
