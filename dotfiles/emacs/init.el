@@ -295,7 +295,11 @@
   :custom
   (acm-enable-yas nil)
   (acm-enable-icon nil)
+  (acm-enable-tabnine nil)
+  (acm-enable-search-file-words nil)
+  (acm-doc-frame-max-lines 25)
   (lsp-bridge-nix-lsp-server "nil")
+  (lsp-bridge-enable-hover-diagnostic t)
   :init
   (global-lsp-bridge-mode)
   (let ((filtered-list (cl-delete 'lsp-bridge-not-match-hide-characters lsp-bridge-completion-popup-predicates)))
