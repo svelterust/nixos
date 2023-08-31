@@ -1,4 +1,34 @@
-;;; config.el -*- lexical-binding: t -*-
+;;; -*- lexical-binding: t; -*-
+
+(use-package markdown-mode
+  :straight t)
+
+(use-package zig-mode
+  :straight t)
+
+(use-package nix-mode
+  :straight t)
+
+(use-package sudo-edit
+  :straight t)
+
+(use-package just-mode
+  :straight t)
+
+(use-package yaml-mode
+  :straight t)
+
+(use-package rainbow-mode
+  :straight t)
+
+(use-package coverlay
+  :straight t)
+
+(use-package origami
+  :straight t)
+
+(use-package rust-ts-mode
+  :mode (("\\.rs\\'" . rust-ts-mode)))
 
 (use-package treesit-auto
   :straight t
@@ -48,9 +78,6 @@
   ;; keybindings leader
   (define-key xah-fly-leader-key-map (kbd "t") 'consult-buffer))
 
-(use-package markdown-mode
-  :straight t)
-
 (use-package catppuccin-theme
   :straight t
   :custom
@@ -73,21 +100,6 @@
   (dired-omit-verbose nil)
   (dired-free-space nil)
   (dired-listing-switches "--group-directories-first --dereference -Alvh"))
-
-(use-package flycheck
-  :straight t)
-
-(use-package zig-mode
-  :straight t)
-
-(use-package nix-mode
-  :straight t)
-
-(use-package rust-ts-mode
-  :mode (("\\.rs\\'" . rust-ts-mode)))
-
-(use-package sudo-edit
-  :straight t)
 
 (use-package consult
   :straight t
@@ -153,15 +165,7 @@
     ((auto-mode . emacs)
      ("\\.mm\\'" . default)
      ("\\.x?html?\\'" . "firefox %s")
-     ("\\.pdf\\'" . "firefox %s"))))
-  ;; :config
-  ;; (set-face-attribute 'org-document-info-keyword nil
-  ;;                     :foreground "#9d8f7c")
-  ;; (set-face-attribute 'org-document-info nil
-  ;;                     :foreground "#9d8f7c")
-  ;; (set-face-attribute 'org-document-title nil
-  ;;                     :foreground "#9d8f7c" :bold nil)
-  )
+     ("\\.pdf\\'" . "firefox %s")))))
 
 (use-package org-agenda
   :custom
@@ -201,29 +205,24 @@
 
 (use-package vterm-toggle
   :straight t
-  :config
+  :init
   (define-key vterm-mode-map (kbd "<escape>") 'xah-fly-command-mode-activate)
-  :hook
-  (vterm-toggle-show . xah-fly-insert-mode-activate))
+  (defun odd/open-vterm ()
+    (interactive)
+    ;; if current buffer is vterm, delete its window, otherwise
+    ;; find vterm buffer that matches current directory, otherwise
+    ;; open new vterm buffer
+    (if (string= "vterm-mode" (symbol-name major-mode))
+        (delete-window)
+      (let* ((buffer-directory (expand-file-name (directory-file-name default-directory)))
+             (current-buffer-name (format "vterm odd:%s" buffer-directory))
+             (matching-buffer (get-buffer current-buffer-name)))
+          (split-window-below)
+          (other-window 1)
+          (if matching-buffer
+              (switch-to-buffer matching-buffer)
+            (vterm))))))
 
-(defun odd/open-vterm ()
-  (interactive)
-  ;; if current buffer is vterm, delete its window, otherwise
-  ;; find vterm buffer that matches current directory, otherwise
-  ;; open new vterm buffer
-  (require 'vterm-toggle)
-  (if (string-match-p "vterm" (buffer-name))
-      (delete-window)
-    (let* ((buffer-directory (expand-file-name (directory-file-name default-directory)))
-           (buffer-name (format "vterm %s" buffer-directory))
-           (matching-buffer (get-buffer buffer-name)))
-      (progn
-        (split-window-below)
-        (other-window 1)
-        (if matching-buffer
-            (switch-to-buffer matching-buffer)
-          (vterm))))))
- 
 (use-package envrc
   :straight t
   :init
@@ -239,29 +238,11 @@
          (emacs-lisp-mode . paredit-mode)) 
   :straight t)
 
-(use-package just-mode
-  :straight t)
-
-(use-package yaml-mode
-  :straight t)
-
-(use-package rainbow-mode
-  :straight t)
-
-(use-package coverlay
-  :straight t)
-
-(use-package origami
-  :straight t)
-
 (use-package css-in-js-mode
   :straight '(css-in-js-mode :type git :host github :repo "orzechowskid/tree-sitter-css-in-js"))
 
 (use-package tsx-mode
   :straight '(tsx-mode :type git :host github :repo "orzechowskid/tsx-mode.el" :branch "emacs29"))
-
-(use-package wgsl-mode
-  :straight '(wgsl-mode :type git :host github :repo "acowley/wgsl-mode"))
 
 (use-package zoom
   :straight t
@@ -315,5 +296,3 @@
   (lsp-bridge-python-lsp-server 'pyright)
   :init
   (global-lsp-bridge-mode))
-
-(provide 'init)

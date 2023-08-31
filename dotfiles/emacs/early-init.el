@@ -247,6 +247,5 @@
 
 (setq-default cursor-in-non-selected-windows nil) ;; don't show cursor in inactive window
 
+;; smooth scrolling
 (pixel-scroll-precision-mode t)
-
-(provide 'early-init)
