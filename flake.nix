@@ -405,12 +405,17 @@
                 services = {
                   mako = {
                     enable = true;
-                  };
-
-                  wlsunset = {
-                    enable = true;
-                    latitude = "58.0";
-                    longitude = "9.0";
+                    padding = "10";
+                    font = "monospace 14";
+                    extraConfig = ''
+                      background-color=#eff1f5
+                      text-color=#4c4f69
+                      border-color=#1e66f5
+                      progress-color=over #ccd0da
+                      
+                      [urgency=high]
+                      border-color=#fe640b
+                    '';
                   };
                 };
 
