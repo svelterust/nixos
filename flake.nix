@@ -63,6 +63,7 @@
               videoDrivers = ["nvidia"];
               hardware = ./hardware/desktop.nix;
               frameRate = 144;
+              terminalSize = 22.5;
               bootLoader = {
                 grub.enable = true;
                 grub.device = "/dev/sda";
@@ -74,6 +75,7 @@
               videoDrivers = [];
               hardware = ./hardware/thinkpad.nix;
               frameRate = 60;
+              terminalSize = 14.5;
               bootLoader = {
                 grub.enable = true;
                 grub.device = "/dev/nvme0n1";
@@ -85,12 +87,13 @@
               videoDrivers = [];
               hardware = ./hardware/hp.nix;
               frameRate = 60;
+              terminalSize = 14.5;
               bootLoader = {
                 systemd-boot.enable = true;
                 efi.canTouchEfiVariables = true;
               };
             };
-            settings = thinkpad;
+            settings = desktop;
           in {
             # System config
             system.stateVersion = "23.11";
@@ -528,7 +531,7 @@
                     enable = true;
                     settings = {
                       font = {
-                        size = 22.5;
+                        size = settings.terminalSize;
                       };
                       key_bindings = [
                         {
