@@ -2,6 +2,7 @@
 
 ;; optimizations
 (defvar eglot-server-programs ())
+(defvar native-comp-deferred-compilation-deny-list ())
 (setq native-comp-jit-compilation t)
 (setq package-enable-at-startup nil)
 (setq frame-inhibit-implied-resize t)
