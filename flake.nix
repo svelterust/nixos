@@ -76,7 +76,7 @@
               frameRate = 60;
               bootLoader = {
                 grub.enable = true;
-                grub.device = "/dev/sda";
+                grub.device = "/dev/nvme0n1";
                 grub.useOSProber = true;
               };
             };
@@ -90,7 +90,7 @@
                 efi.canTouchEfiVariables = true;
               };
             };
-            settings = desktop;
+            settings = thinkpad;
           in {
             # System config
             system.stateVersion = "23.11";
@@ -366,12 +366,8 @@
                     recursive = true;
                   };
 
-                  ".config/alacritty/catpuccin-latte.yml" = {
+                  ".config/alacritty/theme.yml" = {
                     source = ./dotfiles/alacritty/catppuccin-latte.yml;
-                  };
-
-                  ".config/alacritty/catpuccin-mocha.yml" = {
-                    source = ./dotfiles/alacritty/catppuccin-mocha.yml;
                   };
 
                   ".mozilla/firefox/default/chrome" = {
