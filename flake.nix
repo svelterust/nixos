@@ -178,6 +178,7 @@
               autostart.enable = true;
               portal = {
                 enable = true;
+                wlr.enable = true;
                 extraPortals = with pkgs; [
                   xdg-desktop-portal
                   xdg-desktop-portal-gtk
@@ -396,13 +397,6 @@
                   };
                 };
 
-                # Make terminal and background when dark
-                # hyprctl keyword misc:background_color 0x1E1E2E
-                # hyprctl keyword decoration:screen_shader ~/.config/hypr/blue-light-filter.glsl
-                # chmod +w ~/.config/alacritty/theme.yml && cp ~/.config/alacritty/catpuccin-mocha.yml ~/.config/alacritty/theme.yml
-                # https://github.com/hadronzoo/theme-changer
-                #   - use pre-hook and set variable
-
                 # Services
                 services = {
                   mako = {
@@ -480,6 +474,7 @@
                     sessionVariables = {
                       VISUAL = "bat";
                       BROWSER = "firefox";
+                      NIXPKGS_ALLOW_UNFREE = "1";
                     };
                     bashrcExtra = lib.readFile ./dotfiles/bash/.bashrc;
                   };
@@ -500,10 +495,8 @@
                         i-dont-care-about-cookies
                         youtube-shorts-block
                         auto-tab-discard
-                        automatic-dark
                         df-youtube
                         disconnect
-                        darkreader
                       ];
                     };
                   };
@@ -579,6 +572,7 @@
                     tofi
                     grim
                     slurp
+                    xdg-utils
                     libnotify
                     hyprpicker
                     wl-clipboard
@@ -610,7 +604,7 @@
                     # typescript
                     bun
                     nodejs
-                    nodePackages.npm
+                    tailwindcss
                     nodePackages.typescript
                     nodePackages.svelte-language-server
                     nodePackages.typescript-language-server
@@ -645,6 +639,7 @@
 
                     # gui
                     gimp
+                    prismlauncher
                     libreoffice
                     audacity
                     obs-studio

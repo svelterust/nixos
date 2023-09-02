@@ -290,12 +290,17 @@
   :mode (("\\.typst\\'" . typst-mode))
   :straight (:type git :host github :repo "Ziqi-Yang/typst-mode.el"))
 
+
+
 (use-package lsp-bridge
-  :straight '(lsp-bridge :type git :host github :repo "knarkzel/lsp-bridge" :files (:defaults "*.py" "acm/*" "core/*") :build (:not compile))
+  :straight '(lsp-bridge :type git :host github :repo "manateelazycat/lsp-bridge"
+            :files (:defaults "*.el" "*.py" "acm" "core" "langserver" "multiserver" "resources")
+            :build (:not compile))
   :custom
   (acm-enable-yas nil)
   (acm-enable-icon nil)
   (acm-enable-tabnine nil)
+  (acm-enable-codeium nil)
   (acm-enable-search-file-words nil)
   (acm-doc-frame-max-lines 25)
   (lsp-bridge-nix-lsp-server "nil")
