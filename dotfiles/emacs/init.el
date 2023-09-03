@@ -305,10 +305,13 @@
   (acm-doc-frame-max-lines 25)
   (lsp-bridge-nix-lsp-server "nil")
   (lsp-bridge-enable-hover-diagnostic t)
+  (lsp-bridge-code-action-enable-popup-menu nil)
   :init
   (global-lsp-bridge-mode)
   (let ((filtered-list (cl-delete 'lsp-bridge-not-match-hide-characters lsp-bridge-completion-popup-predicates)))
     (setq lsp-bridge-completion-popup-predicates filtered-list))
+  ;; <ret> is very annoying because lsp-bridge is too fast, unset it
+  (define-key acm-mode-map (kbd "<return>") nil)
   (define-key lsp-bridge-mode-map (kbd "C-c e") 'lsp-bridge-diagnostic-jump-next)
   (define-key lsp-bridge-mode-map (kbd "C-c f") 'lsp-bridge-find-def)
   (define-key lsp-bridge-mode-map (kbd "C-c n") 'lsp-bridge-rename)

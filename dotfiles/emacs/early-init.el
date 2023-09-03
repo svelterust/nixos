@@ -72,8 +72,7 @@
                                   cl-functions
                                   interactive-only))
 
-(setq recording-video nil)
-(setq screen-font (if recording-video "Monospace:size=40" "Monospace:size=28"))
+(setq screen-font "Monospace:size=28")
 (setq-default default-frame-alist
               (append (list
                        `(font . ,screen-font)
