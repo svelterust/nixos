@@ -310,8 +310,8 @@
   (global-lsp-bridge-mode)
   (let ((filtered-list (cl-delete 'lsp-bridge-not-match-hide-characters lsp-bridge-completion-popup-predicates)))
     (setq lsp-bridge-completion-popup-predicates filtered-list))
-  ;; <ret> is very annoying because lsp-bridge is too fast, unset it
-  (define-key acm-mode-map (kbd "<return>") nil)
+    ;; <ret> is very annoying because lsp-bridge is too fast, unset it
+  (keymap-unset acm-mode-map "RET")
   (define-key lsp-bridge-mode-map (kbd "C-c e") 'lsp-bridge-diagnostic-jump-next)
   (define-key lsp-bridge-mode-map (kbd "C-c f") 'lsp-bridge-find-def)
   (define-key lsp-bridge-mode-map (kbd "C-c n") 'lsp-bridge-rename)
