@@ -58,6 +58,18 @@
               url = "https://raw.githubusercontent.com/knarkzel/hosts/114607681682ed7257749c7ad3e11c404c13f96b/alternates/fakenews-gambling-porn/hosts";
               sha256 = "xtRzClDbXbW0oYYCdfV8aROzDWVM7zEk94k+oWLVMLw=";
             };
+            extra = ''
+              0.0.0.0 tiktok.com
+              0.0.0.0 www.tiktok.com
+              0.0.0.0 youtube.com
+              0.0.0.0 www.youtube.com
+              0.0.0.0 reddit.com
+              0.0.0.0 www.reddit.com
+              0.0.0.0 instagram.com
+              0.0.0.0 www.instagram.com
+              0.0.0.0 twitter.com
+              0.0.0.0 www.twitter.com
+            '';
             desktop = {
               layout = "us";
               videoDrivers = ["nvidia"];
@@ -147,7 +159,7 @@
               hostName = "odd";
               firewall.enable = true;
               networkmanager.enable = true;
-              extraHosts = builtins.readFile hosts;
+              extraHosts = (builtins.readFile hosts) + extra;
               nameservers = ["1.1.1.1" "1.0.0.1" "8.8.8.8"];
             };
 
@@ -311,9 +323,6 @@
                 extraGroups = ["networkmanager" "wheel" "docker" "dialout"];
               };
             };
-
-            # Steam
-            programs.steam.enable = true;
 
             # Manage user account with home manager
             home-manager = {
@@ -487,6 +496,9 @@
                         "browser.sessionstore.restore_on_demand" = false;
                         "browser.sessionstore.resume_from_crash" = false;
                         "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+                        "network.captive-portal-service.enabled" = false;
+                        "browser.selfsupport.url" = "";
+                        "pocket.enabled" = false;
                       };
                       extensions = with firefox-addons.packages."x86_64-linux"; [
                         sponsorblock
@@ -588,7 +600,6 @@
                     yt-dlp
 
                     # emacs
-                    tabnine
                     ((emacsPackagesFor emacs-pgtk).emacsWithPackages (epkgs: [epkgs.vterm]))
 
                     # zig
