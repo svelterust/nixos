@@ -44,6 +44,10 @@
     hyprsome,
     ...
   } @ inputs: {
+    # Default formatter
+    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
+
+    # System
     nixosConfigurations."odd" = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
@@ -59,14 +63,10 @@
               sha256 = "xtRzClDbXbW0oYYCdfV8aROzDWVM7zEk94k+oWLVMLw=";
             };
             extra = ''
-              0.0.0.0 tiktok.com
-              0.0.0.0 www.tiktok.com
               0.0.0.0 youtube.com
               0.0.0.0 www.youtube.com
               0.0.0.0 reddit.com
               0.0.0.0 www.reddit.com
-              0.0.0.0 instagram.com
-              0.0.0.0 www.instagram.com
               0.0.0.0 twitter.com
               0.0.0.0 www.twitter.com
             '';
@@ -144,7 +144,10 @@
               ssh.askPassword = "";
             };
 
-            # Bootloader.
+            # Steam
+            programs.steam.enable = true;
+            
+            # Bootloader
             boot = {
               loader = settings.bootLoader;
               supportedFilesystems = ["ntfs"];
@@ -306,7 +309,6 @@
                 p7zip
                 psmisc
                 ripgrep
-                alejandra
                 e2fsprogs
                 dosfstools
                 libimobiledevice

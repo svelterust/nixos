@@ -134,9 +134,11 @@
   stroke: var(--toolbar-color) !important;
   background-color: var(--toolbar-color) !important;
   fill-opacity: 0.95 !important;
-
 }
 
+.tabbrowser-tab[selected] {
+  border-bottom: 2px solid #DADDE0 !important;
+}
 
 /* speaker icon colour fix */
 #TabsToolbar .tab-icon-overlay:not([crashed])[soundplaying],
