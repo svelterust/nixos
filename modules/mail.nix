@@ -1,4 +1,4 @@
-{pkgs, ... }: let
+{config, pkgs, ... }: let
   createPurelymailAccount = {
     name,
     email,
@@ -26,6 +26,17 @@
   };
 in
   {
+    services.mbsync = {
+      enable = true;
+      frequency = "*:0/5";
+      preExec = ''
+        mkdir -p ${config.home.homeDirectory}/.mail/oddharald
+      '';
+      postExec = ''
+        ${pkgs.notmuch}/bin/notmuch new
+        ${pkgs.libnotify}/bin/notify-send "Mails synced 📬"
+      '';
+    };
     programs.mbsync.enable = true;
     programs.msmtp.enable = true;
     programs.notmuch = {
@@ -36,6 +47,7 @@ in
     };
     
     accounts.email = {
+      maildirBasePath = ".mail";
       accounts.oddharald = createPurelymailAccount {
         name = "Odd-Harald";
         email = "oddharald@verdivekst.no";
