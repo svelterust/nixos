@@ -132,6 +132,7 @@
 (tool-bar-mode -1)
 (blink-cursor-mode -1)
 (save-place-mode 1)
+(recentf-mode 1)
 
 (setq user-emacs-directory (expand-file-name "~/.cache/emacs/")
       url-history-file (expand-file-name "url/history" user-emacs-directory))

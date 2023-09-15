@@ -54,8 +54,8 @@
   (define-key xah-fly-command-map (kbd "F") 'consult-find)
   (define-key xah-fly-command-map (kbd "C") 'org-capture)
   (define-key xah-fly-command-map (kbd "N") 'notmuch)
-  (define-key xah-fly-command-map (kbd "k") 'consult-line)
   (define-key xah-fly-command-map (kbd "P") 'project-find-file)
+  (define-key xah-fly-command-map (kbd "K") 'isearch-repeat-forward)
   (define-key xah-fly-command-map (kbd ":") 'eval-expression)
   (define-key xah-fly-command-map (kbd "5") 'split-window-right)
   (define-key xah-fly-command-map (kbd "C-o") 'pop-to-mark-command)
@@ -257,7 +257,11 @@
   :custom
   (emmet-indentation 2)
   (emmet-indent-after-insert nil)
-  (emmet-insert-flash-time 0.25))
+  (emmet-insert-flash-time 0.25)
+  :config
+  (keymap-unset emmet-mode-keymap "C-j")
+  (define-key emmet-mode-keymap (kbd "C-w") 'emmet-wrap-with-markup)
+  (define-key emmet-mode-keymap (kbd "C-e") 'emmet-expand-line))
 
 (use-package svelte-mode
   :hook ((svelte-mode . emmet-mode)
@@ -289,8 +293,6 @@
 (use-package typst-mode
   :mode (("\\.typst\\'" . typst-mode))
   :straight (:type git :host github :repo "Ziqi-Yang/typst-mode.el"))
-
-
 
 (use-package lsp-bridge
   :straight '(lsp-bridge :type git :host github :repo "manateelazycat/lsp-bridge"
