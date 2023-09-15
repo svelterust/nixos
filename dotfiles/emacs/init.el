@@ -27,8 +27,16 @@
 (use-package origami
   :straight t)
 
+(use-package restclient
+  :straight t)
+
+(defun restclient-new-buffer ()
+  (interactive)
+  (xah-new-empty-buffer)
+  (restclient-mode))
+
 (use-package rust-ts-mode
-  :mode (("\\.rs\\'" . rust-ts-mode)))
+    :mode (("\\.rs\\'" . rust-ts-mode)))
 
 (use-package treesit-auto
   :straight t
@@ -56,6 +64,7 @@
   (define-key xah-fly-command-map (kbd "N") 'notmuch)
   (define-key xah-fly-command-map (kbd "P") 'project-find-file)
   (define-key xah-fly-command-map (kbd "K") 'isearch-repeat-forward)
+  (define-key xah-fly-command-map (kbd "H") 'restclient-new-buffer)
   (define-key xah-fly-command-map (kbd ":") 'eval-expression)
   (define-key xah-fly-command-map (kbd "5") 'split-window-right)
   (define-key xah-fly-command-map (kbd "C-o") 'pop-to-mark-command)
@@ -303,7 +312,7 @@
   (acm-enable-icon nil)
   (acm-enable-tabnine nil)
   (acm-enable-codeium nil)
-  (acm-enable-search-file-words nil)
+  (acm-enable-seach-file-words nil)
   (acm-doc-frame-max-lines 25)
   (lsp-bridge-nix-lsp-server "nil")
   (lsp-bridge-enable-hover-diagnostic t)
