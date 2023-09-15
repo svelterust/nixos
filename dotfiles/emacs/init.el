@@ -329,3 +329,6 @@
   (define-key lsp-bridge-mode-map (kbd "C-c a") 'lsp-bridge-code-action)
   (define-key lsp-bridge-mode-map (kbd "C-c r") 'lsp-bridge-find-references)
   (define-key lsp-bridge-mode-map (kbd "C-c .") 'lsp-bridge-popup-documentation))
+
+(use-package notmuch
+  :straight t)

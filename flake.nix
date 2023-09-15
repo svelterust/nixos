@@ -203,9 +203,10 @@
                 ];
               };
             };
-
+            
             # Services
             services = {
+              pcscd.enable = true;
               dbus.implementation = "broker";
               teamviewer.enable = true;
               usbmuxd.enable = true;
@@ -317,6 +318,13 @@
               etc."channels/nixpkgs".source = inputs.nixpkgs.outPath;
             };
 
+            # GPG
+            programs.gnupg.agent = {
+              enable = true;
+              pinentryFlavor = "gtk2";
+              enableSSHSupport = true;
+            };
+
             # Define user account.
             users = {
               users.odd = {
@@ -344,6 +352,11 @@
                     emacs-overlay.overlays.default
                   ];
                 };
+
+                # Import modules
+                imports = [
+                  ./modules/mail.nix
+                ];
 
                 # User dirs
                 xdg.userDirs = {
