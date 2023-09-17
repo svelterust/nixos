@@ -77,9 +77,8 @@
               frameRate = 144;
               terminalSize = 22.5;
               bootLoader = {
-                grub.enable = true;
-                grub.device = "/dev/sda";
-                grub.useOSProber = true;
+                systemd-boot.enable = true;
+                efi.canTouchEfiVariables = true;
               };
             };
             thinkpad = {
@@ -352,11 +351,6 @@
                     emacs-overlay.overlays.default
                   ];
                 };
-
-                # Import modules
-                imports = [
-                  ./modules/mail.nix
-                ];
 
                 # User dirs
                 xdg.userDirs = {
@@ -631,7 +625,7 @@
                     nodejs
                     tailwindcss
                     nodePackages.typescript
-                    nodePackages.svelte-language-server
+                    # nodePackages.svelte-language-server
                     nodePackages.typescript-language-server
 
                     # rust

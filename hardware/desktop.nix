@@ -9,7 +9,7 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "usbhid" "uas" "sd_mod"];
+  boot.initrd.availableKernelModules = [ "vmd" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
   boot.initrd.kernelModules = ["nvidia"];
   boot.kernelModules = ["kvm-intel"];
   boot.extraModulePackages = [config.boot.kernelPackages.nvidia_x11];
@@ -17,15 +17,15 @@
     options nvidia NVreg_RegistryDwords="PowerMizerEnable=0x1; PerfLevelSrc=0x2222; PowerMizerLevel=0x3; PowerMizerDefault=0x3; PowerMizerDefaultAC=0x3"
   '';
 
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/caf288af-82c8-4c26-802d-df773ec084ca";
-    fsType = "ext4";
-  };
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/940144e0-6512-4d5f-9700-a76d2fd9fc25";
+      fsType = "ext4";
+    };
 
-  fileSystems."/home/odd/source/storage" = {
-    device = "/dev/disk/by-uuid/86e55879-4b55-441b-9221-8fc909f4d772";
-    fsType = "ext4";
-  };
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/01FD-E99A";
+      fsType = "vfat";
+    };
 
   hardware.nvidia = {
     nvidiaSettings = true;
