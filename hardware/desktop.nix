@@ -27,6 +27,11 @@
       fsType = "vfat";
     };
 
+  fileSystems."/home/odd/harddrive" = {
+    device = "/dev/disk/by-uuid/30246B65246B2CD2";
+    fsType = "ntfs";
+  };
+
   hardware.nvidia = {
     nvidiaSettings = true;
     modesetting.enable = true;

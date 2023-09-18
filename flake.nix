@@ -77,8 +77,25 @@
               frameRate = 144;
               terminalSize = 22.5;
               bootLoader = {
-                systemd-boot.enable = true;
-                efi.canTouchEfiVariables = true;
+                efi = {
+                  canTouchEfiVariables = true;
+                  efiSysMountPoint = "/boot";
+                };
+                grub = {
+                  devices = [ "nodev" ];
+                  efiSupport = true;
+                  enable = true;
+                  extraEntries = ''
+                    menuentry "Windows" {
+                      insmod part_gpt
+                      insmod fat
+                      insmod search_fs_uuid
+                      insmod chain
+                      search --fs-uuid --set=root 0A3F-200A
+                      chainloader /EFI/Microsoft/Boot/bootmgfw.efi
+                    }
+                  '';
+                };
               };
             };
             thinkpad = {
@@ -625,7 +642,7 @@
                     nodejs
                     tailwindcss
                     nodePackages.typescript
-                    # nodePackages.svelte-language-server
+                    nodePackages.svelte-language-server
                     nodePackages.typescript-language-server
 
                     # rust
