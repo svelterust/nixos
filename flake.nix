@@ -63,8 +63,6 @@
               sha256 = "xtRzClDbXbW0oYYCdfV8aROzDWVM7zEk94k+oWLVMLw=";
             };
             extra = ''
-              0.0.0.0 youtube.com
-              0.0.0.0 www.youtube.com
               0.0.0.0 reddit.com
               0.0.0.0 www.reddit.com
               0.0.0.0 twitter.com
@@ -346,7 +344,7 @@
               users.odd = {
                 isNormalUser = true;
                 description = "Odd-Harald";
-                extraGroups = ["networkmanager" "wheel" "docker" "dialout"];
+                extraGroups = ["networkmanager" "wheel" "docker" "dialout" "video"];
               };
             };
 
@@ -408,6 +406,10 @@
                     source = ./dotfiles/alacritty/catppuccin-latte.yml;
                   };
 
+                  ".config/Code/User/settings.json" = {
+                    source = ./dotfiles/vscode/settings.json;
+                  };
+
                   ".mozilla/firefox/default/chrome" = {
                     source = ./dotfiles/firefox/chrome;
                   };
@@ -446,6 +448,9 @@
                       [urgency=high]
                       border-color=#fe640b
                     '';
+                  };
+                  swayosd = {
+                    enable = true;
                   };
                 };
 
@@ -531,7 +536,6 @@
                         ublock-origin
                         i-dont-care-about-cookies
                         youtube-shorts-block
-                        auto-tab-discard
                         df-youtube
                         disconnect
                       ];
@@ -609,6 +613,7 @@
                     tofi
                     grim
                     slurp
+                    swayosd
                     xdg-utils
                     libnotify
                     hyprpicker
