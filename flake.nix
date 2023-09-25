@@ -449,9 +449,6 @@
                       border-color=#fe640b
                     '';
                   };
-                  swayosd = {
-                    enable = true;
-                  };
                 };
 
                 # Configure programs
@@ -613,7 +610,6 @@
                     tofi
                     grim
                     slurp
-                    swayosd
                     xdg-utils
                     libnotify
                     hyprpicker
