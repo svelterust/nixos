@@ -62,12 +62,6 @@
               url = "https://raw.githubusercontent.com/knarkzel/hosts/114607681682ed7257749c7ad3e11c404c13f96b/alternates/fakenews-gambling-porn/hosts";
               sha256 = "xtRzClDbXbW0oYYCdfV8aROzDWVM7zEk94k+oWLVMLw=";
             };
-            extra = ''
-              0.0.0.0 reddit.com
-              0.0.0.0 www.reddit.com
-              0.0.0.0 twitter.com
-              0.0.0.0 www.twitter.com
-            '';
             desktop = {
               layout = "us";
               videoDrivers = ["nvidia"];
@@ -176,7 +170,7 @@
               hostName = "odd";
               firewall.enable = true;
               networkmanager.enable = true;
-              extraHosts = (builtins.readFile hosts) + extra;
+              extraHosts = builtins.readFile hosts;
               nameservers = ["1.1.1.1" "1.0.0.1" "8.8.8.8"];
             };
 
@@ -464,7 +458,7 @@
                     enable = true;
                   };
 
-                  exa = {
+                  eza = {
                     enable = true;
                     enableAliases = true;
                     extraOptions = ["--group-directories-first"];
@@ -667,13 +661,13 @@
                     xxd
                     ncdu
                     just
-                    morph
                     ffmpeg
                     bottom
                     gnumake
                     bintools
                     imagemagick
-
+                    jq
+                    
                     # gui
                     gimp
                     prismlauncher
@@ -683,6 +677,7 @@
                     kdenlive
                     discord
                     vscode
+                    deploy-rs
                   ];
                 };
               };
