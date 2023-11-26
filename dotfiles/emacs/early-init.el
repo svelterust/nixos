@@ -72,7 +72,7 @@
                                   cl-functions
                                   interactive-only))
 
-(setq screen-font "Monospace:size=28")
+(setq screen-font "Monospace:size=34")
 (setq-default default-frame-alist
               (append (list
                        `(font . ,screen-font)

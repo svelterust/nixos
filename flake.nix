@@ -59,9 +59,11 @@
             ...
           }: let
             hosts = pkgs.fetchurl {
-              url = "https://raw.githubusercontent.com/knarkzel/hosts/114607681682ed7257749c7ad3e11c404c13f96b/alternates/fakenews-gambling-porn/hosts";
-              sha256 = "xtRzClDbXbW0oYYCdfV8aROzDWVM7zEk94k+oWLVMLw=";
+              url = "https://raw.githubusercontent.com/StevenBlack/hosts/88ca3222616ca7a0802d6e071ee320ad9e7e7d6b/alternates/fakenews-gambling-porn-only/hosts";
+              sha256 = "sha256-9ylM56W3q699xi9TNPGHHxtBwDPCtb4D0YcWv4I76sg=";
             };
+            blockList = ''
+            '';
             desktop = {
               layout = "us";
               videoDrivers = ["nvidia"];
@@ -116,7 +118,7 @@
             settings = desktop;
           in {
             # System config
-            system.stateVersion = "23.11";
+            system.stateVersion = "24.05";
 
             # Set your time zone.
             time.timeZone = "Europe/Oslo";
@@ -151,9 +153,6 @@
             programs = {
               ssh.askPassword = "";
             };
-
-            # Steam
-            programs.steam.enable = true;
             
             # Bootloader
             boot = {
@@ -170,7 +169,7 @@
               hostName = "odd";
               firewall.enable = true;
               networkmanager.enable = true;
-              extraHosts = builtins.readFile hosts;
+              extraHosts = (builtins.readFile hosts) + blockList;
               nameservers = ["1.1.1.1" "1.0.0.1" "8.8.8.8"];
             };
 
@@ -190,6 +189,9 @@
               };
             };
 
+            # steam
+            programs.steam.enable = true;
+            
             # Hyprland
             programs.hyprland = {
               enable = true;
@@ -215,7 +217,10 @@
             # Services
             services = {
               pcscd.enable = true;
-              dbus.implementation = "broker";
+              dbus = {
+                enable = true;
+                implementation = "broker"; 
+              };
               teamviewer.enable = true;
               usbmuxd.enable = true;
               blueman.enable = true;
@@ -429,6 +434,15 @@
 
                 # Services
                 services = {
+                  gammastep = {
+                    enable = true;
+                    latitude = 58.4;
+                    longitude = 8.6;
+                    temperature = {
+                      day = 5500;
+                      night = 2000;
+                    };
+                  };
                   mako = {
                     enable = true;
                     padding = "10";
@@ -456,6 +470,11 @@
 
                   fzf = {
                     enable = true;
+                  };
+
+                  obs-studio = {
+                    enable = true;
+                    plugins = [ pkgs.obs-studio-plugins.wlrobs ];
                   };
 
                   eza = {
@@ -618,14 +637,9 @@
                     # video
                     mpv
                     xclip
-                    yt-dlp
 
                     # emacs
                     ((emacsPackagesFor emacs-pgtk).emacsWithPackages (epkgs: [epkgs.vterm]))
-
-                    # zig
-                    zig
-                    zls
 
                     # python
                     ruff
@@ -633,7 +647,6 @@
                     (python311.withPackages (ps: with ps; [epc orjson sexpdata six paramiko rapidfuzz]))
 
                     # typescript
-                    bun
                     nodejs
                     tailwindcss
                     nodePackages.typescript
@@ -649,13 +662,11 @@
                     cargo-watch
                     rust-analyzer
                     cargo-nextest
-                    cargo-expand
                     sccache
 
-                    # typst
-                    typst
-                    typst-lsp
-
+                    # flutter
+                    dart
+                    
                     # terminal applications
                     gdb
                     xxd
@@ -664,20 +675,16 @@
                     ffmpeg
                     bottom
                     gnumake
-                    bintools
                     imagemagick
                     jq
                     
                     # gui
                     gimp
-                    prismlauncher
                     libreoffice
-                    audacity
-                    obs-studio
-                    kdenlive
-                    discord
-                    vscode
                     deploy-rs
+
+                    # database
+                    sqlite
                   ];
                 };
               };

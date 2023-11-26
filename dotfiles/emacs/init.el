@@ -63,7 +63,7 @@
   (define-key xah-fly-command-map (kbd "C") 'org-capture)
   (define-key xah-fly-command-map (kbd "N") 'notmuch)
   (define-key xah-fly-command-map (kbd "P") 'project-find-file)
-  (define-key xah-fly-command-map (kbd "K") 'isearch-repeat-forward)
+  (define-key xah-fly-command-map (kbd "k") 'consult-line)
   (define-key xah-fly-command-map (kbd "H") 'restclient-new-buffer)
   (define-key xah-fly-command-map (kbd ":") 'eval-expression)
   (define-key xah-fly-command-map (kbd "5") 'split-window-right)
@@ -92,6 +92,13 @@
   :custom
   (catppuccin-flavor 'latte)
   :config
+  (load-theme 'catppuccin t))
+
+(defun odd/toggle-theme ()
+  (interactive)
+  (if (eq catppuccin-flavor 'latte)
+      (setq catppuccin-flavor 'mocha)
+    (setq catppuccin-flavor 'latte))
   (load-theme 'catppuccin t))
 
 (use-package dired
@@ -179,7 +186,7 @@
 (use-package org-agenda
   :custom
   (org-agenda-start-on-weekday nil)
-  (org-agenda-files '("~/source/org/work")))
+  (org-agenda-files '("~/source/org/work.org")))
 
 (use-package eldoc
   :custom
@@ -332,3 +339,12 @@
 
 (use-package notmuch
   :straight t)
+
+;; (use-package lsp-dart
+;;   :custom
+;;   (lsp-headerline-breadcrumb-enable nil)
+;;   :straight t)
+
+(use-package dart-mode
+  :straight t)
+  ;; :hook (dart-mode . lsp-deferred))

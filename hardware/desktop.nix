@@ -37,6 +37,7 @@
     modesetting.enable = true;
     powerManagement.enable = true;
     forceFullCompositionPipeline = true;
+    package = config.boot.kernelPackages.nvidiaPackages.beta;
   };
 
   swapDevices = [];
