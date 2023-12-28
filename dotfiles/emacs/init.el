@@ -248,7 +248,8 @@
 (use-package envrc
   :straight t
   :init
-  (envrc-global-mode))
+  (envrc-global-mode)
+  (add-hook 'envrc-mode-hook 'lsp-bridge-restart-process))
 
 (use-package hyperbole
   :straight t
@@ -331,6 +332,7 @@
   (lsp-bridge-enable-hover-diagnostic t)
   (lsp-bridge-code-action-enable-popup-menu nil)
   (lsp-bridge-enable-inlay-hint nil)
+  (lsp-bridge-inlay-hint-overlays '())
   :init
   (global-lsp-bridge-mode)
   (let ((filtered-list (cl-delete 'lsp-bridge-not-match-hide-characters lsp-bridge-completion-popup-predicates)))
