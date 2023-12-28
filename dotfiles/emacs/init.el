@@ -330,6 +330,7 @@
   (lsp-bridge-nix-lsp-server "nil")
   (lsp-bridge-enable-hover-diagnostic t)
   (lsp-bridge-code-action-enable-popup-menu nil)
+  (lsp-bridge-enable-inlay-hint nil)
   :init
   (global-lsp-bridge-mode)
   (let ((filtered-list (cl-delete 'lsp-bridge-not-match-hide-characters lsp-bridge-completion-popup-predicates)))

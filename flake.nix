@@ -656,12 +656,11 @@
 
                     # rust
                     (rust-bin.nightly.latest.default.override {
-                      extensions = ["rust-src"];
+                      extensions = ["rust-src" "rust-analyzer"];
                       targets = ["wasm32-wasi" "wasm32-unknown-unknown"];
                     })
                     mold
                     cargo-watch
-                    rust-analyzer
                     cargo-nextest
                     sccache
 
