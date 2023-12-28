@@ -106,12 +106,16 @@
     (setq catppuccin-flavor 'latte))
   (load-theme 'catppuccin t))
 
+(use-package dired-open
+  :straight t)
+
 (use-package dired
   :defer t
   :hook ((dired-mode . dired-hide-details-mode)
          (dired-mode . dired-omit-mode))
   :init
   (define-key dired-mode-map (kbd "i") 'wdired-change-to-wdired-mode)
+  (define-key dired-mode-map (kbd "J") 'dired-open-xdg)
   (define-key dired-mode-map (kbd ".") 'dired-omit-mode)
   (define-key dired-mode-map [mouse-2] 'dired-mouse-find-file)
   (define-key global-map [mouse-3] 'dired-jump)
@@ -245,12 +249,6 @@
               (switch-to-buffer matching-buffer)
             (vterm))))))
 
-(use-package envrc
-  :straight t
-  :init
-  (envrc-global-mode)
-  (add-hook 'envrc-mode-hook 'lsp-bridge-restart-process))
-
 (use-package hyperbole
   :straight t
   :config
@@ -334,6 +332,7 @@
   (lsp-bridge-enable-inlay-hint nil)
   (lsp-bridge-inlay-hint-overlays '())
   :init
+  (setq-default lsp-bridge-enable-inlay-hint nil)
   (global-lsp-bridge-mode)
   (let ((filtered-list (cl-delete 'lsp-bridge-not-match-hide-characters lsp-bridge-completion-popup-predicates)))
     (setq lsp-bridge-completion-popup-predicates filtered-list))
@@ -346,3 +345,8 @@
   (define-key lsp-bridge-mode-map (kbd "C-c r") 'lsp-bridge-find-references)
   (define-key lsp-bridge-mode-map (kbd "C-c .") 'lsp-bridge-popup-documentation))
 
+(use-package envrc
+  :straight t
+  :hook (envrc-mode . lsp-bridge-restart-process)
+  :init
+  (envrc-global-mode))

@@ -367,17 +367,30 @@
                   ];
                 };
 
-                # User dirs
-                xdg.userDirs = {
-                  enable = true;
-                  desktop = "${config.home.homeDirectory}";
-                  documents = "${config.home.homeDirectory}";
-                  download = "${config.home.homeDirectory}/downloads";
-                  music = "${config.home.homeDirectory}";
-                  pictures = "${config.home.homeDirectory}";
-                  publicShare = "${config.home.homeDirectory}";
-                  templates = "${config.home.homeDirectory}";
-                  videos = "${config.home.homeDirectory}";
+                # User dirs and default applications
+                xdg = {
+                  userDirs = {
+                    enable = true;
+                    desktop = "${config.home.homeDirectory}";
+                    documents = "${config.home.homeDirectory}";
+                    download = "${config.home.homeDirectory}/downloads";
+                    music = "${config.home.homeDirectory}";
+                    pictures = "${config.home.homeDirectory}";
+                    publicShare = "${config.home.homeDirectory}";
+                    templates = "${config.home.homeDirectory}";
+                    videos = "${config.home.homeDirectory}";
+                  };
+                  mimeApps = {
+                    enable = true;
+                    defaultApplications = {
+                      "image/png" = ["sxiv.desktop"];
+                      "image/jpeg" = ["sxiv.desktop"];
+                      "image/gif" = ["sxiv.desktop"];
+                      "video/mp4" = ["mpv.desktop"];
+                      "video/webm" = ["mpv.desktop"];
+                      "application/pdf" = ["firefox.desktop"];
+                    };
+                  };
                 };
 
                 # Fonts
