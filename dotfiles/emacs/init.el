@@ -36,6 +36,11 @@
 (use-package devdocs
   :straight t)
 
+(use-package org-modern
+  :straight t
+  :init
+  (with-eval-after-load 'org (global-org-modern-mode)))
+
 (defun restclient-new-buffer ()
   (interactive)
   (xah-new-empty-buffer)
@@ -65,7 +70,6 @@
   (define-key xah-fly-command-map (kbd "N") 'notmuch)
   (define-key xah-fly-command-map (kbd "P") 'project-find-file)
   (define-key xah-fly-command-map (kbd "k") 'consult-line)
-  (define-key xah-fly-command-map (kbd "H") 'restclient-new-buffer)
   (define-key xah-fly-command-map (kbd ":") 'eval-expression)
   (define-key xah-fly-command-map (kbd "5") 'split-window-right)
   (define-key xah-fly-command-map (kbd "C-o") 'pop-to-mark-command)
@@ -166,6 +170,7 @@
 (use-package org
   :hook (org-mode . org-indent-mode)
   :custom
+  (org-confirm-babel-evaluate nil)
   (org-hidden-keywords nil)
   (org-hide-emphasis-markers t)
   (org-image-actual-width (list 250))
