@@ -30,6 +30,12 @@
 (use-package restclient
   :straight t)
 
+(use-package dart-mode
+  :straight t)
+
+(use-package devdocs
+  :straight t)
+
 (defun restclient-new-buffer ()
   (interactive)
   (xah-new-empty-buffer)
@@ -37,11 +43,6 @@
 
 (use-package rust-ts-mode
     :mode (("\\.rs\\'" . rust-ts-mode)))
-
-(use-package treesit-auto
-  :straight t
-  :config
-  (global-treesit-auto-mode))
 
 (use-package xah-fly-keys
   :straight t
@@ -57,8 +58,8 @@
   (define-key xah-fly-command-map (kbd "V") 'vterm)
   (define-key xah-fly-command-map (kbd "U") 'winner-undo)
   (define-key xah-fly-command-map (kbd "G") 'magit)
-  (define-key xah-fly-command-map (kbd "T") 'gptel)
   (define-key xah-fly-command-map (kbd "R") 'consult-ripgrep)
+  (define-key xah-fly-command-map (kbd "H") 'devdocs-lookup)
   (define-key xah-fly-command-map (kbd "F") 'consult-find)
   (define-key xah-fly-command-map (kbd "C") 'org-capture)
   (define-key xah-fly-command-map (kbd "N") 'notmuch)
@@ -337,14 +338,3 @@
   (define-key lsp-bridge-mode-map (kbd "C-c r") 'lsp-bridge-find-references)
   (define-key lsp-bridge-mode-map (kbd "C-c .") 'lsp-bridge-popup-documentation))
 
-(use-package notmuch
-  :straight t)
-
-;; (use-package lsp-dart
-;;   :custom
-;;   (lsp-headerline-breadcrumb-enable nil)
-;;   :straight t)
-
-(use-package dart-mode
-  :straight t)
-  ;; :hook (dart-mode . lsp-deferred))

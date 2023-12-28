@@ -63,6 +63,8 @@
               sha256 = "sha256-9ylM56W3q699xi9TNPGHHxtBwDPCtb4D0YcWv4I76sg=";
             };
             blockList = ''
+              0.0.0.0 tiktok.com
+              0.0.0.0 www.tiktok.com
             '';
             desktop = {
               layout = "us";
@@ -275,8 +277,8 @@
                 trusted-users = ["root" "odd"];
                 experimental-features = ["nix-command" "flakes"];
                 auto-optimise-store = true;
-                keep-derivations = true;
-                keep-outputs = true;
+                keep-derivations = false;
+                keep-outputs = false;
               };
               registry.nixpkgs.flake = inputs.nixpkgs;
             };
@@ -440,7 +442,7 @@
                     longitude = 8.6;
                     temperature = {
                       day = 5500;
-                      night = 2000;
+                      night = 1750;
                     };
                   };
                   mako = {
@@ -677,6 +679,7 @@
                     gnumake
                     imagemagick
                     jq
+                    sxiv
                     
                     # gui
                     gimp
