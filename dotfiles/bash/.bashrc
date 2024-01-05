@@ -17,3 +17,5 @@ vterm_prompt_end(){
     vterm_printf "51;A$(whoami)@$(hostname):$(pwd)"
 }
 PS1=$PS1'\[$(vterm_prompt_end)\]'
+
+export PATH="$PATH:$HOME/.cargo/bin"

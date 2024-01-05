@@ -347,6 +347,6 @@
 
 (use-package envrc
   :straight t
-  :hook (envrc-mode . lsp-bridge-restart-process)
   :init
   (envrc-global-mode))
+

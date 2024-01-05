@@ -669,7 +669,7 @@
 
                     # rust
                     (rust-bin.nightly.latest.default.override {
-                      extensions = ["rust-src" "rust-analyzer"];
+                      extensions = ["rust-src" "rust-analyzer" "rustc-codegen-cranelift"];
                       targets = ["wasm32-wasi" "wasm32-unknown-unknown"];
                     })
                     mold
