@@ -18,15 +18,15 @@
   '';
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/940144e0-6512-4d5f-9700-a76d2fd9fc25";
+    { device = "/dev/disk/by-uuid/910228bd-977b-4b7a-94a8-5a2b6bbc77ef";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/01FD-E99A";
+    { device = "/dev/disk/by-uuid/6DB5-F388";
       fsType = "vfat";
     };
-
+  
   fileSystems."/home/odd/harddrive" = {
     device = "/dev/disk/by-uuid/30246B65246B2CD2";
     fsType = "ntfs";
