@@ -41,6 +41,11 @@
   :init
   (with-eval-after-load 'org (global-org-modern-mode)))
 
+(use-package treesit-auto
+  :straight t
+  :config
+  (global-treesit-auto-mode))
+
 (defun restclient-new-buffer ()
   (interactive)
   (xah-new-empty-buffer)

@@ -191,9 +191,6 @@
               };
             };
 
-            # steam
-            programs.steam.enable = true;
-            
             # Hyprland
             programs.hyprland = {
               enable = true;
