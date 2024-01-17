@@ -291,8 +291,14 @@
 
 (use-package svelte-mode
   :hook ((svelte-mode . emmet-mode)
+         (svelte-mode . sgml-electric-tag-pair-mode)
          (svelte-mode . (lambda () (rainbow-delimiters-mode -1))))
   :straight t)
+
+(use-package html-ts-mode
+  :hook ((html-ts-mode . emmet-mode)
+         (html-ts-mode . sgml-electric-tag-pair-mode)
+         ))
 
 (use-package javascript-mode
   :mode (("\\.js\\'" . javascript-mode)
@@ -328,8 +334,8 @@
   (acm-enable-yas nil)
   (acm-enable-icon nil)
   (acm-enable-tabnine nil)
-  (acm-enable-codeium nil)
-  (acm-enable-seach-file-words nil)
+  (acm-enable-codeium t)
+  (acm-enable-search-file-words nil)
   (acm-doc-frame-max-lines 25)
   (lsp-bridge-nix-lsp-server "nil")
   (lsp-bridge-enable-hover-diagnostic t)

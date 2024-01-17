@@ -697,6 +697,9 @@
 
                     # database
                     sqlite
+
+                    # free completion
+                    codeium
                   ];
                 };
               };
