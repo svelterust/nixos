@@ -153,6 +153,7 @@
 
             # Programs
             programs = {
+              adb.enable = true;
               ssh.askPassword = "";
             };
             
@@ -341,7 +342,7 @@
               users.odd = {
                 isNormalUser = true;
                 description = "Odd-Harald";
-                extraGroups = ["networkmanager" "wheel" "docker" "dialout" "video"];
+                extraGroups = ["networkmanager" "wheel" "docker" "dialout" "video" "adbusers"];
                 hashedPassword = "$6$/GQatAaT7h0hvkZu$XQIrOflYDVukuW1WW7AWX7v9LhFHAk8YhkRvrSkBKYw5P3jazaEV0.u34t9CK/UMBF6eWohc/H97BlXdEYXZX0"; 
               };
             };
