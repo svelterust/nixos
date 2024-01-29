@@ -598,7 +598,7 @@
                       font = {
                         size = settings.terminalSize;
                       };
-                      key_bindings = [
+                      keyboard.bindings = [
                         {
                           key = "C";
                           mods = "Alt";
@@ -611,7 +611,7 @@
                         }
                       ];
                       import = [
-                        "~/.config/alacritty/theme.yml"
+                        "~/.config/alacritty/theme.toml"
                       ];
                     };
                   };
