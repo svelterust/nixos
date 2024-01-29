@@ -414,8 +414,8 @@
                     recursive = true;
                   };
 
-                  ".config/alacritty/theme.yml" = {
-                    source = ./dotfiles/alacritty/catppuccin-latte.yml;
+                  ".config/alacritty/theme.toml" = {
+                    source = ./dotfiles/alacritty/catppuccin-latte.toml;
                   };
 
                   ".config/Code/User/settings.json" = {
