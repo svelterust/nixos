@@ -361,3 +361,8 @@
   :init
   (envrc-global-mode))
 
+(use-package smartparens
+  :straight t
+  :hook (prog-mode . smartparens-mode)
+  :config
+  (require 'smartparens-config))
