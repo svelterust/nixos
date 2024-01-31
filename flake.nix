@@ -81,16 +81,16 @@
                   devices = [ "nodev" ];
                   efiSupport = true;
                   enable = true;
-                  extraEntries = ''
-                    menuentry "Windows" {
-                      insmod part_gpt
-                      insmod fat
-                      insmod search_fs_uuid
-                      insmod chain
-                      search --fs-uuid --set=root 0A3F-200A
-                      chainloader /EFI/Microsoft/Boot/bootmgfw.efi
-                    }
-                  '';
+                  # extraEntries = ''
+                  #   menuentry "Windows" {
+                  #     insmod part_gpt
+                  #     insmod fat
+                  #     insmod search_fs_uuid
+                  #     insmod chain
+                  #     search --fs-uuid --set=root 0A3F-200A
+                  #     chainloader /EFI/Microsoft/Boot/bootmgfw.efi
+                  #   }
+                  # '';
                 };
               };
             };
@@ -678,6 +678,9 @@
 
                     # flutter
                     dart
+
+                    # lisp
+                    sbcl
                     
                     # terminal applications
                     gdb

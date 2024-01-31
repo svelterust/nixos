@@ -366,3 +366,9 @@
   :hook (prog-mode . smartparens-mode)
   :config
   (require 'smartparens-config))
+
+(use-package slime
+  :straight t
+  :custom
+  (inferior-lisp-program "sbcl"))
+

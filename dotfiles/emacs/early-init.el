@@ -18,6 +18,11 @@
 ;; max memory available for gc on startup
 (setq gc-cons-threshold most-positive-fixnum)
 
+;; garbage collect when not focused
+(add-function :after
+                  after-focus-change-function
+                  (lambda () (unless (frame-focus-state) (garbage-collect))))
+
 ;; file name handler disable
 (defvar me/-file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)
