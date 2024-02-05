@@ -81,16 +81,6 @@
                   devices = [ "nodev" ];
                   efiSupport = true;
                   enable = true;
-                  # extraEntries = ''
-                  #   menuentry "Windows" {
-                  #     insmod part_gpt
-                  #     insmod fat
-                  #     insmod search_fs_uuid
-                  #     insmod chain
-                  #     search --fs-uuid --set=root 0A3F-200A
-                  #     chainloader /EFI/Microsoft/Boot/bootmgfw.efi
-                  #   }
-                  # '';
                 };
               };
             };
@@ -216,6 +206,23 @@
             # Services
             services = {
               pcscd.enable = true;
+              syncthing = {
+                enable = true;
+                user = "odd";
+                settings = {
+                  devices = {
+                    "Pixel" = {
+                      id = "IG4BJBH-CTMLK5R-OK6YNSF-ZW2ABAY-5Q56LKB-DGPYK7T-VHN6BMZ-ENFIUQB";
+                    };
+                  };
+                  folders = {
+                    "/home/odd/source/org" = {
+                      id = "org";
+                      devices = [ "Pixel" ];
+                    };
+                  };
+                };
+              };
               dbus = {
                 enable = true;
                 implementation = "broker"; 
@@ -342,7 +349,7 @@
               users.odd = {
                 isNormalUser = true;
                 description = "Odd-Harald";
-                extraGroups = ["networkmanager" "wheel" "docker" "dialout" "video" "adbusers"];
+                extraGroups = ["networkmanager" "wheel" "docker" "dialout" "video" "adbusers" "syncthing"];
                 hashedPassword = "$6$/GQatAaT7h0hvkZu$XQIrOflYDVukuW1WW7AWX7v9LhFHAk8YhkRvrSkBKYw5P3jazaEV0.u34t9CK/UMBF6eWohc/H97BlXdEYXZX0"; 
               };
             };

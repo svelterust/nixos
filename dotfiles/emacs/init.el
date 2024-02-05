@@ -369,6 +369,6 @@
 
 (use-package slime
   :straight t
-  :custom
-  (inferior-lisp-program "sbcl"))
+  :init
+  (setq inferior-lisp-program "sbcl"))
 
