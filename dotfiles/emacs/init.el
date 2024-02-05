@@ -363,7 +363,7 @@
 
 (use-package smartparens
   :straight t
-  :hook (prog-mode . smartparens-mode)
+  :hook (text-mode . smartparens-mode)
   :config
   (require 'smartparens-config))
 
