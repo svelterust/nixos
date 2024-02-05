@@ -209,7 +209,13 @@
               syncthing = {
                 enable = true;
                 user = "odd";
+                dataDir = "/home/odd";
+                configDir = "/home/odd/.config/syncthing";
+                guiAddress = "127.0.0.1:8384";
                 settings = {
+                  options = {
+                    urAccepted = -1; 
+                  };
                   devices = {
                     "Pixel" = {
                       id = "IG4BJBH-CTMLK5R-OK6YNSF-ZW2ABAY-5Q56LKB-DGPYK7T-VHN6BMZ-ENFIUQB";
@@ -231,7 +237,6 @@
               usbmuxd.enable = true;
               blueman.enable = true;
               gnome.gnome-keyring.enable = true;
-
               xserver = {
                 enable = true;
                 xkbVariant = "colemak";
@@ -349,7 +354,7 @@
               users.odd = {
                 isNormalUser = true;
                 description = "Odd-Harald";
-                extraGroups = ["networkmanager" "wheel" "docker" "dialout" "video" "adbusers" "syncthing"];
+                extraGroups = ["networkmanager" "wheel" "docker" "dialout" "video" "adbusers"];
                 hashedPassword = "$6$/GQatAaT7h0hvkZu$XQIrOflYDVukuW1WW7AWX7v9LhFHAk8YhkRvrSkBKYw5P3jazaEV0.u34t9CK/UMBF6eWohc/H97BlXdEYXZX0"; 
               };
             };
