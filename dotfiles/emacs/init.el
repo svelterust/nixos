@@ -125,7 +125,7 @@
   (define-key dired-mode-map [mouse-2] 'dired-mouse-find-file)
   (define-key global-map [mouse-3] 'dired-jump)
   :custom
-  (dired-omit-files "^\\.")
+  (dired-omit-files "\\(^\\..*\\|node_modules\\|bun\\.lockb\\)")
   (dired-dwim-target t)
   (dired-omit-verbose nil)
   (dired-free-space nil)
