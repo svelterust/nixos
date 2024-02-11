@@ -63,8 +63,10 @@
               sha256 = "sha256-9ylM56W3q699xi9TNPGHHxtBwDPCtb4D0YcWv4I76sg=";
             };
             blockList = ''
-              0.0.0.0 tiktok.com
-              0.0.0.0 www.tiktok.com
+              0.0.0.0 news.ycombinator.com
+              0.0.0.0 www.news.ycombinator.com
+              0.0.0.0 lobste.rs
+              0.0.0.0 www.lobste.rs
             '';
             desktop = {
               layout = "us";
@@ -202,6 +204,15 @@
                 ];
               };
             };
+
+            # PostgreSQL for development
+            services.postgresql = {
+              enable = true;
+              authentication = pkgs.lib.mkOverride 10 ''
+                #type database  DBuser  auth-method
+                local all       all     trust
+              '';
+            };
             
             # Services
             services = {
@@ -209,7 +220,7 @@
               syncthing = {
                 enable = true;
                 user = "odd";
-                dataDir = "/home/odd";
+                dataDir = "/home/odd/.syncthing";
                 configDir = "/home/odd/.config/syncthing";
                 guiAddress = "127.0.0.1:8384";
                 settings = {
@@ -716,6 +727,16 @@
 
                     # free completion
                     codeium
+
+                    # elixir
+                    elixir-ls
+                    inotify-tools
+                    beam.packages.erlangR26.hex
+                    beam.packages.erlangR26.erlang
+                    beam.packages.erlangR26.elixir_1_16
+
+                    # bun stack
+                    bun
                   ];
                 };
               };

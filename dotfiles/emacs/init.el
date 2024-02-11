@@ -264,60 +264,12 @@
          (emacs-lisp-mode . paredit-mode)) 
   :straight t)
 
-(use-package css-in-js-mode
-  :straight '(css-in-js-mode :type git :host github :repo "orzechowskid/tree-sitter-css-in-js"))
-
-(use-package tsx-mode
-  :straight '(tsx-mode :type git :host github :repo "orzechowskid/tsx-mode.el" :branch "emacs29"))
-
 (use-package zoom
   :straight t
   :custom
   (zoom-size '(0.618 . 0.618))
   :init
   (zoom-mode t))
-
-(use-package emmet-mode
-  :straight t
-  :hook (typescript-ts-mode . emmet-mode)
-  :custom
-  (emmet-indentation 2)
-  (emmet-indent-after-insert nil)
-  (emmet-insert-flash-time 0.25)
-  :config
-  (keymap-unset emmet-mode-keymap "C-j")
-  (define-key emmet-mode-keymap (kbd "C-w") 'emmet-wrap-with-markup)
-  (define-key emmet-mode-keymap (kbd "C-e") 'emmet-expand-line))
-
-(use-package svelte-mode
-  :hook ((svelte-mode . emmet-mode)
-         (svelte-mode . sgml-electric-tag-pair-mode)
-         (svelte-mode . (lambda () (rainbow-delimiters-mode -1))))
-  :straight t)
-
-(use-package html-ts-mode
-  :hook ((html-ts-mode . emmet-mode)
-         (html-ts-mode . sgml-electric-tag-pair-mode)
-         ))
-
-(use-package javascript-mode
-  :mode (("\\.js\\'" . javascript-mode)
-         ("\\.cjs\\'" . javascript-mode))
-  :custom
-  (js-indent-level 2))
-
-(use-package typescript-mode
-  :custom
-  (typescript-indent-level 2)
-  :straight t)
-
-(use-package css-mode
-  :mode (("\\.postcss\\'" . css-mode))
-  :custom
-  (css-indent-offset 2))
-
-(use-package mhtml-mode
-  :hook (mhtml-mode . emmet-mode))
 
 (use-package asm-mode
   :hook (asm-mode . (lambda (electric-indent-mode -1))))
@@ -363,7 +315,7 @@
 
 (use-package smartparens
   :straight t
-  :hook (text-mode . smartparens-mode)
+  :hook ((text-mode . smartparens-mode) (prog-mode . smartparens-mode)) 
   :config
   (require 'smartparens-config))
 
@@ -372,3 +324,38 @@
   :init
   (setq inferior-lisp-program "sbcl"))
 
+(use-package emmet-mode
+  :straight t
+  :custom
+  (emmet-indentation 2)
+  (emmet-indent-after-insert nil)
+  (emmet-insert-flash-time 0.25)
+  :config
+  (keymap-unset emmet-mode-keymap "C-j")
+  (define-key emmet-mode-keymap (kbd "C-w") 'emmet-wrap-with-markup)
+  (define-key emmet-mode-keymap (kbd "C-e") 'emmet-expand-line))
+
+(use-package html-ts-mode
+  :hook ((html-ts-mode . emmet-mode)
+         (html-ts-mode . sgml-electric-tag-pair-mode)))
+
+(use-package tsx-ts-mode
+  :mode ("\\.tsx\\'" . tsx-ts-mode)
+  :hook ((tsx-ts-mode . emmet-mode )
+         (tsx-ts-mode . sgml-electric-tag-pair-mode)))
+
+(use-package typescript-ts-mode
+  :mode ("\\.ts\\'" . tsx-ts-mode)
+  :hook ((tsx-ts-mode . emmet-mode )
+         (tsx-ts-mode . sgml-electric-tag-pair-mode)))
+
+(use-package svelte-mode
+  :hook ((svelte-mode . emmet-mode)
+         (svelte-mode . sgml-electric-tag-pair-mode)
+         (svelte-mode . (lambda () (rainbow-delimiters-mode -1))))
+  :straight t)
+
+(use-package css-mode
+  :mode (("\\.postcss\\'" . css-mode))
+  :custom
+  (css-indent-offset 2))
