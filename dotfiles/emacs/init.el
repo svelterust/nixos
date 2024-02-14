@@ -176,6 +176,19 @@
   (define-key yas-minor-mode-map (kbd "TAB") nil)
   (define-key yas-minor-mode-map (kbd "SPC") yas-maybe-expand))
 
+(defun org-toggle-partial-checkbox ()
+  "Toggle the current Org mode checkbox to/from the partially completed state."
+  (interactive)
+  ;; Explicitly save the cursor position
+  (let ((pos (point)))
+    (beginning-of-line)
+    (if (looking-at "\\(.*\\)- \\[ \\]\\(.*\\)")
+        (replace-match "\\1- [-]\\2")
+      (if (looking-at "\\(.*\\)- \\[\\-\\]\\(.*\\)")
+          (replace-match "\\1- [ ]\\2")))
+    ;; Restore the cursor to its original position
+    (goto-char pos)))
+
 (use-package org
   :hook (org-mode . org-indent-mode)
   :custom
@@ -196,7 +209,9 @@
     ((auto-mode . emacs)
      ("\\.mm\\'" . default)
      ("\\.x?html?\\'" . "firefox %s")
-     ("\\.pdf\\'" . "firefox %s")))))
+     ("\\.pdf\\'" . "firefox %s"))))
+  :init
+  (define-key org-mode-map (kbd "C-c -") 'org-toggle-partial-checkbox))
 
 (use-package org-agenda
   :custom
@@ -359,3 +374,7 @@
   :mode (("\\.postcss\\'" . css-mode))
   :custom
   (css-indent-offset 2))
+
+(use-package gradle-mode
+  :straight t)
+

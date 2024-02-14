@@ -205,15 +205,6 @@
               };
             };
 
-            # PostgreSQL for development
-            services.postgresql = {
-              enable = true;
-              authentication = pkgs.lib.mkOverride 10 ''
-                #type database  DBuser  auth-method
-                local all       all     trust
-              '';
-            };
-            
             # Services
             services = {
               pcscd.enable = true;
