@@ -1,5 +1,16 @@
 ;;; -*- lexical-binding: t; -*-
 
+(use-package org-roam
+  :straight t
+  :custom
+  (org-roam-directory "/home/odd/source/notes")
+  :bind (("C-c o l" . org-roam-buffer-toggle)
+         ("C-c o f" . org-roam-node-find)
+         ("C-c o i" . org-roam-node-insert))
+  :config
+  (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
+  (org-roam-db-autosync-enable))
+
 (use-package markdown-mode
   :straight t)
 
@@ -125,7 +136,7 @@
   (define-key dired-mode-map [mouse-2] 'dired-mouse-find-file)
   (define-key global-map [mouse-3] 'dired-jump)
   :custom
-  (dired-omit-files "\\(^\\..*\\|node_modules\\|bun\\.lockb\\)")
+  (dired-omit-files "\\(^\\..*\\|node_modules\\|Dockerfile\\|fly.toml\\|bun\\.lockb\\)")
   (dired-dwim-target t)
   (dired-omit-verbose nil)
   (dired-free-space nil)
@@ -321,7 +332,7 @@
   (define-key lsp-bridge-mode-map (kbd "C-c n") 'lsp-bridge-rename)
   (define-key lsp-bridge-mode-map (kbd "C-c a") 'lsp-bridge-code-action)
   (define-key lsp-bridge-mode-map (kbd "C-c r") 'lsp-bridge-find-references)
-  (define-key lsp-bridge-mode-map (kbd "C-c .") 'lsp-bridge-popup-documentation))
+  (define-key lsp-bridge-mode-map (kbd "C-c h") 'lsp-bridge-popup-documentation))
 
 (use-package envrc
   :straight t
@@ -377,4 +388,3 @@
 
 (use-package gradle-mode
   :straight t)
-

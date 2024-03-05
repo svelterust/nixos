@@ -195,11 +195,31 @@
 (setq show-paren-delay 0.0)
 
 ;; modeline
+;; (setq-default mode-line-format
+;;               (list
+;;                '(:eval (propertize " %b" 'face (buffer-file-name)))
+;;                '(:eval (propertize " (%l:%c)" 'face (buffer-file-name)))))
+
+;; Update mode-line-format to conditionally display the clocked time if an Org mode clock is running
 (setq-default mode-line-format
               (list
+               ;; Display the buffer name
                '(:eval (propertize " %b" 'face (buffer-file-name)))
-               '(:eval (propertize " (%l:%c)" 'face (buffer-file-name)))))
+               ;; Display the line and column numbers
+               '(:eval (propertize " (%l:%c)" 'face (buffer-file-name)))
+               ;; Conditionally display the elapsed clock time
+               '(:eval (when (org-clock-is-active)
+                         (let* ((clocked-time (org-clock-get-clocked-time))
+                                (hours (/ clocked-time 60))
+                                (minutes (% clocked-time 60)))
+                           (propertize (format " [%02d:%02d]" hours minutes) 'face nil))))))
 
+;; Ensure the mode line is updated every second
+(setq display-time-default-load-average nil)
+(display-time-mode 1)
+(setq display-time-interval 1)
+
+;; faster updates
 (setq echo-keystrokes 0.001)
 
 ;; auto update

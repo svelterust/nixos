@@ -63,10 +63,6 @@
               sha256 = "sha256-9ylM56W3q699xi9TNPGHHxtBwDPCtb4D0YcWv4I76sg=";
             };
             blockList = ''
-              0.0.0.0 news.ycombinator.com
-              0.0.0.0 www.news.ycombinator.com
-              0.0.0.0 lobste.rs
-              0.0.0.0 www.lobste.rs
             '';
             desktop = {
               layout = "us";
@@ -660,6 +656,9 @@
                     
                     # nix
                     nil
+
+                    # other
+                    graphviz
                     
                     # video
                     mpv
@@ -707,27 +706,21 @@
                     imagemagick
                     jq
                     sxiv
+
+                    # latex
+                    texlive.combined.scheme-full
                     
                     # gui
                     gimp
                     libreoffice
                     deploy-rs
 
-                    # database
-                    sqlite
-
                     # free completion
                     codeium
 
-                    # elixir
-                    elixir-ls
-                    inotify-tools
-                    beam.packages.erlangR26.hex
-                    beam.packages.erlangR26.erlang
-                    beam.packages.erlangR26.elixir_1_16
-
                     # bun stack
                     bun
+                    supabase-cli
                   ];
                 };
               };
