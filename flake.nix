@@ -247,8 +247,6 @@
               gnome.gnome-keyring.enable = true;
               xserver = {
                 enable = true;
-                xkbVariant = "colemak";
-                layout = settings.layout;
                 videoDrivers = settings.videoDrivers;
                 libinput = {
                   enable = true;
@@ -257,6 +255,10 @@
                 displayManager = {
                   autoLogin.enable = true;
                   autoLogin.user = "odd";
+                };
+                xkb = {
+                  variant = "colemak";
+                  layout = settings.layout;
                 };
               };
 
