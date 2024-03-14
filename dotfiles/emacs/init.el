@@ -388,3 +388,6 @@
 
 (use-package gradle-mode
   :straight t)
+
+(use-package php-mode
+  :straight t)

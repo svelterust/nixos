@@ -79,6 +79,16 @@
                   devices = [ "nodev" ];
                   efiSupport = true;
                   enable = true;
+                  extraEntries = ''
+                    menuentry "Windows" {
+                      insmod part_gpt
+                      insmod fat
+                      insmod search_fs_uuid
+                      insmod chain
+                      search --fs-uuid --set=root 0A3F-200A
+                      chainloader /EFI/Microsoft/Boot/bootmgfw.efi
+                    }
+                  '';
                 };
               };
             };
@@ -419,6 +429,10 @@
                     recursive = true;
                   };
 
+                  ".bunfig.toml" = {
+                    source = ./dotfiles/bun/bunfig.toml;
+                  };
+                  
                   ".config/hypr" = {
                     source = ./dotfiles/hyprland;
                     recursive = true;
@@ -657,6 +671,10 @@
                     # nix
                     nil
 
+                    # php
+                    php
+                    nodePackages.intelephense
+
                     # other
                     graphviz
                     
@@ -680,6 +698,7 @@
                     nodePackages.typescript-language-server
 
                     # rust
+                    cargo-lambda
                     (rust-bin.nightly.latest.default.override {
                       extensions = ["rust-src" "rust-analyzer" "rustc-codegen-cranelift"];
                       targets = ["wasm32-wasi" "wasm32-unknown-unknown"];
