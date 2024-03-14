@@ -429,10 +429,6 @@
                     recursive = true;
                   };
 
-                  ".bunfig.toml" = {
-                    source = ./dotfiles/bun/bunfig.toml;
-                  };
-                  
                   ".config/hypr" = {
                     source = ./dotfiles/hyprland;
                     recursive = true;
