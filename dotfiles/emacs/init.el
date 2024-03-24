@@ -381,6 +381,9 @@
          (svelte-mode . (lambda () (rainbow-delimiters-mode -1))))
   :straight t)
 
+(use-package typescript-mode
+  :straight t)
+
 (use-package css-mode
   :mode (("\\.postcss\\'" . css-mode))
   :custom
@@ -391,3 +394,4 @@
 
 (use-package php-mode
   :straight t)
+
