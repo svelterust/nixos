@@ -75,9 +75,6 @@
               0.0.0.0 www.twitter.com
               0.0.0.0 discord.com
               0.0.0.0 www.discord.com
-              0.0.0.0 whatsapp.com
-              0.0.0.0 www.whatsapp.com
-              0.0.0.0 web.whatsapp.com
               0.0.0.0 quora.com
               0.0.0.0 www.quora.com
             '';
