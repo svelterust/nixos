@@ -65,16 +65,12 @@
             blockList = ''
               0.0.0.0 lobste.rs
               0.0.0.0 news.ycombinator.com
-              0.0.0.0 youtube.com
-              0.0.0.0 www.youtube.com
               0.0.0.0 reddit.com
               0.0.0.0 www.reddit.com
               0.0.0.0 tiktok.com
               0.0.0.0 www.tiktok.com
               0.0.0.0 twitter.com
               0.0.0.0 www.twitter.com
-              0.0.0.0 discord.com
-              0.0.0.0 www.discord.com
               0.0.0.0 quora.com
               0.0.0.0 www.quora.com
             '';
@@ -267,7 +263,7 @@
                 videoDrivers = settings.videoDrivers;
                 libinput = {
                   enable = true;
-                  mouse.accelSpeed = "0";
+                 mouse.accelSpeed = "0";
                 };
                 displayManager = {
                   autoLogin.enable = true;
@@ -372,8 +368,8 @@
             # GPG
             programs.gnupg.agent = {
               enable = true;
-              pinentryFlavor = "gnome3";
               enableSSHSupport = true;
+              # pinentryPackage = "gnome3"; 
             };
 
             # Define user account.
@@ -692,6 +688,7 @@
 
                     # other
                     graphviz
+                    filezilla
                     
                     # video
                     mpv
@@ -758,7 +755,6 @@
 
                     # deno
                     deno
-                    
                   ];
                 };
               };
