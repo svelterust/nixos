@@ -17,19 +17,22 @@
     options nvidia NVreg_RegistryDwords="PowerMizerEnable=0x1; PerfLevelSrc=0x2222; PowerMizerLevel=0x3; PowerMizerDefault=0x3; PowerMizerDefaultAC=0x3"
   '';
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/910228bd-977b-4b7a-94a8-5a2b6bbc77ef";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/910228bd-977b-4b7a-94a8-5a2b6bbc77ef";
+    fsType = "ext4";
+    options = ["defaults" "noatime"];
+  };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/6DB5-F388";
-      fsType = "vfat";
-    };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/6DB5-F388";
+    fsType = "vfat";
+    options = ["defaults" "noatime"];
+   };
   
   fileSystems."/home/odd/harddrive" = {
     device = "/dev/disk/by-uuid/30246B65246B2CD2";
     fsType = "ntfs";
+    options = ["defaults" "noatime" "rw" "uid=1000" "gid=100"];
   };
 
   hardware.nvidia = {

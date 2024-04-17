@@ -63,8 +63,6 @@
               sha256 = "sha256-9ylM56W3q699xi9TNPGHHxtBwDPCtb4D0YcWv4I76sg=";
             };
             blockList = ''
-              0.0.0.0 lobste.rs
-              0.0.0.0 news.ycombinator.com
               0.0.0.0 reddit.com
               0.0.0.0 www.reddit.com
               0.0.0.0 tiktok.com
@@ -138,9 +136,6 @@
 
             # Configure console keymap
             console.keyMap = "colemak";
-
-            # Work
-            virtualisation.docker.enable = true;
 
             # Imports
             imports = [
@@ -273,12 +268,6 @@
                   variant = "colemak";
                   layout = settings.layout;
                 };
-              };
-
-              picom = {
-                enable = true;
-                shadow = true;
-                shadowOpacity = 0.25;
               };
 
               pipewire = {
@@ -461,6 +450,10 @@
                     source = ./dotfiles/firefox/chrome;
                   };
 
+                  ".ssh/config" = {
+                    source = ./dotfiles/ssh/config;
+                  };
+                  
                   ".config/tofi/config" = {
                     source = pkgs.writeText "config" ''
                       width = 100%
@@ -686,10 +679,6 @@
                     php
                     nodePackages.intelephense
 
-                    # other
-                    graphviz
-                    filezilla
-                    
                     # video
                     mpv
                     xclip
@@ -719,6 +708,7 @@
                     cargo-watch
                     cargo-nextest
                     sccache
+                    bacon
 
                     # flutter
                     dart
@@ -755,6 +745,15 @@
 
                     # deno
                     deno
+
+                    # http
+                    bruno
+                    stripe-cli
+
+                    # other
+                    powertop
+                    graphviz
+                    filezilla
                   ];
                 };
               };
