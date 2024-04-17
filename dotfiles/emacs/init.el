@@ -395,3 +395,11 @@
 (use-package php-mode
   :straight t)
 
+(use-package olivetti
+  :straight t
+  :custom
+  (olivetti-mode-on-hook nil)
+  :hook ((prog-mode . olivetti-mode)
+         (dired-mode . olivetti-mode)
+         (org-mode . olivetti-mode)
+         (image-mode . olivetti-mode)))

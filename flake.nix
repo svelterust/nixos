@@ -65,8 +65,6 @@
             blockList = ''
               0.0.0.0 reddit.com
               0.0.0.0 www.reddit.com
-              0.0.0.0 tiktok.com
-              0.0.0.0 www.tiktok.com
               0.0.0.0 twitter.com
               0.0.0.0 www.twitter.com
               0.0.0.0 quora.com
