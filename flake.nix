@@ -31,6 +31,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
+    zig-overlay = {
+      url = "github:mitchellh/zig-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
   };
 
   outputs = {
@@ -42,6 +47,7 @@
     firefox-addons,
     raise,
     hyprsome,
+    zig-overlay,
     ...
   } @ inputs: {
     # Default formatter
@@ -385,6 +391,8 @@
                     rust-overlay.overlays.default
                     # latest emacs
                     emacs-overlay.overlays.default
+                    #zig
+                    zig-overlay.overlays.default
                   ];
                 };
 
@@ -667,6 +675,9 @@
                     hyprpicker
                     wl-clipboard
                     qt6.qtwayland
+                    brightnessctl
+                    swayidle
+                    swaylock
                     raise.defaultPackage.x86_64-linux
                     hyprsome.packages.x86_64-linux.default
                     
@@ -752,6 +763,10 @@
                     powertop
                     graphviz
                     filezilla
+
+                    # zig
+                    zls
+                    zig-overlay.packages.x86_64-linux.master
                   ];
                 };
               };
