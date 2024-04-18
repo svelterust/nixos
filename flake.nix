@@ -177,6 +177,9 @@
             sound.enable = true;
             security.rtkit.enable = true;
 
+            # Swaylock hack fix
+            security.pam.services.swaylock = {};
+            
             # Enable networking
             networking = {
               hostName = "odd";
@@ -336,6 +339,9 @@
               noto-fonts-emoji
             ];
 
+            # Power managment
+            services.auto-cpufreq.enable = true;
+            
             # Manage environment
             environment = {
               binsh = "${pkgs.dash}/bin/dash";

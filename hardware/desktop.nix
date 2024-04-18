@@ -44,8 +44,13 @@
   };
 
   swapDevices = [];
-  powerManagement.cpuFreqGovernor = "performance";
+  powerManagement.cpuFreqGovernor = "balanced";
   networking.useDHCP = lib.mkDefault true;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+  # Powersaving options
+  boot.kernelParams = [
+    "nmi_watchdog=0"
+  ];
 }
