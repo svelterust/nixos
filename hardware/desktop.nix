@@ -15,6 +15,12 @@
   boot.extraModulePackages = [config.boot.kernelPackages.nvidia_x11];
   boot.extraModprobeConfig = ''
     options nvidia NVreg_RegistryDwords="PowerMizerEnable=0x1; PerfLevelSrc=0x2222; PowerMizerLevel=0x3; PowerMizerDefault=0x3; PowerMizerDefaultAC=0x3"
+    # Necessary for the one below it
+    options nvidia NVreg_RegistryDwords="OverrideMaxPerf=0x1"
+
+    # Fixes broken sleep on wayland
+    # https://github.com/hyprwm/Hyprland/issues/1728#issuecomment-1571852169
+    options nvidia NVreg_PreserveVideoMemoryAllocations=1
   '';
 
   fileSystems."/" = {
