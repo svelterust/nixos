@@ -69,12 +69,12 @@
               sha256 = "sha256-9ylM56W3q699xi9TNPGHHxtBwDPCtb4D0YcWv4I76sg=";
             };
             blockList = ''
-              0.0.0.0 reddit.com
-              0.0.0.0 www.reddit.com
               0.0.0.0 twitter.com
               0.0.0.0 www.twitter.com
               0.0.0.0 quora.com
               0.0.0.0 www.quora.com
+              0.0.0.0 youtube.com
+              0.0.0.0 www.youtube.com
             '';
             desktop = {
               layout = "us";
@@ -164,9 +164,6 @@
               ssh.askPassword = "";
             };
 
-            # Steam
-            programs.steam.enable = true;
-            
             # Bootloader
             boot = {
               loader = settings.bootLoader;
@@ -255,6 +252,13 @@
               dbus = {
                 enable = true;
                 implementation = "broker"; 
+              };
+              postgresql = {
+                enable = true;
+                package = pkgs.postgresql_14;
+                initialScript = pkgs.writeText "change-password" ''
+                  alter user postgres with password 'postgres';
+                '';
               };
               teamviewer.enable = true;
               usbmuxd.enable = true;
@@ -488,7 +492,7 @@
                 # Services
                 services = {
                   gammastep = {
-                    enable = true;
+                    enable = false;
                     latitude = 58.4;
                     longitude = 8.6;
                     temperature = {
@@ -667,7 +671,7 @@
                     };
                   };
                 };
-
+                
                 # Packages for home
                 home = {
                   stateVersion = "23.11";
@@ -769,7 +773,15 @@
                     powertop
                     graphviz
                     filezilla
+                    fd
+                    yt-dlp
+                    devenv
 
+                    # elixir
+                    elixir
+                    erlang
+                    inotify-tools
+                    
                     # zig
                     zls
                     zig-overlay.packages.x86_64-linux.master

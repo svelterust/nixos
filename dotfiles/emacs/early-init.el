@@ -68,6 +68,7 @@
   :config
   (gcmh-mode 1))
 
+
 (setq byte-compile-warnings '(not nresolved
                                   free-vars
                                   callargs
@@ -77,7 +78,16 @@
                                   cl-functions
                                   interactive-only))
 
-(setq screen-font "Monospace:size=34")
+;; settings for recording 
+(setq emacs-mode 'regular) ;; 'regular or 'recording
+(if (eq emacs-mode 'regular)
+    (progn
+      (setq screen-font "Monospace:size=34")
+      (setq catppuccin-flavor 'latte))
+  (progn
+    (setq screen-font "Monospace:size=40")
+    (setq catppuccin-flavor 'mocha)))
+
 (setq-default default-frame-alist
               (append (list
                        `(font . ,screen-font)

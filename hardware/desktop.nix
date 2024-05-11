@@ -12,7 +12,7 @@
   boot.initrd.availableKernelModules = [ "vmd" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
   boot.initrd.kernelModules = ["nvidia"];
   boot.kernelModules = ["kvm-intel"];
-  boot.extraModulePackages = [config.boot.kernelPackages.nvidia_x11];
+  # boot.extraModulePackages = [config.boot.kernelPackages.nvidia_x11];
   boot.extraModprobeConfig = ''
     options nvidia NVreg_RegistryDwords="PowerMizerEnable=0x1; PerfLevelSrc=0x2222; PowerMizerLevel=0x3; PowerMizerDefault=0x3; PowerMizerDefaultAC=0x3"
     # Necessary for the one below it
@@ -46,7 +46,14 @@
     modesetting.enable = true;
     powerManagement.enable = true;
     forceFullCompositionPipeline = true;
-    package = config.boot.kernelPackages.nvidiaPackages.beta;
+    package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
+      version = "535.154.05";
+      sha256_64bit = "sha256-fpUGXKprgt6SYRDxSCemGXLrEsIA6GOinp+0eGbqqJg=";
+      sha256_aarch64 = "sha256-G0/GiObf/BZMkzzET8HQjdIcvCSqB1uhsinro2HLK9k=";
+      openSha256 = "sha256-wvRdHguGLxS0mR06P5Qi++pDJBCF8pJ8hr4T8O6TJIo=";
+      settingsSha256 = "sha256-9wqoDEWY4I7weWW05F4igj1Gj9wjHsREFMztfEmqm10=";
+      persistencedSha256 = "sha256-d0Q3Lk80JqkS1B54Mahu2yY/WocOqFFbZVBh+ToGhaE=";
+    };
   };
 
   swapDevices = [];

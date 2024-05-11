@@ -110,16 +110,7 @@
 
 (use-package catppuccin-theme
   :straight t
-  :custom
-  (catppuccin-flavor 'latte)
   :config
-  (load-theme 'catppuccin t))
-
-(defun odd/toggle-theme ()
-  (interactive)
-  (if (eq catppuccin-flavor 'latte)
-      (setq catppuccin-flavor 'mocha)
-    (setq catppuccin-flavor 'latte))
   (load-theme 'catppuccin t))
 
 (use-package dired-open
@@ -403,3 +394,13 @@
          (dired-mode . olivetti-mode)
          (org-mode . olivetti-mode)
          (image-mode . olivetti-mode)))
+
+(use-package elixir-ts-mode
+  :init
+  (setq lsp-bridge-elixir-lsp-server "nextls")
+  :mode (("\\.ex\\'" . elixir-ts-mode)
+         ("\\.exs\\'" . elixir-ts-mode))
+  :hook ((elixir-ts-mode . emmet-mode)))
+
+
+
