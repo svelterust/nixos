@@ -71,10 +71,14 @@
             blockList = ''
               0.0.0.0 twitter.com
               0.0.0.0 www.twitter.com
-              0.0.0.0 quora.com
-              0.0.0.0 www.quora.com
               0.0.0.0 youtube.com
               0.0.0.0 www.youtube.com
+              0.0.0.0 news.ycombinator.com
+              0.0.0.0 www.news.ycombinator.com
+              0.0.0.0 lobste.rs
+              0.0.0.0 www.lobste.rs
+              0.0.0.0 quora.com
+              0.0.0.0 www.quora.com
             '';
             desktop = {
               layout = "us";
@@ -264,17 +268,17 @@
               usbmuxd.enable = true;
               blueman.enable = true;
               gnome.gnome-keyring.enable = true;
+              libinput = {
+                enable = true;
+                mouse.accelSpeed = "0";
+              };
+              displayManager = {
+                autoLogin.enable = true;
+                autoLogin.user = "odd";
+              };
               xserver = {
                 enable = true;
                 videoDrivers = settings.videoDrivers;
-                libinput = {
-                  enable = true;
-                 mouse.accelSpeed = "0";
-                };
-                displayManager = {
-                  autoLogin.enable = true;
-                  autoLogin.user = "odd";
-                };
                 xkb = {
                   variant = "colemak";
                   layout = settings.layout;
