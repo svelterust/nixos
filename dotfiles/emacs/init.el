@@ -44,9 +44,6 @@
 (use-package dart-mode
   :straight t)
 
-(use-package devdocs
-  :straight t)
-
 (use-package org-modern
   :straight t
   :init
@@ -63,7 +60,7 @@
   (restclient-mode))
 
 (use-package rust-ts-mode
-    :mode (("\\.rs\\'" . rust-ts-mode)))
+  :mode (("\\.rs\\'" . rust-ts-mode)))
 
 (use-package xah-fly-keys
   :straight t
@@ -80,7 +77,7 @@
   (define-key xah-fly-command-map (kbd "U") 'winner-undo)
   (define-key xah-fly-command-map (kbd "G") 'magit)
   (define-key xah-fly-command-map (kbd "R") 'consult-ripgrep)
-  (define-key xah-fly-command-map (kbd "H") 'devdocs-lookup)
+  (define-key xah-fly-command-map (kbd "H") '(lambda () (interactive) (gptel "*ChatGPT*") (switch-to-buffer "*ChatGPT*")))
   (define-key xah-fly-command-map (kbd "F") 'consult-find)
   (define-key xah-fly-command-map (kbd "C") 'org-capture)
   (define-key xah-fly-command-map (kbd "N") 'notmuch)
@@ -108,6 +105,24 @@
   ;; keybindings leader
   (define-key xah-fly-leader-key-map (kbd "t") 'consult-buffer))
 
+(use-package vim-tab-bar
+  :straight (:type git :host github :repo "jamescherti/vim-tab-bar.el")
+  :custom
+  (tab-bar-show 1)
+  :init
+  (tab-bar-mode t)
+  (tab-bar-history-mode t)
+  (global-set-key (kbd "C-w") 'tab-bar-close-tab)
+  (global-set-key (kbd "C-t") 'tab-bar-new-tab)
+  (global-set-key (kbd "C-<tab>") 'tab-bar-switch-to-next-tab)
+  (global-set-key (kbd "C-S-<iso-lefttab>") 'tab-bar-switch-to-prev-tab)
+  (dolist (n (number-sequence 1 9))
+    (global-set-key (kbd (format "M-%d" n))
+                    (let ((tab-number n))
+                      (lambda () (interactive) (tab-bar-select-tab tab-number)))))
+  :config
+  (add-hook 'after-init-hook #'vim-tab-bar-mode))
+
 (use-package catppuccin-theme
   :straight t
   :config
@@ -127,7 +142,7 @@
   (define-key dired-mode-map [mouse-2] 'dired-mouse-find-file)
   (define-key global-map [mouse-3] 'dired-jump)
   :custom
-  (dired-omit-files "\\(^\\..*\\|node_modules\\|_build\\|priv\\|deps\\|Dockerfile\\|fly.toml\\|bun\\.lockb\\)")
+  (dired-omit-files "\\(^\\..*\\|node_modules\\|_build\\|deps\\|Dockerfile\\|fly.toml\\|bun\\.lockb\\)")
   (dired-dwim-target t)
   (dired-omit-verbose nil)
   (dired-free-space nil)
@@ -265,11 +280,11 @@
       (let* ((buffer-directory (expand-file-name (directory-file-name default-directory)))
              (current-buffer-name (format "vterm odd:%s" buffer-directory))
              (matching-buffer (get-buffer current-buffer-name)))
-          (split-window-below)
-          (other-window 1)
-          (if matching-buffer
-              (switch-to-buffer matching-buffer)
-            (vterm))))))
+        (split-window-below)
+        (other-window 1)
+        (if matching-buffer
+            (switch-to-buffer matching-buffer)
+          (vterm))))))
 
 (use-package hyperbole
   :straight t
@@ -297,13 +312,13 @@
 
 (use-package lsp-bridge
   :straight '(lsp-bridge :type git :host github :repo "manateelazycat/lsp-bridge"
-            :files (:defaults "*.el" "*.py" "acm" "core" "langserver" "multiserver" "resources")
-            :build (:not compile))
+                         :files (:defaults "*.el" "*.py" "acm" "core" "langserver" "multiserver" "resources")
+                         :build (:not compile))
   :custom
   (acm-enable-yas nil)
   (acm-enable-icon nil)
   (acm-enable-tabnine nil)
-  (acm-enable-codeium t)
+  (acm-enable-codeium nil)
   (acm-enable-search-file-words nil)
   (acm-doc-frame-max-lines 25)
   (lsp-bridge-nix-lsp-server "nil")
@@ -316,7 +331,7 @@
   (global-lsp-bridge-mode)
   (let ((filtered-list (cl-delete 'lsp-bridge-not-match-hide-characters lsp-bridge-completion-popup-predicates)))
     (setq lsp-bridge-completion-popup-predicates filtered-list))
-    ;; <ret> is very annoying because lsp-bridge is too fast, unset it
+  ;; <ret> is very annoying because lsp-bridge is too fast, unset it
   (keymap-unset acm-mode-map "RET")
   (define-key lsp-bridge-mode-map (kbd "C-c e") 'lsp-bridge-diagnostic-jump-next)
   (define-key lsp-bridge-mode-map (kbd "C-c f") 'lsp-bridge-find-def)
@@ -352,9 +367,9 @@
   (define-key emmet-mode-keymap (kbd "C-w") 'emmet-wrap-with-markup)
   (define-key emmet-mode-keymap (kbd "C-e") 'emmet-expand-line))
 
-(use-package html-ts-mode
-  :hook ((html-ts-mode . emmet-mode)
-         (html-ts-mode . sgml-electric-tag-pair-mode)))
+(add-hook 'html-mode-hook 'emmet-mode)
+(add-hook 'html-mode-hook 'sgml-electric-tag-pair-mode)
+(add-to-list 'auto-mode-alist '("\\.html\\'" . html-mode))
 
 (use-package tsx-ts-mode
   :mode ("\\.tsx\\'" . tsx-ts-mode)
@@ -400,7 +415,8 @@
   (setq lsp-bridge-elixir-lsp-server "nextls")
   :mode (("\\.ex\\'" . elixir-ts-mode)
          ("\\.exs\\'" . elixir-ts-mode))
-  :hook ((elixir-ts-mode . emmet-mode)))
+  :hook ((elixir-ts-mode . emmet-mode)
+         (heex-ts-mode . emmet-mode)))
 
-
-
+(use-package gradle-mode
+  :straight t)

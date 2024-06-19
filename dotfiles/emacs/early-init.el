@@ -82,7 +82,7 @@
 (setq emacs-mode 'regular) ;; 'regular or 'recording
 (if (eq emacs-mode 'regular)
     (progn
-      (setq screen-font "Monospace:size=34")
+      (setq screen-font "Monospace:size=28")
       (setq catppuccin-flavor 'latte))
   (progn
     (setq screen-font "Monospace:size=40")

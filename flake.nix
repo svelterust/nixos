@@ -31,11 +31,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
-    zig-overlay = {
-      url = "github:mitchellh/zig-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
-    };
   };
 
   outputs = {
@@ -47,7 +42,6 @@
     firefox-addons,
     raise,
     hyprsome,
-    zig-overlay,
     ...
   } @ inputs: {
     # Default formatter
@@ -69,14 +63,10 @@
               sha256 = "sha256-9ylM56W3q699xi9TNPGHHxtBwDPCtb4D0YcWv4I76sg=";
             };
             blockList = ''
-              0.0.0.0 twitter.com
-              0.0.0.0 www.twitter.com
-              0.0.0.0 youtube.com
-              0.0.0.0 www.youtube.com
-              0.0.0.0 news.ycombinator.com
-              0.0.0.0 www.news.ycombinator.com
               0.0.0.0 lobste.rs
               0.0.0.0 www.lobste.rs
+              0.0.0.0 news.ycombinator.com
+              0.0.0.0 www.news.ycombinator.com
               0.0.0.0 quora.com
               0.0.0.0 www.quora.com
             '';
@@ -134,7 +124,7 @@
             settings = desktop;
           in {
             # System config
-            system.stateVersion = "24.05";
+            system.stateVersion = "24.11";
 
             # Set your time zone.
             time.timeZone = "Europe/Oslo";
@@ -257,13 +247,6 @@
                 enable = true;
                 implementation = "broker"; 
               };
-              postgresql = {
-                enable = true;
-                package = pkgs.postgresql_14;
-                initialScript = pkgs.writeText "change-password" ''
-                  alter user postgres with password 'postgres';
-                '';
-              };
               teamviewer.enable = true;
               usbmuxd.enable = true;
               blueman.enable = true;
@@ -384,7 +367,7 @@
               users.odd = {
                 isNormalUser = true;
                 description = "Odd-Harald";
-                extraGroups = ["networkmanager" "wheel" "docker" "dialout" "video" "adbusers"];
+                extraGroups = ["networkmanager" "wheel" "docker" "dialout" "video" "adbusers" "kvm"];
                 hashedPassword = "$6$/GQatAaT7h0hvkZu$XQIrOflYDVukuW1WW7AWX7v9LhFHAk8YhkRvrSkBKYw5P3jazaEV0.u34t9CK/UMBF6eWohc/H97BlXdEYXZX0"; 
               };
             };
@@ -405,8 +388,6 @@
                     rust-overlay.overlays.default
                     # latest emacs
                     emacs-overlay.overlays.default
-                    #zig
-                    zig-overlay.overlays.default
                   ];
                 };
 
@@ -472,6 +453,10 @@
 
                   ".ssh/config" = {
                     source = ./dotfiles/ssh/config;
+                  };
+
+                  ".bunfig.toml" = {
+                    source = ./dotfiles/bun/.bunfig.toml;
                   };
                   
                   ".config/tofi/config" = {
@@ -540,7 +525,7 @@
 
                   eza = {
                     enable = true;
-                    enableAliases = true;
+                    enableBashIntegration = true;
                     extraOptions = ["--group-directories-first"];
                   };
 
@@ -711,7 +696,7 @@
 
                     # python
                     ruff
-                    nodePackages.pyright
+                    pyright
                     (python311.withPackages (ps: with ps; [epc orjson sexpdata six paramiko rapidfuzz]))
 
                     # typescript
@@ -732,13 +717,10 @@
                     cargo-nextest
                     sccache
                     bacon
-
-                    # flutter
-                    dart
-
-                    # lisp
-                    sbcl
                     
+                    # flutter
+                    flutter
+
                     # terminal applications
                     gdb
                     xxd
@@ -770,6 +752,7 @@
                     deno
 
                     # http
+                    ngrok
                     bruno
                     stripe-cli
 
@@ -780,15 +763,6 @@
                     fd
                     yt-dlp
                     devenv
-
-                    # elixir
-                    elixir
-                    erlang
-                    inotify-tools
-                    
-                    # zig
-                    zls
-                    zig-overlay.packages.x86_64-linux.master
                   ];
                 };
               };
