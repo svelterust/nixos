@@ -67,8 +67,18 @@
               0.0.0.0 www.lobste.rs
               0.0.0.0 news.ycombinator.com
               0.0.0.0 www.news.ycombinator.com
+              0.0.0.0 youtube.com
+              0.0.0.0 www.youtube.com
+              0.0.0.0 twitter.com
+              0.0.0.0 www.twitter.com
+              0.0.0.0 x.com
+              0.0.0.0 www.x.com
+              0.0.0.0 reddit.com
+              0.0.0.0 www.reddit.com
               0.0.0.0 quora.com
               0.0.0.0 www.quora.com
+              0.0.0.0 discord.com
+              0.0.0.0 www.discord.com
             '';
             desktop = {
               layout = "us";
@@ -156,6 +166,7 @@
             programs = {
               adb.enable = true;
               ssh.askPassword = "";
+              steam.enable = true;
             };
 
             # Bootloader
@@ -185,8 +196,6 @@
               bluetooth.enable = true;
               opengl = {
                 enable = true;
-                driSupport = true;
-                driSupport32Bit = true;
                 extraPackages = with pkgs; [
                   vaapiIntel
                   vaapiVdpau
@@ -331,7 +340,7 @@
             ];
 
             # Power managment
-            services.auto-cpufreq.enable = true;
+            # services.auto-cpufreq.enable = true;
             
             # Manage environment
             environment = {
@@ -705,7 +714,8 @@
                     nodePackages.typescript
                     nodePackages.svelte-language-server
                     nodePackages.typescript-language-server
-
+                    tailwindcss-language-server
+                    
                     # rust
                     cargo-lambda
                     (rust-bin.nightly.latest.default.override {

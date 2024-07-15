@@ -73,6 +73,7 @@
   ;; keybindings
   (define-key xah-fly-command-map (kbd "A") 'org-agenda)
   (define-key xah-fly-command-map (kbd "E") 'odd/open-vterm)
+  (define-key xah-fly-command-map (kbd "C-S-e") 'odd/open-vterm-in-project-root)
   (define-key xah-fly-command-map (kbd "V") 'vterm)
   (define-key xah-fly-command-map (kbd "U") 'winner-undo)
   (define-key xah-fly-command-map (kbd "G") 'magit)
@@ -284,7 +285,32 @@
         (other-window 1)
         (if matching-buffer
             (switch-to-buffer matching-buffer)
-          (vterm))))))
+          (vterm)))))
+
+  (defun odd/get-project-root ()
+    "Get the project root directory if available."
+    (or (project-root (project-current))
+        (locate-dominating-file default-directory ".git")
+        default-directory))
+  
+  (defun odd/open-vterm-in-project-root ()
+    (interactive)
+    ;; if current buffer is vterm, delete its window, otherwise
+    ;; find vterm buffer that matches project root directory, otherwise
+    ;; open new vterm buffer in project root
+    (if (string= "vterm-mode" (symbol-name major-mode))
+        (delete-window)
+      (let* ((project-root (odd/get-project-root))
+             (buffer-directory (expand-file-name (directory-file-name project-root)))
+             (current-buffer-name (format "vterm odd:%s" buffer-directory))
+             (matching-buffer (get-buffer current-buffer-name)))
+        (split-window-below)
+        (other-window 1)
+        (if matching-buffer
+            (switch-to-buffer matching-buffer)
+          (let ((default-directory buffer-directory))
+            (vterm)
+            (rename-buffer current-buffer-name)))))))
 
 (use-package hyperbole
   :straight t
@@ -371,23 +397,10 @@
 (add-hook 'html-mode-hook 'sgml-electric-tag-pair-mode)
 (add-to-list 'auto-mode-alist '("\\.html\\'" . html-mode))
 
-(use-package tsx-ts-mode
-  :mode ("\\.tsx\\'" . tsx-ts-mode)
-  :hook ((tsx-ts-mode . emmet-mode )
-         (tsx-ts-mode . sgml-electric-tag-pair-mode)))
-
-(use-package typescript-ts-mode
-  :mode ("\\.ts\\'" . tsx-ts-mode)
-  :hook ((tsx-ts-mode . emmet-mode )
-         (tsx-ts-mode . sgml-electric-tag-pair-mode)))
-
 (use-package svelte-mode
   :hook ((svelte-mode . emmet-mode)
          (svelte-mode . sgml-electric-tag-pair-mode)
          (svelte-mode . (lambda () (rainbow-delimiters-mode -1))))
-  :straight t)
-
-(use-package typescript-mode
   :straight t)
 
 (use-package css-mode
@@ -420,3 +433,16 @@
 
 (use-package gradle-mode
   :straight t)
+
+(use-package typescript-mode
+  :straight t)
+
+(use-package tsx-ts-mode
+  :mode ("\\.tsx\\'" . tsx-ts-mode)
+  :hook ((tsx-ts-mode . emmet-mode )
+         (tsx-ts-mode . sgml-electric-tag-pair-mode)))
+
+(use-package typescript-ts-mode
+  :mode ("\\.ts\\'" . typescript-ts-mode)
+  :hook ((tsx-ts-mode . emmet-mode )
+         (tsx-ts-mode . sgml-electric-tag-pair-mode)))
