@@ -62,12 +62,6 @@
               sha256 = "sha256-9ylM56W3q699xi9TNPGHHxtBwDPCtb4D0YcWv4I76sg=";
             };
             blockList = ''
-              0.0.0.0 twitter.com
-              0.0.0.0 www.twitter.com
-              0.0.0.0 x.com
-              0.0.0.0 www.x.com
-              0.0.0.0 reddit.com
-              0.0.0.0 www.reddit.com
               0.0.0.0 quora.com
               0.0.0.0 www.quora.com
             '';
@@ -157,7 +151,6 @@
             programs = {
               adb.enable = true;
               ssh.askPassword = "";
-              steam.enable = true;
             };
 
             # Bootloader
@@ -766,6 +759,7 @@
                     pocketbase
                     typst
                     chromium
+                    steam-run
                   ];
                 };
               };
