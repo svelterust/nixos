@@ -5,7 +5,6 @@
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
     };
     emacs-overlay = {
       url = "github:nix-community/emacs-overlay";
@@ -63,12 +62,6 @@
               sha256 = "sha256-9ylM56W3q699xi9TNPGHHxtBwDPCtb4D0YcWv4I76sg=";
             };
             blockList = ''
-              0.0.0.0 lobste.rs
-              0.0.0.0 www.lobste.rs
-              0.0.0.0 news.ycombinator.com
-              0.0.0.0 www.news.ycombinator.com
-              0.0.0.0 youtube.com
-              0.0.0.0 www.youtube.com
               0.0.0.0 twitter.com
               0.0.0.0 www.twitter.com
               0.0.0.0 x.com
@@ -77,8 +70,6 @@
               0.0.0.0 www.reddit.com
               0.0.0.0 quora.com
               0.0.0.0 www.quora.com
-              0.0.0.0 discord.com
-              0.0.0.0 www.discord.com
             '';
             desktop = {
               layout = "us";
@@ -176,7 +167,6 @@
             };
 
             # Enable sound
-            sound.enable = true;
             security.rtkit.enable = true;
 
             # Swaylock hack fix
@@ -773,6 +763,9 @@
                     fd
                     yt-dlp
                     devenv
+                    pocketbase
+                    typst
+                    chromium
                   ];
                 };
               };
