@@ -381,7 +381,7 @@
 
             # Manage user account with home manager
             home-manager = {
-              backupFileExtension = "backup";
+              backupFileExtension = "hm-backup";
               users.odd = {
                 pkgs,
                 config,
@@ -715,7 +715,6 @@
                     tailwindcss-language-server
                     
                     # rust
-                    cargo-lambda
                     (rust-bin.nightly.latest.default.override {
                       extensions = ["rust-src" "rust-analyzer" "rustc-codegen-cranelift"];
                       targets = ["wasm32-wasi" "wasm32-unknown-unknown"];
@@ -724,7 +723,6 @@
                     cargo-watch
                     cargo-nextest
                     sccache
-                    bacon
                     
                     # flutter
                     flutter
@@ -749,9 +747,6 @@
                     libreoffice
                     deploy-rs
 
-                    # free completion
-                    codeium
-
                     # bun stack
                     bun
                     supabase-cli
@@ -770,14 +765,11 @@
                     # other
                     powertop
                     graphviz
-                    filezilla
                     fd
                     yt-dlp
                     devenv
                     pocketbase
                     typst
-                    chromium
-                    steam-run
                   ];
                 };
               };
