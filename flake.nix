@@ -64,6 +64,21 @@
             blockList = ''
               0.0.0.0 quora.com
               0.0.0.0 www.quora.com
+              0.0.0.0 lobste.rs
+              0.0.0.0 www.lobste.rs
+              0.0.0.0 youtube.com
+              0.0.0.0 www.youtube.com
+              0.0.0.0 news.ycombinator.com
+              0.0.0.0 www.news.ycombinator.com
+              0.0.0.0 www.news.ycombinator.com
+              0.0.0.0 store.steampowered.com
+              0.0.0.0 steamcommunity.com
+              0.0.0.0 api.steampowered.com
+              0.0.0.0 cdn.steampowered.com
+              0.0.0.0 web.whatsapp.com
+              0.0.0.0 whatsapp.com
+              0.0.0.0 discord.com
+              0.0.0.0 www.discord.com
             '';
             desktop = {
               layout = "us";
@@ -749,6 +764,9 @@
                     bruno
                     stripe-cli
 
+                    # lisp
+                    sbcl
+                    
                     # other
                     powertop
                     graphviz

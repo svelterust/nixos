@@ -237,13 +237,17 @@
   (org-agenda-files '("~/source/org/work.org")))
 
 (use-package eldoc
+  :init
+  (global-eldoc-mode)
   :custom
+  (eldoc-idle-delay 0)
   (eldoc-echo-area-use-multiline-p nil)
   (eldoc-echo-area-display-truncation-message nil))
 
-(use-package rainbow-delimiters
+(use-package paren-face
   :straight t
-  :hook (prog-mode . rainbow-delimiters-mode))
+  :init
+  (global-paren-face-mode))
 
 (use-package vterm
   :straight t
@@ -317,11 +321,6 @@
   :config
   (hyperbole-mode))
 
-(use-package paredit
-  :hook ((lisp-mode . paredit-mode)
-         (emacs-lisp-mode . paredit-mode)) 
-  :straight t)
-
 (use-package zoom
   :straight t
   :custom
@@ -345,6 +344,7 @@
   (acm-enable-icon nil)
   (acm-enable-tabnine nil)
   (acm-enable-codeium nil)
+  (acm-enable-capf t)
   (acm-enable-search-file-words nil)
   (acm-doc-frame-max-lines 25)
   (lsp-bridge-nix-lsp-server "nil")
@@ -371,16 +371,17 @@
   :init
   (envrc-global-mode))
 
-(use-package smartparens
-  :straight t
-  :hook ((text-mode . smartparens-mode) (prog-mode . smartparens-mode)) 
-  :config
-  (require 'smartparens-config))
-
-(use-package slime
+(use-package sly
   :straight t
   :init
   (setq inferior-lisp-program "sbcl"))
+
+(use-package puni
+  :straight t
+  :hook (lisp-mode . puni-mode))
+
+(use-package lisp-mode
+  :hook (lisp-mode . electric-pair-mode))
 
 (use-package emmet-mode
   :straight t
