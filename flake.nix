@@ -70,7 +70,6 @@
               0.0.0.0 www.youtube.com
               0.0.0.0 news.ycombinator.com
               0.0.0.0 www.news.ycombinator.com
-              0.0.0.0 www.news.ycombinator.com
               0.0.0.0 store.steampowered.com
               0.0.0.0 steamcommunity.com
               0.0.0.0 api.steampowered.com
@@ -79,6 +78,8 @@
               0.0.0.0 whatsapp.com
               0.0.0.0 discord.com
               0.0.0.0 www.discord.com
+              0.0.0.0 reddit.com
+              0.0.0.0 www.reddit.com
             '';
             desktop = {
               layout = "us";
