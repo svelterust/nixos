@@ -374,7 +374,11 @@
 (use-package sly
   :straight t
   :init
-  (setq inferior-lisp-program "sbcl"))
+  (setq inferior-lisp-program "sbcl")
+  (define-key xah-fly-command-map (kbd "SPC , r") 'sly-eval-last-expression)
+  (define-key xah-fly-command-map (kbd "SPC , s") 'sly-eval-defun)
+  (define-key xah-fly-command-map (kbd "SPC , t") 'sly-eval-region)
+  (define-key xah-fly-command-map (kbd "SPC , d") 'sly-eval-buffer))
 
 (use-package puni
   :straight t
