@@ -371,26 +371,6 @@
   :init
   (envrc-global-mode))
 
-(use-package sly
-  :straight t
-  :init
-  (setq inferior-lisp-program "sbcl")
-  (define-key xah-fly-command-map (kbd "SPC , r") 'sly-eval-last-expression)
-  (define-key xah-fly-command-map (kbd "SPC , s") 'sly-eval-defun)
-  (define-key xah-fly-command-map (kbd "SPC , t") 'sly-eval-region)
-  (define-key xah-fly-command-map (kbd "SPC , d") 'sly-eval-buffer))
-
-(use-package lisp-mode
-  :hook (lisp-mode . electric-pair-mode))
-
-(use-package lispy
-  :straight t
-  :hook (lisp-mode . lispy-mode))
-
-(use-package aggressive-indent
-  :straight t
-  :hook (lisp-mode . aggressive-indent-mode))
-
 (use-package emmet-mode
   :straight t
   :custom
@@ -455,3 +435,25 @@
   :mode ("\\.ts\\'" . typescript-ts-mode)
   :hook ((tsx-ts-mode . emmet-mode )
          (tsx-ts-mode . sgml-electric-tag-pair-mode)))
+
+(use-package sly
+  :straight t
+  :init
+  (setq inferior-lisp-program "sbcl"))
+
+(use-package lispy
+  :straight t
+  :init
+  (eval-after-load "lispy"
+  `(progn
+     (lispy-define-key lispy-mode-map "e" 'lispy-down)
+     (lispy-define-key lispy-mode-map "u" 'lispy-up)
+     (lispy-define-key lispy-mode-map "n" 'lispy-left)
+     (lispy-define-key lispy-mode-map "i" 'lispy-right))))
+
+(use-package aggressive-indent
+  :straight t)
+
+(use-package lisp-mode
+  :hook ((lisp-mode . aggressive-indent-mode)
+         (lisp-mode . lispy-mode)))
