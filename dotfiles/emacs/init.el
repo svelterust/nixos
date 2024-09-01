@@ -449,7 +449,8 @@
        (lispy-define-key lispy-mode-map "e" 'lispy-down)
        (lispy-define-key lispy-mode-map "u" 'lispy-up)
        (lispy-define-key lispy-mode-map "n" 'lispy-left)
-       (lispy-define-key lispy-mode-map "i" 'lispy-right))))
+       (lispy-define-key lispy-mode-map "i" 'lispy-right)
+       (lispy-define-key lispy-mode-map "l" 'lispy-tab))))
 
 (use-package aggressive-indent
   :straight t)
