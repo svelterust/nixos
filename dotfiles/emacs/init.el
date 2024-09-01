@@ -380,12 +380,16 @@
   (define-key xah-fly-command-map (kbd "SPC , t") 'sly-eval-region)
   (define-key xah-fly-command-map (kbd "SPC , d") 'sly-eval-buffer))
 
-(use-package puni
-  :straight t
-  :hook (lisp-mode . puni-mode))
-
 (use-package lisp-mode
   :hook (lisp-mode . electric-pair-mode))
+
+(use-package lispy
+  :straight t
+  :hook (lisp-mode . lispy-mode))
+
+(use-package aggressive-indent
+  :straight t
+  :hook (lisp-mode . aggressive-indent-mode))
 
 (use-package emmet-mode
   :straight t
