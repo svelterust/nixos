@@ -456,7 +456,4 @@
 
 (use-package lisp-mode
   :hook ((lisp-mode . aggressive-indent-mode)
-          (lisp-mode . lispy-mode))
-  :init
-  (setq-default lisp-indent-offset nil)
-  )
+          (lisp-mode . lispy-mode)))
