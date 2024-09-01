@@ -74,8 +74,6 @@
               0.0.0.0 steamcommunity.com
               0.0.0.0 api.steampowered.com
               0.0.0.0 cdn.steampowered.com
-              0.0.0.0 web.whatsapp.com
-              0.0.0.0 whatsapp.com
               0.0.0.0 discord.com
               0.0.0.0 www.discord.com
               0.0.0.0 reddit.com
@@ -96,16 +94,6 @@
                   devices = [ "nodev" ];
                   efiSupport = true;
                   enable = true;
-                  extraEntries = ''
-                    menuentry "Windows" {
-                      insmod part_gpt
-                      insmod fat
-                      insmod search_fs_uuid
-                      insmod chain
-                      search --fs-uuid --set=root 0A3F-200A
-                      chainloader /EFI/Microsoft/Boot/bootmgfw.efi
-                    }
-                  '';
                 };
               };
             };
@@ -336,10 +324,8 @@
               hack-font
               noto-fonts
               noto-fonts-emoji
+              inter
             ];
-
-            # Power managment
-            # services.auto-cpufreq.enable = true;
             
             # Manage environment
             environment = {
@@ -367,7 +353,6 @@
             programs.gnupg.agent = {
               enable = true;
               enableSSHSupport = true;
-              # pinentryPackage = "gnome3"; 
             };
 
             # Define user account.
@@ -489,7 +474,7 @@
                 # Services
                 services = {
                   gammastep = {
-                    enable = false;
+                    enable = enable;
                     latitude = 58.4;
                     longitude = 8.6;
                     temperature = {
