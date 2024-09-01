@@ -474,7 +474,7 @@
                 # Services
                 services = {
                   gammastep = {
-                    enable = enable;
+                    enable = true;
                     latitude = 58.4;
                     longitude = 8.6;
                     temperature = {
