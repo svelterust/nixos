@@ -445,15 +445,18 @@
   :straight t
   :init
   (eval-after-load "lispy"
-  `(progn
-     (lispy-define-key lispy-mode-map "e" 'lispy-down)
-     (lispy-define-key lispy-mode-map "u" 'lispy-up)
-     (lispy-define-key lispy-mode-map "n" 'lispy-left)
-     (lispy-define-key lispy-mode-map "i" 'lispy-right))))
+    `(progn
+       (lispy-define-key lispy-mode-map "e" 'lispy-down)
+       (lispy-define-key lispy-mode-map "u" 'lispy-up)
+       (lispy-define-key lispy-mode-map "n" 'lispy-left)
+       (lispy-define-key lispy-mode-map "i" 'lispy-right))))
 
 (use-package aggressive-indent
   :straight t)
 
 (use-package lisp-mode
   :hook ((lisp-mode . aggressive-indent-mode)
-         (lisp-mode . lispy-mode)))
+          (lisp-mode . lispy-mode))
+  :init
+  (setq-default lisp-indent-offset nil)
+  )

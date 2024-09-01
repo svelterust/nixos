@@ -179,7 +179,7 @@
 (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
 ;; electric pair
-(add-hook 'prog-mode-hook 'electric-pair-mode)
+;; (add-hook 'prog-mode-hook 'electric-pair-mode)
 
 ;; lisp
 (add-hook 'elisp-lisp-mode-hook
