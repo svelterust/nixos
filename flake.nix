@@ -66,8 +66,6 @@
               0.0.0.0 www.quora.com
               0.0.0.0 lobste.rs
               0.0.0.0 www.lobste.rs
-              0.0.0.0 youtube.com
-              0.0.0.0 www.youtube.com
               0.0.0.0 news.ycombinator.com
               0.0.0.0 www.news.ycombinator.com
               0.0.0.0 store.steampowered.com
@@ -756,6 +754,8 @@
                     devenv
                     pocketbase
                     typst
+                    upwork
+                    thunderbird
                   ];
                 };
               };

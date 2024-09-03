@@ -450,11 +450,14 @@
        (lispy-define-key lispy-mode-map "u" 'lispy-up)
        (lispy-define-key lispy-mode-map "n" 'lispy-left)
        (lispy-define-key lispy-mode-map "i" 'lispy-right)
-       (lispy-define-key lispy-mode-map "l" 'lispy-tab))))
+       (lispy-define-key lispy-mode-map "l" 'lispy-tab)
+       (lispy-define-key lispy-mode-map "j" 'lispy-undo))))
 
 (use-package aggressive-indent
   :straight t)
 
 (use-package lisp-mode
   :hook ((lisp-mode . aggressive-indent-mode)
-          (lisp-mode . lispy-mode)))
+         (lisp-mode . lispy-mode)
+         (emacs-lisp-mode . aggressive-indent-mode)
+         (emacs-lisp-mode . lispy-mode)))
