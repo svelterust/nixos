@@ -12,7 +12,9 @@
   (org-roam-db-autosync-enable))
 
 (use-package markdown-mode
-  :straight t)
+  :straight t
+  :hook ((markdown-mode . visual-line-mode)
+         (markdown-mode . olivetti-mode)))
 
 (use-package zig-mode
   :straight t)
@@ -143,7 +145,7 @@
   (define-key dired-mode-map [mouse-2] 'dired-mouse-find-file)
   (define-key global-map [mouse-3] 'dired-jump)
   :custom
-  (dired-omit-files "\\(^\\..*\\|node_modules\\|_build\\|deps\\|Dockerfile\\|fly.toml\\|bun\\.lockb\\)")
+  (dired-omit-files "\\(^\\..*\\|__pycache\\|__init__.py\\|node_modules\\|_build\\|deps\\|Dockerfile\\|fly.toml\\|bun\\.lockb\\)")
   (dired-dwim-target t)
   (dired-omit-verbose nil)
   (dired-free-space nil)
@@ -388,8 +390,7 @@
 
 (use-package svelte-mode
   :hook ((svelte-mode . emmet-mode)
-         (svelte-mode . sgml-electric-tag-pair-mode)
-         (svelte-mode . (lambda () (rainbow-delimiters-mode -1))))
+         (svelte-mode . sgml-electric-tag-pair-mode))
   :straight t)
 
 (use-package css-mode
@@ -457,7 +458,23 @@
   :straight t)
 
 (use-package lisp-mode
-  :hook ((lisp-mode . aggressive-indent-mode)
+  :hook ((lisp-mode . (lambda () (smartparens-mode -1)))
+         (lisp-mode . aggressive-indent-mode)
          (lisp-mode . lispy-mode)
+         (emacs-lisp-mode . (lambda () (smartparens-mode -1)))
          (emacs-lisp-mode . aggressive-indent-mode)
          (emacs-lisp-mode . lispy-mode)))
+
+(use-package smartparens
+  :straight t
+  :hook (prog-mode . smartparens-mode))
+
+(use-package python-ts-mode
+  :mode ("\\.py\\'" . python-ts-mode)
+  :hook (python-ts-mode . smartparens-mode)
+  :init
+  (setq lsp-bridge-python-lsp-server "pyright")
+  (setq lsp-bridge-python-multi-lsp-server "pyright_ruff"))
+
+(use-package web-mode
+  :straight t)

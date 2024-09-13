@@ -64,16 +64,10 @@
             blockList = ''
               0.0.0.0 quora.com
               0.0.0.0 www.quora.com
-              0.0.0.0 lobste.rs
-              0.0.0.0 www.lobste.rs
-              0.0.0.0 news.ycombinator.com
-              0.0.0.0 www.news.ycombinator.com
               0.0.0.0 store.steampowered.com
               0.0.0.0 steamcommunity.com
               0.0.0.0 api.steampowered.com
               0.0.0.0 cdn.steampowered.com
-              0.0.0.0 discord.com
-              0.0.0.0 www.discord.com
               0.0.0.0 reddit.com
               0.0.0.0 www.reddit.com
             '';
@@ -92,6 +86,16 @@
                   devices = [ "nodev" ];
                   efiSupport = true;
                   enable = true;
+                  extraEntries = ''
+                    menuentry "Windows" {
+                      insmod part_gpt
+                      insmod fat
+                      insmod search_fs_uuid
+                      insmod chain
+                      search --fs-uuid --set=root 0A3F-200A
+                      chainloader /EFI/Microsoft/Boot/bootmgfw.efi
+                    }
+                  '';
                 };
               };
             };
@@ -119,7 +123,12 @@
               };
             };
             settings = desktop;
-          in {
+            zed-fhs = pkgs.buildFHSEnv {
+              name = "zed-fhs";
+              targetPkgs = pkgs: [ pkgs.zed-editor ];
+              runScript = "zed";
+            };
+            in {
             # System config
             system.stateVersion = "24.11";
 
@@ -166,7 +175,7 @@
 
             # Swaylock hack fix
             security.pam.services.swaylock = {};
-            
+
             # Enable networking
             networking = {
               hostName = "odd";
@@ -222,7 +231,7 @@
                 guiAddress = "127.0.0.1:8384";
                 settings = {
                   options = {
-                    urAccepted = -1; 
+                    urAccepted = -1;
                   };
                   devices = {
                     "Pixel" = {
@@ -239,7 +248,7 @@
               };
               dbus = {
                 enable = true;
-                implementation = "broker"; 
+                implementation = "broker";
               };
               teamviewer.enable = true;
               usbmuxd.enable = true;
@@ -323,8 +332,9 @@
               noto-fonts
               noto-fonts-emoji
               inter
+              ibm-plex
             ];
-            
+
             # Manage environment
             environment = {
               binsh = "${pkgs.dash}/bin/dash";
@@ -359,7 +369,7 @@
                 isNormalUser = true;
                 description = "Odd-Harald";
                 extraGroups = ["networkmanager" "wheel" "docker" "dialout" "video" "adbusers" "kvm"];
-                hashedPassword = "$6$/GQatAaT7h0hvkZu$XQIrOflYDVukuW1WW7AWX7v9LhFHAk8YhkRvrSkBKYw5P3jazaEV0.u34t9CK/UMBF6eWohc/H97BlXdEYXZX0"; 
+                hashedPassword = "$6$/GQatAaT7h0hvkZu$XQIrOflYDVukuW1WW7AWX7v9LhFHAk8YhkRvrSkBKYw5P3jazaEV0.u34t9CK/UMBF6eWohc/H97BlXdEYXZX0";
               };
             };
 
@@ -449,7 +459,7 @@
                   ".bunfig.toml" = {
                     source = ./dotfiles/bun/.bunfig.toml;
                   };
-                  
+
                   ".config/tofi/config" = {
                     source = pkgs.writeText "config" ''
                       width = 100%
@@ -651,7 +661,7 @@
                     };
                   };
                 };
-                
+
                 # Packages for home
                 home = {
                   stateVersion = "23.11";
@@ -670,7 +680,7 @@
                     swaylock
                     raise.defaultPackage.x86_64-linux
                     hyprsome.packages.x86_64-linux.default
-                    
+
                     # nix
                     nil
 
@@ -688,16 +698,18 @@
                     # python
                     ruff
                     pyright
-                    (python311.withPackages (ps: with ps; [epc orjson sexpdata six paramiko rapidfuzz]))
+                    (python3.withPackages (ps: with ps; [epc orjson sexpdata six paramiko rapidfuzz setuptools django]))
 
                     # typescript
                     nodejs
+                    yarn
                     tailwindcss
                     nodePackages.typescript
                     nodePackages.svelte-language-server
                     nodePackages.typescript-language-server
                     tailwindcss-language-server
-                    
+                    nodePackages.vscode-json-languageserver
+
                     # rust
                     (rust-bin.nightly.latest.default.override {
                       extensions = ["rust-src" "rust-analyzer" "rustc-codegen-cranelift"];
@@ -707,7 +719,7 @@
                     cargo-watch
                     cargo-nextest
                     sccache
-                    
+
                     # flutter
                     flutter
 
@@ -725,7 +737,7 @@
 
                     # latex
                     texlive.combined.scheme-full
-                    
+
                     # gui
                     gimp
                     libreoffice
@@ -745,7 +757,10 @@
 
                     # lisp
                     sbcl
-                    
+
+                    # solana
+                    solana-cli
+
                     # other
                     powertop
                     graphviz
@@ -755,7 +770,10 @@
                     pocketbase
                     typst
                     upwork
-                    thunderbird
+
+                    # zed
+                    zed-fhs
+                    zed-editor
                   ];
                 };
               };
