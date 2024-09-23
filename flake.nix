@@ -25,6 +25,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
+    zed-editor = {
+      url = "github:knarkzel/zed";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     hyprsome = {
       url = "github:sopa0/hyprsome";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -41,6 +45,7 @@
     firefox-addons,
     raise,
     hyprsome,
+    zed-editor,
     ...
   } @ inputs: {
     # Default formatter
@@ -68,8 +73,6 @@
               0.0.0.0 steamcommunity.com
               0.0.0.0 api.steampowered.com
               0.0.0.0 cdn.steampowered.com
-              0.0.0.0 reddit.com
-              0.0.0.0 www.reddit.com
             '';
             desktop = {
               layout = "us";
@@ -86,16 +89,6 @@
                   devices = [ "nodev" ];
                   efiSupport = true;
                   enable = true;
-                  extraEntries = ''
-                    menuentry "Windows" {
-                      insmod part_gpt
-                      insmod fat
-                      insmod search_fs_uuid
-                      insmod chain
-                      search --fs-uuid --set=root 0A3F-200A
-                      chainloader /EFI/Microsoft/Boot/bootmgfw.efi
-                    }
-                  '';
                 };
               };
             };
@@ -125,7 +118,7 @@
             settings = desktop;
             zed-fhs = pkgs.buildFHSEnv {
               name = "zed-fhs";
-              targetPkgs = pkgs: [ pkgs.zed-editor ];
+              targetPkgs = pkgs: [ zed-editor.packages.x86_64-linux.default ];
               runScript = "zed";
             };
             in {
@@ -199,6 +192,9 @@
               };
             };
 
+	    # Docker compose
+            virtualisation.docker.enable = true;
+
             # Hyprland
             programs.hyprland = {
               enable = true;
@@ -223,29 +219,6 @@
             # Services
             services = {
               pcscd.enable = true;
-              syncthing = {
-                enable = true;
-                user = "odd";
-                dataDir = "/home/odd/.syncthing";
-                configDir = "/home/odd/.config/syncthing";
-                guiAddress = "127.0.0.1:8384";
-                settings = {
-                  options = {
-                    urAccepted = -1;
-                  };
-                  devices = {
-                    "Pixel" = {
-                      id = "IG4BJBH-CTMLK5R-OK6YNSF-ZW2ABAY-5Q56LKB-DGPYK7T-VHN6BMZ-ENFIUQB";
-                    };
-                  };
-                  folders = {
-                    "/home/odd/source/org" = {
-                      id = "org";
-                      devices = [ "Pixel" ];
-                    };
-                  };
-                };
-              };
               dbus = {
                 enable = true;
                 implementation = "broker";
@@ -270,7 +243,6 @@
                   layout = settings.layout;
                 };
               };
-
               pipewire = {
                 enable = true;
                 alsa.enable = true;
@@ -413,7 +385,7 @@
                       "image/gif" = ["sxiv.desktop"];
                       "video/mp4" = ["mpv.desktop"];
                       "video/webm" = ["mpv.desktop"];
-                      "application/pdf" = ["firefox.desktop"];
+                      "application/pdf" = ["chromium.desktop"];
                     };
                   };
                 };
@@ -456,8 +428,8 @@
                     source = ./dotfiles/ssh/config;
                   };
 
-                  ".bunfig.toml" = {
-                    source = ./dotfiles/bun/.bunfig.toml;
+                  ".scripts" = {
+                    source = ./dotfiles/scripts;
                   };
 
                   ".config/tofi/config" = {
@@ -526,7 +498,6 @@
 
                   eza = {
                     enable = true;
-                    enableBashIntegration = true;
                     extraOptions = ["--group-directories-first"];
                   };
 
@@ -566,37 +537,15 @@
                       zb = "zig build";
                       zr = "zig build run";
                       zt = "zig build test";
+                      ls = "eza --git-ignore --sort ext";
                     };
                     sessionVariables = {
-                      VISUAL = "bat";
-                      BROWSER = "firefox";
+                      VISUAL = "zed-fhs";
+                      EDITOR = "zed-fhs";
+                      BROWSER = "chromium";
                       NIXPKGS_ALLOW_UNFREE = "1";
                     };
                     bashrcExtra = lib.readFile ./dotfiles/bash/.bashrc;
-                  };
-
-                  firefox = {
-                    enable = true;
-                    profiles.default = {
-                      settings = {
-                        "layout.frame_rate" = settings.frameRate;
-                        "extensions.autoDisableScopes" = 0;
-                        "browser.sessionstore.restore_on_demand" = false;
-                        "browser.sessionstore.resume_from_crash" = false;
-                        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-                        "network.captive-portal-service.enabled" = false;
-                        "browser.selfsupport.url" = "";
-                        "pocket.enabled" = false;
-                      };
-                      extensions = with firefox-addons.packages."x86_64-linux"; [
-                        sponsorblock
-                        ublock-origin
-                        i-dont-care-about-cookies
-                        youtube-shorts-block
-                        df-youtube
-                        disconnect
-                      ];
-                    };
                   };
 
                   git = {
@@ -660,6 +609,12 @@
                       variant = "latte";
                     };
                   };
+                  gtk3.extraConfig = {
+                    gtk-recent-files-enabled = 0;
+                  };
+                  gtk4.extraConfig = {
+                    gtk-recent-files-enabled = 0;
+                  };
                 };
 
                 # Packages for home
@@ -692,9 +647,6 @@
                     mpv
                     xclip
 
-                    # emacs
-                    ((emacsPackagesFor emacs-pgtk).emacsWithPackages (epkgs: [epkgs.vterm]))
-
                     # python
                     ruff
                     pyright
@@ -719,9 +671,6 @@
                     cargo-watch
                     cargo-nextest
                     sccache
-
-                    # flutter
-                    flutter
 
                     # terminal applications
                     gdb
@@ -755,25 +704,33 @@
                     bruno
                     stripe-cli
 
-                    # lisp
-                    sbcl
-
-                    # solana
-                    solana-cli
-
                     # other
                     powertop
                     graphviz
                     fd
                     yt-dlp
-                    devenv
                     pocketbase
                     typst
                     upwork
 
+                    # chromium
+                    chromium
+
+	                # nix
+                    nixd
+
+                    # docker
+                    docker-compose
+
+	                # git
+                    gitui
+
+                    # fly
+                    flyctl
+
                     # zed
                     zed-fhs
-                    zed-editor
+                    zed-editor.packages.x86_64-linux.default
                   ];
                 };
               };

@@ -18,4 +18,9 @@ vterm_prompt_end(){
 }
 PS1=$PS1'\[$(vterm_prompt_end)\]'
 
+# variables
 export PATH="$PATH:$HOME/.cargo/bin:$HOME/.bun/bin"
+export BROWSER="chromium"
+export VISUAL="zed-fhs"
+export EDITOR="zed-fhs"
+export LAUNCH_EDITOR="/home/odd/.scripts/inspector.sh"
