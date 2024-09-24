@@ -432,6 +432,14 @@
                     source = ./scripts;
                   };
 
+		  ".config/zed/settings.json" = {
+                    source = ./dotfiles/zed/settings.json;
+		  };
+
+                  ".config/zed/keymap.json" = {
+                    source = ./dotfiles/zed/keymap.json; 
+		  };
+
                   ".config/tofi/config" = {
                     source = pkgs.writeText "config" ''
                       width = 100%
