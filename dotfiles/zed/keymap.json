@@ -1,0 +1,75 @@
+[
+  {
+    "context": "VimControl && !menu",
+    "bindings": {
+      "a": "command_palette::Toggle",
+      "t": "vim::InsertBefore",
+      "z": "vim::ToggleComments",
+      "x": "editor::Cut",
+      "j": "vim::Undo",
+      "c": "vim::VisualYank",
+      "v": "editor::Paste",
+      "n": "vim::Left",
+      "u": "vim::Up",
+      "e": "vim::Down",
+      "i": "vim::Right",
+      "l": "vim::PreviousWordStart",
+      "y": "vim::NextWordStart",
+      "p": "editor::DeleteToNextWordEnd",
+      "f": "editor::DeleteToPreviousWordStart",
+      "s": "vim::DeleteLeft",
+      "h": "vim::StartOfLine",
+      "o": "vim::EndOfLine",
+      "b": "vim::ChangeCase",
+      "6": "editor::SelectLargerSyntaxNode",
+      "7": "vim::ToggleVisualLine",
+      "d": "vim::ToggleVisual",
+      "4": "pane::SplitDown",
+      "5": "pane::SplitRight",
+      "9": "editor::SelectLargerSyntaxNode",
+      "0": "workspace::CloseInactiveTabsAndPanes",
+      "3": "workspace::CloseInactiveTabsAndPanes",
+      "space k": "vim::EndOfDocument",
+      "space h": "vim::StartOfDocument",
+      "E": "terminal_panel::ToggleFocus",
+      "k": "vim::Search"
+    }
+  },
+  {
+    "context": "vim_mode == normal && !menu",
+    "bindings": {
+      "enter": "editor::Newline"
+    }
+  },
+  {
+    "context": "vim_mode == visual",
+    "bindings": {
+      "t": ["workspace::SendKeystrokes", "x t"]
+    }
+  },
+  {
+    "context": "vim_mode == insert",
+    "bindings": {
+      "escape": ["workspace::SendKeystrokes", "ctrl-[ right"]
+    }
+  },
+  {
+    "context": "Editor && !menu",
+    "bindings": {
+      "ctrl-c": "editor::Copy",
+      "ctrl-x": "editor::Cut",
+      "ctrl-v": "editor::Paste",
+      "ctrl-z": "editor::Undo",
+      "ctrl-f": "buffer_search::Deploy",
+      "ctrl-a": "editor::SelectAll"
+    }
+  },
+  {
+    "bindings": {
+      "alt-t": "terminal_panel::ToggleFocus",
+      "alt-x": "command_palette::Toggle",
+      "alt-c": "assistant::ToggleFocus",
+      "ctrl-w": "pane::CloseActiveItem"
+    }
+  }
+]

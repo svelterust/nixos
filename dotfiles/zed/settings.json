@@ -1,0 +1,60 @@
+{
+  "assistant": {
+    "default_model": {
+      "provider": "openai",
+      "model": "gpt-4o"
+    },
+    "version": "2"
+  },
+  "features": {
+    "inline_completion_provider": "supermaven"
+  },
+  "vim_mode": true,
+  "ui_font_size": 22,
+  "buffer_font_size": 22,
+  "theme": {
+    "mode": "system",
+    "light": "Ayu Dark",
+    "dark": "Ayu Dark"
+  },
+  "autosave": "on_focus_change",
+  "lsp": {
+    "pyright": {
+      "settings": {
+        "python": {
+          "pythonPath": ".venv/bin/python"
+        }
+      }
+    }
+  },
+  "terminal": {
+    "detect_venv": {
+      "on": {
+        "directories": [".venv"],
+        "activate_script": "default"
+      }
+    }
+  },
+  "file_scan_exclusions": [
+    "**/.git",
+    "**/.svn",
+    "**/.hg",
+    "**/CVS",
+    "**/.DS_Store",
+    "**/Thumbs.db",
+    "**/.classpath",
+    "**/.settings",
+    "**/node_modules",
+    "**/.direnv",
+    "**/.venv",
+    "**/__pycache__",
+    "**/flake.lock",
+    "**/.svelte-kit",
+    "**/build",
+    "**/package-lock.json",
+    "**/bun.lockb",
+    "**/.prettierignore",
+    "**/requirements.txt",
+    "**/.dockerignore"
+  ]
+}

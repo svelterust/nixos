@@ -429,7 +429,7 @@
                   };
 
                   ".scripts" = {
-                    source = ./dotfiles/scripts;
+                    source = ./scripts;
                   };
 
                   ".config/tofi/config" = {
@@ -716,13 +716,13 @@
                     # chromium
                     chromium
 
-	                # nix
+	            # nix
                     nixd
 
                     # docker
                     docker-compose
 
-	                # git
+	            # git
                     gitui
 
                     # fly
@@ -731,6 +731,9 @@
                     # zed
                     zed-fhs
                     zed-editor.packages.x86_64-linux.default
+
+                    # audio
+                    audacious
                   ];
                 };
               };
