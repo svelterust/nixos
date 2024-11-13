@@ -18,6 +18,8 @@
     "dark": "Ayu Dark"
   },
   "autosave": "on_focus_change",
+  "format_on_save": "on",
+  "formatter": "language_server",
   "lsp": {
     "pyright": {
       "settings": {
@@ -25,12 +27,49 @@
           "pythonPath": ".venv/bin/python"
         }
       }
+    },
+    "rubocop": {
+      "initialization_options": {
+        "safeAutocorrect": false
+      }
+    },
+    "ruby-lsp": {
+      "initialization_options": {
+        "enabledFeatures": {
+          "diagnostics": false
+        }
+      }
+    },
+    "tailwindcss-language-server": {
+      "settings": {
+        "includeLanguages": {
+          "erb": "html",
+          "ruby": "html"
+        },
+        "experimental": {
+          "classRegex": [
+            "\\bclass:\\s*['\"]([^'\"]*)['\"]"
+          ]
+        }
+      }
+    }
+  },
+  "languages": {
+    "Ruby": {
+      "language_servers": [
+        "ruby-lsp",
+        "rubocop",
+        "tailwindcss-language-server",
+        "!solargraph"
+      ]
     }
   },
   "terminal": {
     "detect_venv": {
       "on": {
-        "directories": [".venv"],
+        "directories": [
+          ".venv"
+        ],
         "activate_script": "default"
       }
     }
@@ -48,13 +87,19 @@
     "**/.direnv",
     "**/.venv",
     "**/__pycache__",
-    "**/flake.lock",
     "**/.svelte-kit",
     "**/build",
     "**/package-lock.json",
     "**/bun.lockb",
     "**/.prettierignore",
     "**/requirements.txt",
-    "**/.dockerignore"
+    "**/.dockerignore",
+    "**/.zig-cache",
+    "**/zig-out",
+    "**/.wrangler",
+    "**/.gitignore",
+    "**/.envrc",
+    "**/.env",
+    "**/target"
   ]
 }

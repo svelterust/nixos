@@ -6,11 +6,6 @@
       url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    emacs-overlay = {
-      url = "github:nix-community/emacs-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
-    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -25,12 +20,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
-    zed-editor = {
-      url = "github:knarkzel/zed";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     hyprsome = {
       url = "github:sopa0/hyprsome";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
+    zig-overlay = {
+      url = "github:mitchellh/zig-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
@@ -40,12 +36,11 @@
     self,
     nixpkgs,
     rust-overlay,
-    emacs-overlay,
     home-manager,
     firefox-addons,
     raise,
     hyprsome,
-    zed-editor,
+    zig-overlay,
     ...
   } @ inputs: {
     # Default formatter
@@ -116,11 +111,6 @@
               };
             };
             settings = desktop;
-            zed-fhs = pkgs.buildFHSEnv {
-              name = "zed-fhs";
-              targetPkgs = pkgs: [ zed-editor.packages.x86_64-linux.default ];
-              runScript = "zed";
-            };
             in {
             # System config
             system.stateVersion = "24.11";
@@ -211,7 +201,7 @@
                 wlr.enable = true;
                 extraPortals = with pkgs; [
                   xdg-desktop-portal
-                  xdg-desktop-portal-gtk
+                  xdg-desktop-portal-hyprland
                 ];
               };
             };
@@ -223,7 +213,6 @@
                 enable = true;
                 implementation = "broker";
               };
-              teamviewer.enable = true;
               usbmuxd.enable = true;
               blueman.enable = true;
               gnome.gnome-keyring.enable = true;
@@ -302,6 +291,7 @@
             fonts.packages = with pkgs; [
               hack-font
               noto-fonts
+              geist-font
               noto-fonts-emoji
               inter
               ibm-plex
@@ -359,8 +349,6 @@
                   overlays = [
                     #rust
                     rust-overlay.overlays.default
-                    # latest emacs
-                    emacs-overlay.overlays.default
                   ];
                 };
 
@@ -385,7 +373,7 @@
                       "image/gif" = ["sxiv.desktop"];
                       "video/mp4" = ["mpv.desktop"];
                       "video/webm" = ["mpv.desktop"];
-                      "application/pdf" = ["chromium.desktop"];
+                      "application/pdf" = ["firefox.desktop"];
                     };
                   };
                 };
@@ -399,11 +387,6 @@
                 home.file = {
                   ".cargo" = {
                     source = ./dotfiles/cargo;
-                    recursive = true;
-                  };
-
-                  ".emacs.d" = {
-                    source = ./dotfiles/emacs;
                     recursive = true;
                   };
 
@@ -428,17 +411,13 @@
                     source = ./dotfiles/ssh/config;
                   };
 
-                  ".scripts" = {
-                    source = ./scripts;
-                  };
-
-		  ".config/zed/settings.json" = {
+        		  ".config/zed/settings.json" = {
                     source = ./dotfiles/zed/settings.json;
-		  };
+        		  };
 
                   ".config/zed/keymap.json" = {
-                    source = ./dotfiles/zed/keymap.json; 
-		  };
+                    source = ./dotfiles/zed/keymap.json;
+        		  };
 
                   ".config/tofi/config" = {
                     source = pkgs.writeText "config" ''
@@ -535,6 +514,7 @@
                   bash = {
                     enable = true;
                     shellAliases = {
+                      zed = "zeditor";
                       cat = "bat";
                       tmp = "cd $(mktemp -d); clear";
                       su = "sudo nixos-rebuild switch";
@@ -545,15 +525,41 @@
                       zb = "zig build";
                       zr = "zig build run";
                       zt = "zig build test";
+                      zw = "zig build --watch";
                       ls = "eza --git-ignore --sort ext";
                     };
                     sessionVariables = {
-                      VISUAL = "zed-fhs";
-                      EDITOR = "zed-fhs";
-                      BROWSER = "chromium";
+                      VISUAL = "zeditor";
+                      EDITOR = "zeditor";
+                      BROWSER = "firefox";
                       NIXPKGS_ALLOW_UNFREE = "1";
                     };
                     bashrcExtra = lib.readFile ./dotfiles/bash/.bashrc;
+                  };
+
+                  firefox = {
+                    enable = true;
+                    profiles.default = {
+                      settings = {
+                        "layout.frame_rate" = settings.frameRate;
+                        "extensions.autoDisableScopes" = 0;
+                        "browser.sessionstore.restore_on_demand" = false;
+                        "browser.sessionstore.resume_from_crash" = false;
+                        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+                        "network.captive-portal-service.enabled" = false;
+                        "browser.selfsupport.url" = "";
+                        "pocket.enabled" = false;
+                        "security.tls.enable_0rtt_data" = false;
+                      };
+                      extensions = with firefox-addons.packages."x86_64-linux"; [
+                        sponsorblock
+                        ublock-origin
+                        i-dont-care-about-cookies
+                        youtube-shorts-block
+                        df-youtube
+                        disconnect
+                      ];
+                    };
                   };
 
                   git = {
@@ -601,7 +607,7 @@
                           action = "Paste";
                         }
                       ];
-                      import = [
+                      general.import = [
                         "~/.config/alacritty/theme.toml"
                       ];
                     };
@@ -661,7 +667,7 @@
                     (python3.withPackages (ps: with ps; [epc orjson sexpdata six paramiko rapidfuzz setuptools django]))
 
                     # typescript
-                    nodejs
+                    nodejs_22
                     yarn
                     tailwindcss
                     nodePackages.typescript
@@ -692,20 +698,16 @@
                     jq
                     sxiv
 
-                    # latex
-                    texlive.combined.scheme-full
-
                     # gui
                     gimp
                     libreoffice
                     deploy-rs
 
+					# minecraft
+					prismlauncher
+
                     # bun stack
                     bun
-                    supabase-cli
-
-                    # deno
-                    deno
 
                     # http
                     ngrok
@@ -717,31 +719,49 @@
                     graphviz
                     fd
                     yt-dlp
-                    pocketbase
                     typst
-                    upwork
-
-                    # chromium
-                    chromium
-
-	            # nix
-                    nixd
 
                     # docker
                     docker-compose
 
-	            # git
+	                # git
                     gitui
 
                     # fly
                     flyctl
 
                     # zed
-                    zed-fhs
-                    zed-editor.packages.x86_64-linux.default
+                    zed-editor
+                    # zed-editor.packages.x86_64-linux.default
+
+                    # lf
+                    lf
 
                     # audio
                     audacious
+
+                    # ruby
+                    sqlite
+                    gcc
+
+                    # micro
+                    micro
+
+                    # nix
+                    nixd
+
+					# elixir
+					elixir
+					inotify-tools
+
+					# davinci
+					# davinci-resolve
+
+                    # zig
+                    zig-overlay.packages.${system}.master
+
+                    # turso
+                    turso-cli
                   ];
                 };
               };
