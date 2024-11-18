@@ -19,8 +19,5 @@ vterm_prompt_end(){
 PS1=$PS1'\[$(vterm_prompt_end)\]'
 
 # variables
-export PATH="$PATH:$HOME/.cargo/bin:$HOME/.bun/bin:$HOME/.local/share/gem/ruby/3.3.0/bin"
-export BROWSER="chromium"
-export VISUAL="zed-fhs"
-export EDITOR="zed-fhs"
-export LAUNCH_EDITOR="zed"
+export PATH="$PATH:$HOME/.cargo/bin:$HOME/.bun/bin"
+export LAUNCH_EDITOR="$HOME/.scripts/zed.sh"

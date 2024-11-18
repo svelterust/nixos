@@ -99,7 +99,12 @@
     "**/.wrangler",
     "**/.gitignore",
     "**/.envrc",
-    "**/.env",
-    "**/target"
+    "**/target",
+    "**/*.db*",
+    "**/_build",
+    "**/.elixir_ls",
+    "**/deps",
+    "**/.formatter.exs",
+    "**/.prettierrc"
   ]
 }

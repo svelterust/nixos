@@ -25,11 +25,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
-    zig-overlay = {
-      url = "github:mitchellh/zig-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
-    };
   };
 
   outputs = {
@@ -40,7 +35,6 @@
     firefox-addons,
     raise,
     hyprsome,
-    zig-overlay,
     ...
   } @ inputs: {
     # Default formatter
@@ -52,7 +46,6 @@
       modules = [
         (
           {
-            config,
             pkgs,
             lib,
             ...
@@ -110,10 +103,15 @@
                 efi.canTouchEfiVariables = true;
               };
             };
+            zed-fhs = pkgs.buildFHSEnv {
+              name = "zed-fhs";
+              targetPkgs = pkgs: [ pkgs.zed-editor ];
+              runScript = "zeditor";
+            };
             settings = desktop;
             in {
             # System config
-            system.stateVersion = "24.11";
+            system.stateVersion = "25.05";
 
             # Set your time zone.
             time.timeZone = "Europe/Oslo";
@@ -182,7 +180,7 @@
               };
             };
 
-	    # Docker compose
+            # Docker compose
             virtualisation.docker.enable = true;
 
             # Hyprland
@@ -392,6 +390,11 @@
 
                   ".config/hypr" = {
                     source = ./dotfiles/hyprland;
+                    recursive = true;
+                  };
+
+                  ".scripts" = {
+                    source = ./scripts;
                     recursive = true;
                   };
 
@@ -653,10 +656,6 @@
                     # nix
                     nil
 
-                    # php
-                    php
-                    nodePackages.intelephense
-
                     # video
                     mpv
                     xclip
@@ -664,12 +663,11 @@
                     # python
                     ruff
                     pyright
-                    (python3.withPackages (ps: with ps; [epc orjson sexpdata six paramiko rapidfuzz setuptools django]))
+                    python3
 
                     # typescript
-                    nodejs_22
-                    yarn
-                    tailwindcss
+					nodejs
+					nodePackages.npm
                     nodePackages.typescript
                     nodePackages.svelte-language-server
                     nodePackages.typescript-language-server
@@ -695,6 +693,7 @@
                     bottom
                     gnumake
                     imagemagick
+                    ghostscript
                     jq
                     sxiv
 
@@ -702,9 +701,6 @@
                     gimp
                     libreoffice
                     deploy-rs
-
-					# minecraft
-					prismlauncher
 
                     # bun stack
                     bun
@@ -732,7 +728,7 @@
 
                     # zed
                     zed-editor
-                    # zed-editor.packages.x86_64-linux.default
+                    zed-fhs
 
                     # lf
                     lf
@@ -757,11 +753,11 @@
 					# davinci
 					# davinci-resolve
 
-                    # zig
-                    zig-overlay.packages.${system}.master
-
                     # turso
                     turso-cli
+
+                    # upwork
+                    upwork
                   ];
                 };
               };
