@@ -183,6 +183,18 @@
             # Docker compose
             virtualisation.docker.enable = true;
 
+            # PostgreSQL
+            services.postgresql = {
+              enable = true;
+              enableTCPIP = true;
+              authentication = pkgs.lib.mkOverride 10 ''
+                #type database DBuser origin-address auth-method
+                local all      all     trust
+                # ipv6
+                host  all      all     ::1/128        trust
+              '';
+            };
+
             # Hyprland
             programs.hyprland = {
               enable = true;
@@ -666,8 +678,7 @@
                     python3
 
                     # typescript
-					nodejs
-					nodePackages.npm
+                    nodejs_22
                     nodePackages.typescript
                     nodePackages.svelte-language-server
                     nodePackages.typescript-language-server
