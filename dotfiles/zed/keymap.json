@@ -83,7 +83,8 @@
       "alt-x": "command_palette::Toggle",
       "alt-b": "assistant::ToggleFocus",
       "ctrl-w": "pane::CloseActiveItem",
-      "ctrl-t": "terminal_panel::ToggleFocus"
+      "ctrl-t": "terminal_panel::ToggleFocus",
+      "ctrl-shift-t": "workspace::NewTerminal"
     }
   }
 ]
