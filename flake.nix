@@ -688,7 +688,7 @@
                     # rust
                     (rust-bin.nightly.latest.default.override {
                       extensions = ["rust-src" "rust-analyzer" "rustc-codegen-cranelift"];
-                      targets = ["wasm32-wasi" "wasm32-unknown-unknown"];
+                      targets = ["wasm32-wasi" "wasm32-unknown-unknown" "x86_64-unknown-linux-musl"];
                     })
                     mold
                     cargo-watch
@@ -707,6 +707,7 @@
                     ghostscript
                     jq
                     sxiv
+					entr
 
                     # gui
                     gimp
@@ -736,6 +737,7 @@
 
                     # fly
                     flyctl
+					gh
 
                     # zed
                     zed-editor

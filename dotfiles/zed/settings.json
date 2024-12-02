@@ -1,14 +1,15 @@
 {
   "assistant": {
     "default_model": {
-      "provider": "openai",
-      "model": "gpt-4o"
+      "provider": "zed.dev",
+      "model": "claude-3-5-sonnet-latest"
     },
     "version": "2"
   },
   "features": {
     "inline_completion_provider": "supermaven"
   },
+  "show_inline_completions": false,
   "vim_mode": true,
   "ui_font_size": 22,
   "buffer_font_size": 22,
@@ -17,8 +18,10 @@
     "light": "Ayu Dark",
     "dark": "Ayu Dark"
   },
-  "autosave": "on_focus_change",
+  "extend_comment_on_newline": false,
   "format_on_save": "on",
+  "autosave": "on_focus_change",
+  "soft_wrap": "editor_width",
   "formatter": "language_server",
   "lsp": {
     "pyright": {
@@ -28,39 +31,34 @@
         }
       }
     },
-    "rubocop": {
-      "initialization_options": {
-        "safeAutocorrect": false
-      }
-    },
-    "ruby-lsp": {
-      "initialization_options": {
-        "enabledFeatures": {
-          "diagnostics": false
-        }
+    "elixir-ls": {
+      "settings": {
+        "dialyzerEnabled": false
       }
     },
     "tailwindcss-language-server": {
       "settings": {
         "includeLanguages": {
-          "erb": "html",
-          "ruby": "html"
-        },
-        "experimental": {
-          "classRegex": [
-            "\\bclass:\\s*['\"]([^'\"]*)['\"]"
-          ]
+          "heex": "html",
+          "Elixir": "html"
         }
       }
     }
   },
   "languages": {
-    "Ruby": {
+    "Elixir": {
+      "show_whitespaces": "selection",
       "language_servers": [
-        "ruby-lsp",
-        "rubocop",
+        "elixir-ls",
+        "tailwindcss-language-server"
+      ]
+    },
+    "HEEX": {
+      "show_whitespaces": "selection",
+      "language_servers": [
+        "elixir-ls",
         "tailwindcss-language-server",
-        "!solargraph"
+        "emmet-language-server"
       ]
     }
   },
@@ -72,7 +70,13 @@
         ],
         "activate_script": "default"
       }
+    },
+    "env": {
+      "EDITOR": "zed --wait"
     }
+  },
+  "indent_guides": {
+    "enabled": false
   },
   "file_scan_exclusions": [
     "**/.git",

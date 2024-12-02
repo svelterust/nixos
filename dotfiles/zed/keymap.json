@@ -4,6 +4,7 @@
     "bindings": {
       "a": "command_palette::Toggle",
       "t": "vim::InsertBefore",
+      "r": "vim::InsertAfter",
       "z": "vim::ToggleComments",
       "x": "editor::Cut",
       "j": "vim::Undo",
@@ -31,7 +32,6 @@
       "3": "workspace::CloseInactiveTabsAndPanes",
       "space k": "vim::EndOfDocument",
       "space h": "vim::StartOfDocument",
-      "E": "terminal_panel::ToggleFocus",
       "k": "vim::Search"
     }
   },
@@ -44,13 +44,19 @@
   {
     "context": "vim_mode == visual",
     "bindings": {
-      "t": ["workspace::SendKeystrokes", "x t"]
+      "t": [
+        "workspace::SendKeystrokes",
+        "x t"
+      ]
     }
   },
   {
     "context": "vim_mode == insert",
     "bindings": {
-      "escape": ["workspace::SendKeystrokes", "ctrl-[ right"]
+      "escape": [
+        "workspace::SendKeystrokes",
+        "ctrl-[ right"
+      ]
     }
   },
   {
@@ -61,15 +67,23 @@
       "ctrl-v": "editor::Paste",
       "ctrl-z": "editor::Undo",
       "ctrl-f": "buffer_search::Deploy",
-      "ctrl-a": "editor::SelectAll"
+      "ctrl-a": "editor::SelectAll",
+      "ctrl-.": "editor::NextInlineCompletion"
+    }
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "alt-c": "editor::Copy",
+      "alt-v": "editor::Paste"
     }
   },
   {
     "bindings": {
-      "alt-t": "terminal_panel::ToggleFocus",
       "alt-x": "command_palette::Toggle",
-      "alt-c": "assistant::ToggleFocus",
-      "ctrl-w": "pane::CloseActiveItem"
+      "alt-b": "assistant::ToggleFocus",
+      "ctrl-w": "pane::CloseActiveItem",
+      "ctrl-t": "terminal_panel::ToggleFocus"
     }
   }
 ]
