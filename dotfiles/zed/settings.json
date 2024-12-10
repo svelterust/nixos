@@ -11,8 +11,8 @@
   },
   "show_inline_completions": false,
   "vim_mode": true,
-  "ui_font_size": 24,
-  "buffer_font_size": 24,
+  "ui_font_size": 22,
+  "buffer_font_size": 22,
   "theme": {
     "mode": "system",
     "light": "Ayu Dark",
@@ -21,7 +21,6 @@
   "extend_comment_on_newline": false,
   "format_on_save": "on",
   "autosave": "on_focus_change",
-  "soft_wrap": "editor_width",
   "formatter": "language_server",
   "lsp": {
     "pyright": {

@@ -183,10 +183,19 @@
             # Docker compose
             virtualisation.docker.enable = true;
 
+            # Redis
+            services.redis.servers = {
+              "cache" = {
+                enable = true;
+                port = 6379;
+              };
+            };
+
             # PostgreSQL
             services.postgresql = {
               enable = true;
               enableTCPIP = true;
+			  extensions = ps: with ps; [pgvector];
               authentication = pkgs.lib.mkOverride 10 ''
                 #type database DBuser origin-address auth-method
                 local all      all     trust
@@ -550,7 +559,7 @@
                       zr = "zig build run";
                       zt = "zig build test";
                       zw = "zig build --watch";
-                      ls = "eza --git-ignore --sort ext";
+                      ls = "eza --sort ext";
                     };
                     sessionVariables = {
                       VISUAL = "zeditor";
@@ -697,7 +706,7 @@
                     # rust
                     (rust-bin.nightly.latest.default.override {
                       extensions = ["rust-src" "rust-analyzer" "rustc-codegen-cranelift"];
-                      targets = ["wasm32-wasi" "wasm32-unknown-unknown" "x86_64-unknown-linux-musl"];
+                      targets = ["wasm32-unknown-unknown" "x86_64-unknown-linux-musl"];
                     })
                     mold
                     cargo-watch
@@ -728,7 +737,7 @@
 
                     # http
                     ngrok
-                    bruno
+                    httpie-desktop
                     stripe-cli
 
                     # other
