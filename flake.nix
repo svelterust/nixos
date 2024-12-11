@@ -444,6 +444,10 @@
                     source = ./dotfiles/ssh/config;
                   };
 
+                  ".bunfig.toml" = {
+                  	source = ./dotfiles/bun/.bunfig.toml;
+                  };
+
         		  ".config/zed/settings.json" = {
                     source = ./dotfiles/zed/settings.json;
         		  };
@@ -771,6 +775,9 @@
                     sqlite
                     gcc
 
+                    # crypto
+                    exodus
+ 
                     # micro
                     micro
 
