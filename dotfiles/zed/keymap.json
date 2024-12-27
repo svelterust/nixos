@@ -32,7 +32,8 @@
       "3": "workspace::CloseInactiveTabsAndPanes",
       "space k": "vim::EndOfDocument",
       "space h": "vim::StartOfDocument",
-      "k": "vim::Search"
+      "k": "vim::Search",
+      "/": "file_finder::Toggle"
     }
   },
   {

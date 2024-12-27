@@ -25,6 +25,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
+    ghostty = {
+      url = "github:ghostty-org/ghostty";
+    };
   };
 
   outputs = {
@@ -35,6 +38,7 @@
     firefox-addons,
     raise,
     hyprsome,
+	ghostty,
     ...
   } @ inputs: {
     # Default formatter
@@ -195,10 +199,12 @@
             services.postgresql = {
               enable = true;
               enableTCPIP = true;
-			  extensions = ps: with ps; [pgvector];
+              extensions = ps: with ps; [pgvector];
               authentication = pkgs.lib.mkOverride 10 ''
                 #type database DBuser origin-address auth-method
                 local all      all     trust
+                # ipv4
+                host  all      all     127.0.0.1/32   trust
                 # ipv6
                 host  all      all     ::1/128        trust
               '';
@@ -428,24 +434,12 @@
                     recursive = true;
                   };
 
-                  ".config/alacritty/theme.toml" = {
-                    source = ./dotfiles/alacritty/catppuccin-latte.toml;
-                  };
-
-                  ".config/Code/User/settings.json" = {
-                    source = ./dotfiles/vscode/settings.json;
-                  };
-
-                  ".mozilla/firefox/default/chrome" = {
-                    source = ./dotfiles/firefox/chrome;
-                  };
-
                   ".ssh/config" = {
                     source = ./dotfiles/ssh/config;
                   };
 
                   ".bunfig.toml" = {
-                  	source = ./dotfiles/bun/.bunfig.toml;
+                  	source = ./dotfiles/bun/bunfig.toml;
                   };
 
         		  ".config/zed/settings.json" = {
@@ -534,17 +528,17 @@
                     enable = true;
                     settings = {
                       add_newline = false;
-                      format = lib.concatStrings [
-                        "$directory"
-                        "$nix_shell"
-                        "$character"
-                      ];
+                      # format = lib.concatStrings [
+                      #   "$directory"
+                      #   "$nix_shell"
+                      #   "$character"
+                      # ];
                       line_break = {
                         disabled = true;
                       };
-                      nix_shell = {
-                        format = "via [(\($name\))](bold blue) ";
-                      };
+                      # nix_shell = {
+                      #   format = "via [(\($name\))](bold blue) ";
+                      # };
                     };
                   };
 
@@ -625,41 +619,11 @@
                       };
                     };
                   };
-
-                  alacritty = {
-                    enable = true;
-                    settings = {
-                      font = {
-                        size = settings.terminalSize;
-                      };
-                      keyboard.bindings = [
-                        {
-                          key = "C";
-                          mods = "Alt";
-                          action = "Copy";
-                        }
-                        {
-                          key = "V";
-                          mods = "Alt";
-                          action = "Paste";
-                        }
-                      ];
-                      general.import = [
-                        "~/.config/alacritty/theme.toml"
-                      ];
-                    };
-                  };
                 };
 
                 # GTK theme
                 gtk = {
                   enable = true;
-                  theme = {
-                    name = "Catppuccin-Latte";
-                    package = pkgs.catppuccin-gtk.override {
-                      variant = "latte";
-                    };
-                  };
                   gtk3.extraConfig = {
                     gtk-recent-files-enabled = 0;
                   };
@@ -695,6 +659,7 @@
                     xclip
 
                     # python
+					uv
                     ruff
                     pyright
                     python3
@@ -764,29 +729,40 @@
                     # zed
                     zed-editor
                     zed-fhs
+                    pgcli
 
                     # lf
                     lf
 
                     # audio
                     audacious
-
+                   
+                    # terminal
+                    ghostty.packages.x86_64-linux.default
+ 
                     # ruby
                     sqlite
+					litecli
                     gcc
 
                     # crypto
                     exodus
- 
+
                     # micro
                     micro
 
                     # nix
                     nixd
 
+                    # format
+                    alejandra
+
 					# elixir
 					elixir
 					inotify-tools
+
+                    # ai
+                    aider-chat
 
 					# davinci
 					# davinci-resolve

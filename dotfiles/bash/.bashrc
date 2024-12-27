@@ -21,3 +21,4 @@ PS1=$PS1'\[$(vterm_prompt_end)\]'
 # variables
 export PATH="$PATH:$HOME/.cargo/bin:$HOME/.bun/bin"
 export LAUNCH_EDITOR="$HOME/.scripts/zed.sh"
+export PLUG_EDITOR="zed://file/__FILE__:__LINE__"
