@@ -173,7 +173,7 @@
             # Enable OpenGL and bluetooth
             hardware = {
               bluetooth.enable = true;
-              opengl = {
+              graphics = {
                 enable = true;
                 extraPackages = with pkgs; [
                   vaapiIntel
@@ -219,13 +219,13 @@
             };
 
             # Printing
-            services.printing.enable = true;
-            services.printing.drivers = [ pkgs.hplipWithPlugin ];
-            services.avahi = {
-              enable = true;
-              nssmdns4 = true;
-              openFirewall = true;
-            };
+            # services.printing.enable = true;
+            # services.printing.drivers = [ pkgs.hplipWithPlugin ];
+            # services.avahi = {
+            #   enable = true;
+            #   nssmdns4 = true;
+            #   openFirewall = true;
+            # };
 
             # XDG Portals
             xdg = {
@@ -327,6 +327,7 @@
               noto-fonts
               geist-font
               noto-fonts-emoji
+              jetbrains-mono
               inter
               ibm-plex
             ];
@@ -528,17 +529,19 @@
                     enable = true;
                     settings = {
                       add_newline = false;
-                      # format = lib.concatStrings [
-                      #   "$directory"
-                      #   "$nix_shell"
-                      #   "$character"
-                      # ];
+                      format = lib.concatStrings [
+                        "$directory"
+                        "$git_branch"
+                        "$git_status"
+                        "$nix_shell"
+                        "$character"
+                      ];
                       line_break = {
                         disabled = true;
                       };
-                      # nix_shell = {
-                      #   format = "via [(\($name\))](bold blue) ";
-                      # };
+                      nix_shell = {
+                        format = "via [nix](bold blue) ";
+                      };
                     };
                   };
 
@@ -736,13 +739,13 @@
 
                     # audio
                     audacious
-                   
+
                     # terminal
                     ghostty.packages.x86_64-linux.default
- 
+
                     # ruby
                     sqlite
-					litecli
+                    litecli
                     gcc
 
                     # crypto
