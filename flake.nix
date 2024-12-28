@@ -549,7 +549,7 @@
                     enable = true;
                     shellAliases = {
                       zed = "zeditor";
-                      cat = "bat";
+                      cat = "bat --style=plain --no-pager";
                       tmp = "cd $(mktemp -d); clear";
                       su = "sudo nixos-rebuild switch";
                       cr = "cargo run";

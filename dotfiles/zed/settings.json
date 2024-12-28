@@ -9,10 +9,14 @@
   "features": {
     "inline_completion_provider": "supermaven"
   },
+  "toolbar": {
+    "breadcrumbs": false,
+    "quick_actions": false
+  },
   "show_inline_completions": false,
   "vim_mode": true,
-  "ui_font_size": 24,
-  "buffer_font_size": 24,
+  "ui_font_size": 20,
+  "buffer_font_size": 22,
   "buffer_font_family": "JetBrains Mono",
   "ui_font_family": "JetBrains Mono",
   "theme": {
