@@ -706,6 +706,7 @@
 
                     # bun stack
                     bun
+					zoxide
 
                     # http
                     ngrok
