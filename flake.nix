@@ -38,7 +38,7 @@
     firefox-addons,
     raise,
     hyprsome,
-	ghostty,
+    ghostty,
     ...
   } @ inputs: {
     # Default formatter
@@ -61,10 +61,14 @@
             blockList = ''
               0.0.0.0 quora.com
               0.0.0.0 www.quora.com
-              0.0.0.0 store.steampowered.com
-              0.0.0.0 steamcommunity.com
-              0.0.0.0 api.steampowered.com
-              0.0.0.0 cdn.steampowered.com
+              0.0.0.0 youtube.com
+              0.0.0.0 www.youtube.com
+              0.0.0.0 lobste.rs
+              0.0.0.0 www.lobste.rs
+              0.0.0.0 news.ycombinator.com
+              0.0.0.0 www.news.ycombinator.com
+              0.0.0.0 reddit.com
+              0.0.0.0 www.reddit.com
             '';
             desktop = {
               layout = "us";
@@ -219,13 +223,13 @@
             };
 
             # Printing
-            # services.printing.enable = true;
-            # services.printing.drivers = [ pkgs.hplipWithPlugin ];
-            # services.avahi = {
-            #   enable = true;
-            #   nssmdns4 = true;
-            #   openFirewall = true;
-            # };
+            services.printing.enable = true;
+            services.printing.drivers = [ pkgs.hplipWithPlugin ];
+            services.avahi = {
+              enable = true;
+              nssmdns4 = true;
+              openFirewall = true;
+            };
 
             # XDG Portals
             xdg = {
@@ -336,6 +340,8 @@
             environment = {
               binsh = "${pkgs.dash}/bin/dash";
               systemPackages = with pkgs; [
+                gcc
+                stdenv.cc.cc.lib
                 zip
                 dig
                 file
@@ -443,13 +449,13 @@
                   	source = ./dotfiles/bun/bunfig.toml;
                   };
 
-        		  ".config/zed/settings.json" = {
+              		".config/zed/settings.json" = {
                     source = ./dotfiles/zed/settings.json;
-        		  };
+              		};
 
                   ".config/zed/keymap.json" = {
                     source = ./dotfiles/zed/keymap.json;
-        		  };
+              		};
 
                   ".config/tofi/config" = {
                     source = pkgs.writeText "config" ''
@@ -473,12 +479,12 @@
                 # Services
                 services = {
                   gammastep = {
-                    enable = true;
+					enable = true;
                     latitude = 58.4;
                     longitude = 8.6;
                     temperature = {
-                      day = 5500;
-                      night = 1750;
+                      day = 2500;
+                      night = 1500;
                     };
                   };
                   mako = {
@@ -662,10 +668,11 @@
                     xclip
 
                     # python
-					uv
+                    uv
                     ruff
                     pyright
                     python3
+                    conda
 
                     # typescript
                     nodejs_22
@@ -697,7 +704,7 @@
                     ghostscript
                     jq
                     sxiv
-					entr
+                    entr
 
                     # gui
                     gimp
@@ -706,7 +713,7 @@
 
                     # bun stack
                     bun
-					zoxide
+                    zoxide
 
                     # http
                     ngrok
@@ -723,12 +730,12 @@
                     # docker
                     docker-compose
 
-	                # git
+                    # git
                     gitui
 
                     # fly
                     flyctl
-					gh
+                    gh
 
                     # zed
                     zed-editor
@@ -749,6 +756,9 @@
                     litecli
                     gcc
 
+					# ai
+					aider-chat
+
                     # crypto
                     exodus
 
@@ -761,21 +771,28 @@
                     # format
                     alejandra
 
-					# elixir
-					elixir
-					inotify-tools
+                    # elixir
+					          elixir
+										inotify-tools
 
                     # ai
                     aider-chat
 
-					# davinci
-					# davinci-resolve
+                    # davinci
+                    # davinci-resolve
+
+                    # tunnel
+                    cloudflared
 
                     # turso
                     turso-cli
 
                     # upwork
                     upwork
+
+                    # zig
+                    zls
+                    zig
                   ];
                 };
               };

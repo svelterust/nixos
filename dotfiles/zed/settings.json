@@ -1,10 +1,41 @@
 {
+  "ssh_connections": [
+    {
+      "username": "root",
+      "host": "188.245.205.254"
+    }
+  ],
   "assistant": {
     "default_model": {
       "provider": "zed.dev",
       "model": "claude-3-5-sonnet-latest"
     },
     "version": "2"
+  },
+  "project_panel": {
+    "auto_fold_dirs": false,
+    "default_width": 150,
+    "indent_guides": {
+      "show": "never"
+    }
+  },
+  "language_models": {
+    "openai": {
+      "api_url": "https://openrouter.ai/api/v1",
+      "available_models": [
+        {
+          "name": "deepseek/deepseek-r1",
+          "display_name": "DeepSeek R1",
+          "max_tokens": 163840
+        },
+        {
+          "name": "deepseek/deepseek-chat",
+          "display_name": "DeepSeek V3",
+          "max_tokens": 131072
+        }
+      ],
+      "version": "1"
+    }
   },
   "features": {
     "inline_completion_provider": "supermaven"
@@ -15,19 +46,21 @@
   },
   "show_inline_completions": false,
   "vim_mode": true,
+  "vim": {
+    "use_system_clipboard": "always"
+  },
   "ui_font_size": 16,
   "buffer_font_size": 22,
   "buffer_font_family": "JetBrains Mono",
   "ui_font_family": "JetBrains Mono",
   "theme": {
     "mode": "system",
-    "light": "Ayu Dark",
-    "dark": "Ayu Dark"
+    "light": "Catppuccin Latte",
+    "dark": "Catppuccin Latte"
   },
   "extend_comment_on_newline": false,
   "format_on_save": "on",
   "autosave": "on_focus_change",
-  "formatter": "language_server",
   "lsp": {
     "pyright": {
       "settings": {
@@ -52,12 +85,7 @@
   },
   "languages": {
     "Python": {
-      "language_servers": [
-        "ruff",
-        "pyright",
-        "!python-refactoring",
-        "!pylsp"
-      ],
+      "language_servers": ["ruff", "pyright", "!python-refactoring", "!pylsp"],
       "format_on_save": "on",
       "formatter": [
         {
@@ -75,10 +103,7 @@
     },
     "Elixir": {
       "show_whitespaces": "selection",
-      "language_servers": [
-        "elixir-ls",
-        "tailwindcss-language-server"
-      ]
+      "language_servers": ["elixir-ls", "tailwindcss-language-server"]
     },
     "HEEX": {
       "show_whitespaces": "selection",
@@ -92,9 +117,7 @@
   "terminal": {
     "detect_venv": {
       "on": {
-        "directories": [
-          ".venv"
-        ],
+        "directories": [".venv"],
         "activate_script": "default"
       }
     },
@@ -138,6 +161,13 @@
     "**/.formatter.exs",
     "**/.prettierrc",
     "**/.ropeproject",
-    "**/.ruff_cache"
+    "**/.ruff_cache",
+    "**/.env",
+    "**/.metadata",
+    "**/.dart_tool",
+    "**/.idea",
+    "**/.gradle",
+    "**/.aider*",
+    "**/llms*"
   ]
 }
