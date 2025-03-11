@@ -61,14 +61,6 @@
             blockList = ''
               0.0.0.0 quora.com
               0.0.0.0 www.quora.com
-              0.0.0.0 youtube.com
-              0.0.0.0 www.youtube.com
-              0.0.0.0 lobste.rs
-              0.0.0.0 www.lobste.rs
-              0.0.0.0 news.ycombinator.com
-              0.0.0.0 www.news.ycombinator.com
-              0.0.0.0 reddit.com
-              0.0.0.0 www.reddit.com
             '';
             desktop = {
               layout = "us";
@@ -82,9 +74,19 @@
                   efiSysMountPoint = "/boot";
                 };
                 grub = {
-                  devices = [ "nodev" ];
+                  devices = ["nodev"];
                   efiSupport = true;
                   enable = true;
+                  extraEntries = ''
+                    menuentry "Windows" {
+                    insmod part_gpt
+                    insmod fat
+                    insmod search_fs_uuid
+                    insmod chain
+                    search --fs-uuid --set=root 0A3F-200A
+                    chainloader /EFI/Microsoft/Boot/bootmgfw.efi
+                    }
+                  '';
                 };
               };
             };
@@ -113,11 +115,11 @@
             };
             zed-fhs = pkgs.buildFHSEnv {
               name = "zed-fhs";
-              targetPkgs = pkgs: [ pkgs.zed-editor ];
+              targetPkgs = pkgs: [pkgs.zed-editor];
               runScript = "zeditor";
             };
             settings = desktop;
-            in {
+          in {
             # System config
             system.stateVersion = "25.05";
 
@@ -224,7 +226,7 @@
 
             # Printing
             services.printing.enable = true;
-            services.printing.drivers = [ pkgs.hplipWithPlugin ];
+            services.printing.drivers = [pkgs.hplipWithPlugin];
             services.avahi = {
               enable = true;
               nssmdns4 = true;
@@ -446,16 +448,16 @@
                   };
 
                   ".bunfig.toml" = {
-                  	source = ./dotfiles/bun/bunfig.toml;
+                    source = ./dotfiles/bun/bunfig.toml;
                   };
 
-              		".config/zed/settings.json" = {
+                  ".config/zed/settings.json" = {
                     source = ./dotfiles/zed/settings.json;
-              		};
+                  };
 
                   ".config/zed/keymap.json" = {
                     source = ./dotfiles/zed/keymap.json;
-              		};
+                  };
 
                   ".config/tofi/config" = {
                     source = pkgs.writeText "config" ''
@@ -479,12 +481,12 @@
                 # Services
                 services = {
                   gammastep = {
-					enable = true;
+                    enable = true;
                     latitude = 58.4;
                     longitude = 8.6;
                     temperature = {
-                      day = 2500;
-                      night = 1500;
+                      day = 4000;
+                      night = 2000;
                     };
                   };
                   mako = {
@@ -518,7 +520,7 @@
 
                   obs-studio = {
                     enable = true;
-                    plugins = [ pkgs.obs-studio-plugins.wlrobs ];
+                    plugins = [pkgs.obs-studio-plugins.wlrobs];
                   };
 
                   eza = {
@@ -569,8 +571,6 @@
                       ls = "eza --sort ext";
                     };
                     sessionVariables = {
-                      VISUAL = "zeditor";
-                      EDITOR = "zeditor";
                       BROWSER = "firefox";
                       NIXPKGS_ALLOW_UNFREE = "1";
                     };
@@ -750,14 +750,21 @@
 
                     # terminal
                     ghostty.packages.x86_64-linux.default
+ 
+                    # scraping
+                    chromium
+                    chromedriver
 
                     # ruby
                     sqlite
-                    litecli
                     gcc
+                    ruby_3_4
+                    libyaml
+                    tailwindcss_4
+					watchman
 
-					# ai
-					aider-chat
+                    # ai
+                    aider-chat
 
                     # crypto
                     exodus
@@ -772,14 +779,14 @@
                     alejandra
 
                     # elixir
-					          elixir
-										inotify-tools
+                    elixir
+                    inotify-tools
 
                     # ai
                     aider-chat
 
                     # davinci
-                    # davinci-resolve
+                    davinci-resolve
 
                     # tunnel
                     cloudflared

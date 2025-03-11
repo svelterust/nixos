@@ -1,14 +1,8 @@
 {
-  "ssh_connections": [
-    {
-      "username": "root",
-      "host": "188.245.205.254"
-    }
-  ],
   "assistant": {
     "default_model": {
       "provider": "zed.dev",
-      "model": "claude-3-5-sonnet-latest"
+      "model": "claude-3-7-sonnet-latest"
     },
     "version": "2"
   },
@@ -19,32 +13,14 @@
       "show": "never"
     }
   },
-  "language_models": {
-    "openai": {
-      "api_url": "https://openrouter.ai/api/v1",
-      "available_models": [
-        {
-          "name": "deepseek/deepseek-r1",
-          "display_name": "DeepSeek R1",
-          "max_tokens": 163840
-        },
-        {
-          "name": "deepseek/deepseek-chat",
-          "display_name": "DeepSeek V3",
-          "max_tokens": 131072
-        }
-      ],
-      "version": "1"
-    }
-  },
   "features": {
-    "inline_completion_provider": "supermaven"
+    "inline_completion_provider": "zed"
   },
+  "show_inline_completions": true,
   "toolbar": {
     "breadcrumbs": false,
     "quick_actions": false
   },
-  "show_inline_completions": false,
   "vim_mode": true,
   "vim": {
     "use_system_clipboard": "always"
@@ -168,6 +144,10 @@
     "**/.idea",
     "**/.gradle",
     "**/.aider*",
-    "**/llms*"
+    "**/llms*",
+    "**/.ruby-version",
+    "**/.gitattributes",
+    "**/.rubocop.yml",
+    "**/tmp"
   ]
 }
