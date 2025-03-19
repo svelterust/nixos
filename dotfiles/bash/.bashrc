@@ -7,6 +7,7 @@ export PLUG_EDITOR="zed://file/__FILE__:__LINE__"
 export VISUAL="$HOME/.scripts/zed.sh"
 export EDITOR="$HOME/.scripts/zed.sh"
 export TERM="xterm-256color"
+export ERL_AFLAGS="-kernel shell_history enabled"
 
 # autojump
 eval "$(zoxide init bash --cmd e)"

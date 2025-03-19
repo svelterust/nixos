@@ -27,6 +27,7 @@
   },
   "ui_font_size": 16,
   "buffer_font_size": 22,
+  "extend_comment_on_newline": false,
   "buffer_font_family": "JetBrains Mono",
   "ui_font_family": "JetBrains Mono",
   "theme": {
@@ -34,7 +35,6 @@
     "light": "Catppuccin Latte",
     "dark": "Catppuccin Latte"
   },
-  "extend_comment_on_newline": false,
   "format_on_save": "on",
   "autosave": "on_focus_change",
   "lsp": {
@@ -46,8 +46,12 @@
       }
     },
     "elixir-ls": {
+      "binary": {
+        "path": "/home/odd/.nix-profile/bin/elixir-ls"
+      },
       "settings": {
-        "dialyzerEnabled": false
+        "dialyzerEnabled": true,
+        "incrementalDialyzer": true
       }
     },
     "tailwindcss-language-server": {

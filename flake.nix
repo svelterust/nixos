@@ -61,6 +61,14 @@
             blockList = ''
               0.0.0.0 quora.com
               0.0.0.0 www.quora.com
+              0.0.0.0 x.com
+              0.0.0.0 www.x.com
+              0.0.0.0 twitter.com
+              0.0.0.0 www.twitter.com
+              0.0.0.0 lobste.rs
+              0.0.0.0 www.lobste.rs
+              0.0.0.0 news.ycombinator.com
+              0.0.0.0 www.news.ycombinator.com
             '';
             desktop = {
               layout = "us";
@@ -670,7 +678,7 @@
                     # python
                     uv
                     ruff
-                    pyright
+                    # pyright
                     python3
                     conda
 
@@ -750,7 +758,7 @@
 
                     # terminal
                     ghostty.packages.x86_64-linux.default
- 
+
                     # scraping
                     chromium
                     chromedriver
@@ -780,6 +788,7 @@
 
                     # elixir
                     elixir
+					elixir-ls
                     inotify-tools
 
                     # ai
