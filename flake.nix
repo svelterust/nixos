@@ -31,7 +31,6 @@
   };
 
   outputs = {
-    self,
     nixpkgs,
     rust-overlay,
     home-manager,
@@ -65,15 +64,20 @@
               0.0.0.0 www.x.com
               0.0.0.0 twitter.com
               0.0.0.0 www.twitter.com
-              0.0.0.0 lobste.rs
-              0.0.0.0 www.lobste.rs
-              0.0.0.0 news.ycombinator.com
-              0.0.0.0 www.news.ycombinator.com
+              0.0.0.0 youtube.com
+              0.0.0.0 www.youtube.com
+              0.0.0.0 facebook.com
+              0.0.0.0 www.facebook.com
             '';
-            desktop = {
+            zed-fhs = pkgs.buildFHSEnv {
+              name = "zed-fhs";
+              targetPkgs = pkgs: [pkgs.zed-editor];
+              runScript = "zeditor";
+            };
+            settings = {
               layout = "us";
               videoDrivers = ["nvidia"];
-              hardware = ./hardware/desktop.nix;
+              hardware = ./hardware-configuration.nix;
               frameRate = 144;
               terminalSize = 22.5;
               bootLoader = {
@@ -85,48 +89,9 @@
                   devices = ["nodev"];
                   efiSupport = true;
                   enable = true;
-                  extraEntries = ''
-                    menuentry "Windows" {
-                    insmod part_gpt
-                    insmod fat
-                    insmod search_fs_uuid
-                    insmod chain
-                    search --fs-uuid --set=root 0A3F-200A
-                    chainloader /EFI/Microsoft/Boot/bootmgfw.efi
-                    }
-                  '';
                 };
               };
             };
-            thinkpad = {
-              layout = "no";
-              videoDrivers = [];
-              hardware = ./hardware/thinkpad.nix;
-              frameRate = 60;
-              terminalSize = 14.5;
-              bootLoader = {
-                grub.enable = true;
-                grub.device = "/dev/nvme0n1";
-                grub.useOSProber = true;
-              };
-            };
-            hp = {
-              layout = "no";
-              videoDrivers = [];
-              hardware = ./hardware/hp.nix;
-              frameRate = 60;
-              terminalSize = 14.5;
-              bootLoader = {
-                systemd-boot.enable = true;
-                efi.canTouchEfiVariables = true;
-              };
-            };
-            zed-fhs = pkgs.buildFHSEnv {
-              name = "zed-fhs";
-              targetPkgs = pkgs: [pkgs.zed-editor];
-              runScript = "zeditor";
-            };
-            settings = desktop;
           in {
             # System config
             system.stateVersion = "25.05";
@@ -230,15 +195,6 @@
               xwayland = {
                 enable = true;
               };
-            };
-
-            # Printing
-            services.printing.enable = true;
-            services.printing.drivers = [pkgs.hplipWithPlugin];
-            services.avahi = {
-              enable = true;
-              nssmdns4 = true;
-              openFirewall = true;
             };
 
             # XDG Portals
@@ -437,34 +393,23 @@
                 # Custom dotfiles
                 home.file = {
                   ".cargo" = {
-                    source = ./dotfiles/cargo;
+                    source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/dotfiles/cargo";
                     recursive = true;
                   };
 
                   ".config/hypr" = {
-                    source = ./dotfiles/hyprland;
+                    source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/dotfiles/hyprland";
                     recursive = true;
                   };
 
                   ".scripts" = {
-                    source = ./scripts;
+                    source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/scripts";
                     recursive = true;
                   };
 
-                  ".ssh/config" = {
-                    source = ./dotfiles/ssh/config;
-                  };
-
-                  ".bunfig.toml" = {
-                    source = ./dotfiles/bun/bunfig.toml;
-                  };
-
-                  ".config/zed/settings.json" = {
-                    source = ./dotfiles/zed/settings.json;
-                  };
-
-                  ".config/zed/keymap.json" = {
-                    source = ./dotfiles/zed/keymap.json;
+                  ".config/zed" = {
+                    source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/dotfiles/zed";
+                    recursive = true;
                   };
 
                   ".config/tofi/config" = {
@@ -624,11 +569,11 @@
                         rebase = false;
                       };
                       "core" = {
-                        editor = "nano";
+                        editor = "micro";
                       };
                       "user" = {
-                        name = "Knarkzel";
-                        email = "knarkzel@gmail.com";
+                        name = "SvelteRust";
+                        email = "oddharald@myhren.ai";
                       };
                       "push" = {
                         default = "simple";
@@ -638,20 +583,9 @@
                   };
                 };
 
-                # GTK theme
-                gtk = {
-                  enable = true;
-                  gtk3.extraConfig = {
-                    gtk-recent-files-enabled = 0;
-                  };
-                  gtk4.extraConfig = {
-                    gtk-recent-files-enabled = 0;
-                  };
-                };
-
                 # Packages for home
                 home = {
-                  stateVersion = "23.11";
+                  stateVersion = "25.05";
                   packages = with pkgs; [
                     # wayland
                     tofi
@@ -678,16 +612,15 @@
                     # python
                     uv
                     ruff
-                    # pyright
                     python3
                     conda
 
                     # typescript
                     nodejs_22
+                    tailwindcss-language-server
                     nodePackages.typescript
                     nodePackages.svelte-language-server
                     nodePackages.typescript-language-server
-                    tailwindcss-language-server
                     nodePackages.vscode-json-languageserver
 
                     # rust
@@ -712,28 +645,20 @@
                     ghostscript
                     jq
                     sxiv
-                    entr
+                    zoxide
+                    fd
 
                     # gui
                     gimp
                     libreoffice
-                    deploy-rs
 
-                    # bun stack
+                    # bun
                     bun
-                    zoxide
 
                     # http
                     ngrok
-                    httpie-desktop
                     stripe-cli
-
-                    # other
-                    powertop
-                    graphviz
-                    fd
-                    yt-dlp
-                    typst
+                    httpie-desktop
 
                     # docker
                     docker-compose
@@ -742,16 +667,13 @@
                     gitui
 
                     # fly
-                    flyctl
                     gh
+                    flyctl
 
                     # zed
                     zed-editor
                     zed-fhs
                     pgcli
-
-                    # lf
-                    lf
 
                     # audio
                     audacious
@@ -764,15 +686,9 @@
                     chromedriver
 
                     # ruby
-                    sqlite
                     gcc
-                    ruby_3_4
-                    libyaml
-                    tailwindcss_4
-					watchman
-
-                    # ai
-                    aider-chat
+                    sqlite
+                    watchman
 
                     # crypto
                     exodus
@@ -788,20 +704,12 @@
 
                     # elixir
                     elixir
-					elixir-ls
+                    elixir-ls
                     inotify-tools
-
-                    # ai
-                    aider-chat
-
-                    # davinci
-                    davinci-resolve
+                    tailwindcss_4
 
                     # tunnel
                     cloudflared
-
-                    # turso
-                    turso-cli
 
                     # upwork
                     upwork
@@ -809,6 +717,12 @@
                     # zig
                     zls
                     zig
+
+                    # other
+                    protobuf
+                    powertop
+                    graphviz
+                    yt-dlp
                   ];
                 };
               };

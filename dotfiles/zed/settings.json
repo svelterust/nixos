@@ -14,9 +14,9 @@
     }
   },
   "features": {
-    "inline_completion_provider": "zed"
+    "edit_prediction_provider": "zed"
   },
-  "show_inline_completions": true,
+  "show_edit_predictions": true,
   "toolbar": {
     "breadcrumbs": false,
     "quick_actions": false
