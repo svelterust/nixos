@@ -13,7 +13,6 @@
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
     };
     raise = {
       url = "github:knarkzel/raise";
@@ -64,10 +63,12 @@
               0.0.0.0 www.x.com
               0.0.0.0 twitter.com
               0.0.0.0 www.twitter.com
-              0.0.0.0 youtube.com
-              0.0.0.0 www.youtube.com
               0.0.0.0 facebook.com
               0.0.0.0 www.facebook.com
+              0.0.0.0 instagram.com
+              0.0.0.0 www.instagram.com
+              0.0.0.0 tiktok.com
+              0.0.0.0 www.tiktok.com
             '';
             zed-fhs = pkgs.buildFHSEnv {
               name = "zed-fhs";
@@ -395,21 +396,25 @@
                   ".cargo" = {
                     source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/dotfiles/cargo";
                     recursive = true;
+                    force = true;
                   };
 
                   ".config/hypr" = {
                     source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/dotfiles/hyprland";
                     recursive = true;
+                    force = true;
                   };
 
                   ".scripts" = {
                     source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/scripts";
                     recursive = true;
+                    force = true;
                   };
 
                   ".config/zed" = {
                     source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/dotfiles/zed";
                     recursive = true;
+                    force = true;
                   };
 
                   ".config/tofi/config" = {
@@ -428,6 +433,7 @@
                       selection-color = #1E66F5
                       font = ${pkgs.hack-font}/share/fonts/hack/Hack-Regular.ttf
                     '';
+                    force = true;
                   };
                 };
 
@@ -544,7 +550,7 @@
                         "pocket.enabled" = false;
                         "security.tls.enable_0rtt_data" = false;
                       };
-                      extensions = with firefox-addons.packages."x86_64-linux"; [
+                      extensions.packages = with firefox-addons.packages."x86_64-linux"; [
                         sponsorblock
                         ublock-origin
                         i-dont-care-about-cookies
@@ -707,16 +713,6 @@
                     elixir-ls
                     inotify-tools
                     tailwindcss_4
-
-                    # tunnel
-                    cloudflared
-
-                    # upwork
-                    upwork
-
-                    # zig
-                    zls
-                    zig
 
                     # other
                     protobuf
