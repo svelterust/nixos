@@ -1,5 +1,7 @@
 {
   "assistant": {
+    "default_profile": "write",
+    "always_allow_tool_actions": true,
     "default_model": {
       "provider": "zed.dev",
       "model": "claude-3-7-sonnet-latest"
@@ -17,6 +19,9 @@
     "edit_prediction_provider": "zed"
   },
   "show_edit_predictions": true,
+  "edit_predictions": {
+    "mode": "eager"
+  },
   "toolbar": {
     "breadcrumbs": false,
     "quick_actions": false
@@ -152,6 +157,9 @@
     "**/.ruby-version",
     "**/.gitattributes",
     "**/.rubocop.yml",
-    "**/tmp"
+    "**/tmp",
+    "**/.github",
+    "**/rel",
+    "**/mix.lock"
   ]
 }

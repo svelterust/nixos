@@ -45,19 +45,13 @@
   {
     "context": "vim_mode == visual",
     "bindings": {
-      "t": [
-        "workspace::SendKeystrokes",
-        "x t"
-      ]
+      "t": ["workspace::SendKeystrokes", "x t"]
     }
   },
   {
     "context": "vim_mode == insert",
     "bindings": {
-      "escape": [
-        "workspace::SendKeystrokes",
-        "ctrl-[ right"
-      ]
+      "escape": ["workspace::SendKeystrokes", "ctrl-[ right"]
     }
   },
   {
@@ -68,22 +62,31 @@
       "ctrl-v": "editor::Paste",
       "ctrl-z": "editor::Undo",
       "ctrl-f": "buffer_search::Deploy",
-      "ctrl-a": "editor::SelectAll",
-      "ctrl-.": "editor::NextInlineCompletion"
+      "ctrl-a": "editor::SelectAll"
     }
   },
   {
     "context": "Terminal",
     "bindings": {
-      "alt-c": "editor::Copy",
-      "alt-v": "editor::Paste"
+      "ctrl-c": "terminal::Copy",
+      "ctrl-v": "terminal::Paste"
+    }
+  },
+  {
+    "bindings": {
+      "ctrl-enter": "assistant::Assist"
     }
   },
   {
     "bindings": {
       "alt-x": "command_palette::Toggle",
-      "alt-b": "assistant::ToggleFocus",
+      "alt-b": "workspace::ToggleRightDock",
+      "alt-a": "agent::NewThread",
+      "alt-c": "agent::NewTextThread",
+      "alt-g": "git_panel::ToggleFocus",
+      "alt-f": "project_panel::ToggleFocus",
       "ctrl-w": "pane::CloseActiveItem",
+      "alt-w": "workspace::CloseInactiveTabsAndPanes",
       "ctrl-t": "terminal_panel::ToggleFocus",
       "ctrl-shift-t": "workspace::NewTerminal"
     }
