@@ -380,6 +380,7 @@
               users = {
                 users.odd = {
                   isNormalUser = true;
+                  shell = pkgs.bash;
                   description = "Odd-Harald";
                   extraGroups = [
                     "networkmanager"
@@ -586,6 +587,21 @@
                         interactiveShellInit = ''
                           set fish_greeting
                         '';
+                        plugins = [
+                          {
+                            name = "autopair";
+                            src = pkgs.fishPlugins.autopair.src;
+                          }
+                          {
+                            name = "fish-async-prompt";
+                            src = pkgs.fetchFromGitHub {
+                              owner = "acomagu";
+                              repo = "fish-async-prompt";
+                              rev = "316aa03c875b58e7c7f7d3bc9a78175aa47dbaa8";
+                              sha256 = "sha256-J7y3BjqwuEH4zDQe4cWylLn+Vn2Q5pv0XwOSPwhw/Z0=";
+                            };
+                          }
+                        ];
                       };
 
                       firefox = {
