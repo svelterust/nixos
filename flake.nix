@@ -63,12 +63,18 @@
               0.0.0.0 www.x.com
               0.0.0.0 twitter.com
               0.0.0.0 www.twitter.com
-              0.0.0.0 facebook.com
-              0.0.0.0 www.facebook.com
               0.0.0.0 instagram.com
               0.0.0.0 www.instagram.com
               0.0.0.0 tiktok.com
               0.0.0.0 www.tiktok.com
+              0.0.0.0 facebook.com
+              0.0.0.0 www.facebook.com
+              0.0.0.0 instagram.com
+              0.0.0.0 www.instagram.com
+              0.0.0.0 lobste.rs
+              0.0.0.0 www.lobste.rs
+              0.0.0.0 news.ycombinator.com
+              0.0.0.0 www.news.ycombinator.com
             '';
             zed-fhs = pkgs.buildFHSEnv {
               name = "zed-fhs";
@@ -95,13 +101,10 @@
             };
           in {
             # System config
-            system.stateVersion = "25.05";
+            system.stateVersion = "25.11";
 
             # Set your time zone.
             time.timeZone = "Europe/Oslo";
-
-            # Select internationalisation properties.
-            i18n.defaultLocale = "en_US.utf8";
 
             # Configure console keymap
             console.keyMap = "colemak";
@@ -111,6 +114,23 @@
               settings.hardware
               "${home-manager}/nixos"
             ];
+
+            # Make it easier to run downloadable binaries
+            programs = {
+              nix-ld = {
+                enable = true;
+                libraries = with pkgs; [
+                  stdenv.cc.cc.lib
+                  zlib
+                ];
+              };
+            };
+
+            services = {
+              envfs = {
+                enable = true;
+              };
+            };
 
             # Zram
             zramSwap = {
@@ -448,20 +468,6 @@
                       night = 2000;
                     };
                   };
-                  mako = {
-                    enable = true;
-                    padding = "10";
-                    font = "monospace 14";
-                    extraConfig = ''
-                      background-color=#eff1f5
-                      text-color=#4c4f69
-                      border-color=#1e66f5
-                      progress-color=over #ccd0da
-
-                      [urgency=high]
-                      border-color=#fe640b
-                    '';
-                  };
                 };
 
                 # Configure programs
@@ -695,9 +701,6 @@
                     gcc
                     sqlite
                     watchman
-
-                    # crypto
-                    exodus
 
                     # micro
                     micro

@@ -68,6 +68,7 @@
   {
     "context": "Terminal",
     "bindings": {
+      "ctrl-z": ["terminal::SendKeystroke", "ctrl-c"],
       "ctrl-c": "terminal::Copy",
       "ctrl-v": "terminal::Paste"
     }
