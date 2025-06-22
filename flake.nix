@@ -471,22 +471,9 @@
                         force = true;
                       };
 
-                      ".config/tofi/config" = {
-                        source = pkgs.writeText "config" ''
-                          width = 100%
-                          height = 100%
-                          border-width = 0
-                          outline-width = 0
-                          padding-left = 35%
-                          padding-top = 40%
-                          result-spacing = 5
-                          num-results = 5
-                          ascii-input = true
-                          hint-font = false
-                          background-color = #000C
-                          selection-color = #1E66F5
-                          font = ${pkgs.hack-font}/share/fonts/hack/Hack-Regular.ttf
-                        '';
+                      ".config/walker/config.toml" = {
+                        source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/dotfiles/walker/config.toml";
+                        recursive = true;
                         force = true;
                       };
                     };
@@ -592,15 +579,6 @@
                             name = "autopair";
                             src = pkgs.fishPlugins.autopair.src;
                           }
-                          {
-                            name = "fish-async-prompt";
-                            src = pkgs.fetchFromGitHub {
-                              owner = "acomagu";
-                              repo = "fish-async-prompt";
-                              rev = "316aa03c875b58e7c7f7d3bc9a78175aa47dbaa8";
-                              sha256 = "sha256-J7y3BjqwuEH4zDQe4cWylLn+Vn2Q5pv0XwOSPwhw/Z0=";
-                            };
-                          }
                         ];
                       };
 
@@ -662,7 +640,7 @@
                       stateVersion = "25.05";
                       packages = with pkgs; [
                         # wayland
-                        tofi
+                        walker
                         grim
                         slurp
                         xdg-utils
