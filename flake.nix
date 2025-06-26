@@ -24,6 +24,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
+    ssbm = {
+      url = "github:svelterust/ssbm-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -34,6 +38,7 @@
       firefox-addons,
       raise,
       hyprsome,
+      ssbm,
       ...
     }@inputs:
     {
@@ -402,13 +407,26 @@
                     ...
                   }:
                   {
+                    # Add this imports section
+                    imports = [
+                      ssbm.homeManagerModule
+                    ];
+
                     # Overlays
                     nixpkgs = {
                       config.allowUnfree = true;
                       overlays = [
-                        #rust
+                        # rust
                         rust-overlay.overlays.default
+                        # ssbm
+                        ssbm.overlay
                       ];
+                    };
+
+                    # Melee
+                    ssbm.slippi-launcher = {
+                      enable = true;
+                      isoPath = "/home/odd/downloads/SSBMv102.iso";
                     };
 
                     # User dirs and default applications
