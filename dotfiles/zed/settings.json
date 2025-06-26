@@ -31,16 +31,11 @@
     "vim": {
         "use_system_clipboard": "always"
     },
-    "ui_font_size": 16,
-    "buffer_font_size": 22,
+    "ui_font_size": 18,
+    "buffer_font_size": 18,
     "extend_comment_on_newline": false,
     "buffer_font_family": "JetBrains Mono",
     "ui_font_family": "JetBrains Mono",
-    "theme": {
-        "mode": "system",
-        "light": "Catppuccin Latte",
-        "dark": "Catppuccin Latte"
-    },
     "format_on_save": "on",
     "autosave": "on_focus_change",
     "lsp": {

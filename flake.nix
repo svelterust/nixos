@@ -78,7 +78,6 @@
                 videoDrivers = [ "nvidia" ];
                 hardware = ./hardware/desktop.nix;
                 frameRate = 144;
-                terminalSize = 22.5;
                 bootLoader = {
                   efi = {
                     canTouchEfiVariables = true;
@@ -91,7 +90,20 @@
                   };
                 };
               };
-              settings = desktop;
+              thinkpad = {
+                layout = "us";
+                videoDrivers = [
+                  "i915"
+                  "intel"
+                ];
+                hardware = ./hardware/thinkpad.nix;
+                frameRate = 60;
+                bootLoader = {
+                  systemd-boot.enable = true;
+                  efi.canTouchEfiVariables = true;
+                };
+              };
+              settings = thinkpad;
             in
             {
               # System config
@@ -146,7 +158,7 @@
               # Bootloader
               boot = {
                 loader = settings.bootLoader;
-                supportedFilesystems = [ "ntfs" ];
+                kernelPackages = pkgs.linuxPackages_zen;
               };
 
               # Enable sound
@@ -175,7 +187,6 @@
                   enable = true;
                   extraPackages = with pkgs; [
                     vaapiIntel
-                    vaapiVdpau
                     libvdpau-va-gl
                     intel-media-driver
                   ];
@@ -352,6 +363,7 @@
                   dosfstools
                   libimobiledevice
                   interception-tools
+                  vanilla-dmz
                 ];
                 etc."channels/nixpkgs".source = inputs.nixpkgs.outPath;
               };
@@ -375,7 +387,6 @@
                     "dialout"
                     "video"
                     "adbusers"
-                    "kvm"
                   ];
                   hashedPassword = "$6$/GQatAaT7h0hvkZu$XQIrOflYDVukuW1WW7AWX7v9LhFHAk8YhkRvrSkBKYw5P3jazaEV0.u34t9CK/UMBF6eWohc/H97BlXdEYXZX0";
                 };
@@ -422,6 +433,16 @@
                           "video/mp4" = [ "mpv.desktop" ];
                           "video/webm" = [ "mpv.desktop" ];
                           "application/pdf" = [ "firefox.desktop" ];
+                          # x-scheme-handler/http=firefox.desktop
+                          # x-scheme-handler/https=firefox.desktop
+                          # x-scheme-handler/chrome=firefox.desktop
+                          # text/html=firefox.desktop
+                          # application/x-extension-htm=firefox.desktop
+                          # application/x-extension-html=firefox.desktop
+                          # application/x-extension-shtml=firefox.desktop
+                          # application/xhtml+xml=firefox.desktop
+                          # application/x-extension-xhtml=firefox.desktop
+                          # application/x-extension-xht=firefox.desktop
                         };
                       };
                     };
@@ -457,8 +478,20 @@
                         force = true;
                       };
 
-                      ".config/walker/config.toml" = {
-                        source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/dotfiles/walker/config.toml";
+                      ".config/ghostty" = {
+                        source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/dotfiles/ghostty";
+                        recursive = true;
+                        force = true;
+                      };
+
+                      ".config/fuzzel" = {
+                        source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/dotfiles/fuzzel";
+                        recursive = true;
+                        force = true;
+                      };
+
+                      ".config/swaync" = {
+                        source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/dotfiles/swaync";
                         recursive = true;
                         force = true;
                       };
@@ -623,10 +656,11 @@
 
                     # Packages for home
                     home = {
-                      stateVersion = "25.05";
+                      stateVersion = "25.11";
                       packages = with pkgs; [
                         # wayland
-                        walker
+                        swaynotificationcenter
+                        fuzzel
                         grim
                         slurp
                         xdg-utils

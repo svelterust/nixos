@@ -1,0 +1,5 @@
+font-size = 14
+font-family = JetBrains Mono
+theme = catppuccin-latte.conf
+keybind = ctrl+c=copy_to_clipboard
+keybind = ctrl+z=text:\x03
