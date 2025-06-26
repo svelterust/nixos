@@ -37,9 +37,6 @@
       ...
     }@inputs:
     {
-      # Default formatter
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
-
       # System
       nixosConfigurations."odd" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -70,20 +67,16 @@
                 0.0.0.0 www.facebook.com
                 0.0.0.0 instagram.com
                 0.0.0.0 www.instagram.com
-                0.0.0.0 lobste.rs
-                0.0.0.0 www.lobste.rs
-                0.0.0.0 news.ycombinator.com
-                0.0.0.0 www.news.ycombinator.com
               '';
               zed-fhs = pkgs.buildFHSEnv {
                 name = "zed-fhs";
-                targetPkgs = pkgs: [ pkgs.zed-editor ];
                 runScript = "zeditor";
+                targetPkgs = pkgs: [ pkgs.zed-editor ];
               };
-              settings = {
+              desktop = {
                 layout = "us";
                 videoDrivers = [ "nvidia" ];
-                hardware = ./hardware-configuration.nix;
+                hardware = ./hardware/desktop.nix;
                 frameRate = 144;
                 terminalSize = 22.5;
                 bootLoader = {
@@ -98,6 +91,7 @@
                   };
                 };
               };
+              settings = desktop;
             in
             {
               # System config
@@ -190,14 +184,6 @@
 
               # Docker compose
               virtualisation.docker.enable = true;
-
-              # Redis
-              services.redis.servers = {
-                "cache" = {
-                  enable = true;
-                  port = 6379;
-                };
-              };
 
               # PostgreSQL
               services.postgresql = {
@@ -665,7 +651,6 @@
                         uv
                         ruff
                         python3
-                        conda
 
                         # typescript
                         nodejs_22
@@ -684,7 +669,6 @@
                           ];
                           targets = [
                             "wasm32-unknown-unknown"
-                            "x86_64-unknown-linux-musl"
                           ];
                         })
                         mold

@@ -167,6 +167,7 @@
         "**/.github",
         "**/rel",
         "**/mix.lock",
-        "**/bun.lock"
+        "**/bun.lock",
+        "**/dist"
     ]
 }
