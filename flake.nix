@@ -24,10 +24,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
-    ssbm = {
-      url = "github:svelterust/ssbm-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
@@ -38,7 +34,6 @@
       firefox-addons,
       raise,
       hyprsome,
-      ssbm,
       ...
     }@inputs:
     {
@@ -392,6 +387,7 @@
                     "dialout"
                     "video"
                     "adbusers"
+                    "input"
                   ];
                   hashedPassword = "$6$/GQatAaT7h0hvkZu$XQIrOflYDVukuW1WW7AWX7v9LhFHAk8YhkRvrSkBKYw5P3jazaEV0.u34t9CK/UMBF6eWohc/H97BlXdEYXZX0";
                 };
@@ -407,26 +403,13 @@
                     ...
                   }:
                   {
-                    # Add this imports section
-                    imports = [
-                      ssbm.homeManagerModule
-                    ];
-
                     # Overlays
                     nixpkgs = {
                       config.allowUnfree = true;
                       overlays = [
                         # rust
                         rust-overlay.overlays.default
-                        # ssbm
-                        ssbm.overlay
                       ];
-                    };
-
-                    # Melee
-                    ssbm.slippi-launcher = {
-                      enable = true;
-                      isoPath = "/home/odd/downloads/SSBMv102.iso";
                     };
 
                     # User dirs and default applications
@@ -823,6 +806,7 @@
                         powertop
                         graphviz
                         yt-dlp
+                        dolphin-emu
                       ];
                     };
                   };

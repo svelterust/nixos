@@ -1,5 +1,8 @@
 font-size = 14
 font-family = JetBrains Mono
 theme = catppuccin-latte.conf
-keybind = ctrl+c=copy_to_clipboard
+confirm-close-surface = false
 keybind = ctrl+z=text:\x03
+keybind = ctrl+c=copy_to_clipboard
+keybind = ctrl+t=new_tab
+keybind = ctrl+w=close_tab
