@@ -24,6 +24,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
+    ssbm-nix = {
+      url = "github:NormalFall/ssbm-nix";
+    };
   };
 
   outputs =
@@ -34,6 +37,7 @@
       firefox-addons,
       raise,
       hyprsome,
+      ssbm-nix,
       ...
     }@inputs:
     {
@@ -72,23 +76,6 @@
                 name = "zed-fhs";
                 runScript = "zeditor";
                 targetPkgs = pkgs: [ pkgs.zed-editor ];
-              };
-              desktop = {
-                layout = "us";
-                videoDrivers = [ "nvidia" ];
-                hardware = ./hardware/desktop.nix;
-                frameRate = 144;
-                bootLoader = {
-                  efi = {
-                    canTouchEfiVariables = true;
-                    efiSysMountPoint = "/boot";
-                  };
-                  grub = {
-                    devices = [ "nodev" ];
-                    efiSupport = true;
-                    enable = true;
-                  };
-                };
               };
               thinkpad = {
                 layout = "us";
@@ -132,6 +119,7 @@
                 };
               };
 
+              # Create temporary directory for binaries
               services = {
                 envfs = {
                   enable = true;
@@ -403,13 +391,26 @@
                     ...
                   }:
                   {
+                    # Imports
+                    imports = [ ssbm-nix.homeManagerModule ];
+
                     # Overlays
                     nixpkgs = {
                       config.allowUnfree = true;
                       overlays = [
                         # rust
                         rust-overlay.overlays.default
+                        # ssbm-nix
+                        ssbm-nix.overlays.default
                       ];
+                    };
+
+                    # SSBM
+                    ssbm = {
+                      slippi-launcher = {
+                        enable = true;
+                        isoPath = "/home/odd/download/SSBMv102.iso";
+                      };
                     };
 
                     # User dirs and default applications
@@ -486,12 +487,6 @@
                         force = true;
                       };
 
-                      ".scripts" = {
-                        source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/scripts";
-                        recursive = true;
-                        force = true;
-                      };
-
                       ".config/zed" = {
                         source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/dotfiles/zed";
                         recursive = true;
@@ -515,6 +510,12 @@
                         recursive = true;
                         force = true;
                       };
+
+                      ".scripts" = {
+                        source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/dotfiles/scripts";
+                        recursive = true;
+                        force = true;
+                      };
                     };
 
                     # Services
@@ -524,7 +525,7 @@
                         latitude = 58.4;
                         longitude = 8.6;
                         temperature = {
-                          day = 4000;
+                          day = 5000;
                           night = 2000;
                         };
                       };
@@ -807,6 +808,7 @@
                         graphviz
                         yt-dlp
                         dolphin-emu
+                        bottom
                       ];
                     };
                   };
