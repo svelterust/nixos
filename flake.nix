@@ -67,8 +67,6 @@
                 0.0.0.0 www.instagram.com
                 0.0.0.0 tiktok.com
                 0.0.0.0 www.tiktok.com
-                0.0.0.0 facebook.com
-                0.0.0.0 www.facebook.com
                 0.0.0.0 instagram.com
                 0.0.0.0 www.instagram.com
               '';
@@ -308,6 +306,9 @@
                           EV_KEY: [[KEY_CAPSLOCK, KEY_ESC, KEY_LEFTCTRL]]
                   '';
                 };
+
+              # uDEV
+              services.udev.packages = [ pkgs.dolphin-emu ];
 
               # Fonts
               fonts.packages = with pkgs; [
@@ -681,43 +682,42 @@
                     home = {
                       stateVersion = "25.11";
                       packages = with pkgs; [
-                        # wayland
-                        swaynotificationcenter
-                        fuzzel
-                        grim
-                        slurp
-                        xdg-utils
-                        libnotify
-                        hyprpicker
-                        wl-clipboard
-                        qt6.qtwayland
-                        brightnessctl
-                        swayidle
-                        swaylock
-                        raise.defaultPackage.x86_64-linux
-                        hyprsome.packages.x86_64-linux.default
-
-                        # nix
-                        nil
-
-                        # video
+                        # Audio
                         mpv
-                        xclip
+                        audacious
 
-                        # python
-                        uv
-                        ruff
-                        python3
+                        # Build Tools
+                        gcc
+                        gnumake
+                        just
+                        mold
+                        sccache
 
-                        # typescript
-                        nodejs_22
-                        tailwindcss-language-server
-                        nodePackages.typescript
+                        # Browsers & Web
+                        chromium
+                        chromedriver
+
+                        # Containerization
+                        docker-compose
+
+                        # Development Tools
+                        gitui
+                        ghostty
+                        cargo-nextest
+                        cargo-watch
+                        elixir
+                        gh
+                        inotify-tools
+                        lexical
                         nodePackages.svelte-language-server
+                        nodePackages.typescript
                         nodePackages.typescript-language-server
                         nodePackages.vscode-json-languageserver
-
-                        # rust
+                        nodejs_22
+                        pgcli
+                        protobuf
+                        python3
+                        ruff
                         (rust-bin.nightly.latest.default.override {
                           extensions = [
                             "rust-src"
@@ -728,86 +728,73 @@
                             "wasm32-unknown-unknown"
                           ];
                         })
-                        mold
-                        cargo-watch
-                        cargo-nextest
-                        sccache
+                        sqlite
+                        tailwindcss-language-server
+                        tailwindcss_4
+                        uv
 
-                        # terminal applications
-                        gdb
-                        xxd
-                        ncdu
-                        just
-                        ffmpeg
-                        bottom
-                        gnumake
-                        imagemagick
-                        ghostscript
-                        jq
-                        sxiv
+                        # Editors
+                        micro
+                        zed-editor
+                        zed-fhs
+
+                        # File & Directory
+                        eza
                         fd
+                        ncdu
 
-                        # gui
+                        # GUI Applications
                         gimp
                         libreoffice
 
-                        # bun
-                        bun
+                        # Image & Graphics
+                        ghostscript
+                        imagemagick
+                        sxiv
 
-                        # http
+                        # Claude Code
+                        claude-code
+
+                        # Monitoring & Profiling
+                        bottom
+                        powertop
+
+                        # Networking & Connectivity
+                        flyctl
+                        httpie-desktop
                         ngrok
                         stripe-cli
-                        httpie-desktop
+                        watchman
 
-                        # docker
-                        docker-compose
-
-                        # git
-                        gitui
-
-                        # fly
-                        gh
-                        flyctl
-
-                        # zed
-                        zed-editor
-                        zed-fhs
-                        pgcli
-
-                        # audio
-                        audacious
-
-                        # terminal
-                        ghostty
-
-                        # scraping
-                        chromium
-                        chromedriver
-
-                        # micro
-                        micro
-
-                        # nix
+                        # Nix
+                        alejandra
+                        nil
                         nixd
 
-                        # format
-                        alejandra
-
-                        # elixir
-                        elixir
-                        lexical
-                        inotify-tools
-                        tailwindcss_4
-                        sqlite
-
-                        # other
-                        protobuf
-                        powertop
+                        # Utilities
+                        ffmpeg
                         graphviz
+                        jq
+                        xclip
+                        xxd
                         yt-dlp
-                        bottom
-                        gcc
-                        watchman
+                        bun
+
+                        # Wayland
+                        brightnessctl
+                        fuzzel
+                        grim
+                        hyprpicker
+                        hyprsome.packages.x86_64-linux.default
+                        libnotify
+                        qt6.qtwayland
+                        raise.defaultPackage.x86_64-linux
+                        slurp
+                        swayidle
+                        swaylock
+                        swaynotificationcenter
+                        wl-clipboard
+                        xdg-utils
                       ];
                     };
                   };

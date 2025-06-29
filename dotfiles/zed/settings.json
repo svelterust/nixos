@@ -4,9 +4,10 @@
         "default_profile": "write",
         "always_allow_tool_actions": true,
         "default_model": {
-            "provider": "zed.dev",
-            "model": "claude-sonnet-4"
+            "provider": "google",
+            "model": "gemini-2.5-flash-preview-04-17"
         },
+        "play_sound_when_agent_done": true,
         "version": "2"
     },
     "project_panel": {
@@ -46,15 +47,6 @@
                 }
             }
         },
-        "elixir-ls": {
-            "binary": {
-                "path": "/home/odd/.nix-profile/bin/elixir-ls"
-            },
-            "settings": {
-                "dialyzerEnabled": true,
-                "incrementalDialyzer": true
-            }
-        },
         "tailwindcss-language-server": {
             "settings": {
                 "includeLanguages": {
@@ -89,14 +81,19 @@
         },
         "Elixir": {
             "show_whitespaces": "selection",
-            "language_servers": ["elixir-ls", "tailwindcss-language-server"]
+            "language_servers": [
+                "lexical",
+                "tailwindcss-language-server",
+                "!elixir-ls"
+            ]
         },
         "HEEX": {
             "show_whitespaces": "selection",
             "language_servers": [
-                "elixir-ls",
+                "lexical",
                 "tailwindcss-language-server",
-                "emmet-language-server"
+                "emmet-language-server",
+                "!elixir-ls"
             ]
         }
     },
@@ -154,7 +151,8 @@
         "**/.idea",
         "**/.gradle",
         "**/.aider*",
-        "**/llms*",
+        "**/.lexical",
+        "**/GEMINI.md",
         "**/.ruby-version",
         "**/.gitattributes",
         "**/.rubocop.yml",

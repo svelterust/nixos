@@ -26,8 +26,11 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [
     "kvm-intel"
+    "gcadapter_oc"
   ];
-  boot.extraModulePackages = [ ];
+  boot.extraModulePackages = [
+    config.boot.kernelPackages.gcadapter-oc-kmod
+  ];
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/dc7bb3ae-751e-4e41-88a0-31a8e013ebc5";
