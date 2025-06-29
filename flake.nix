@@ -409,7 +409,7 @@
                     ssbm = {
                       slippi-launcher = {
                         enable = true;
-                        isoPath = "/home/odd/download/SSBMv102.iso";
+                        isoPath = "/home/odd/.iso/SSBMv102.iso";
                       };
                     };
 
@@ -610,6 +610,8 @@
                           set -x PLUG_EDITOR "zed://file/__FILE__:__LINE__"
                           set -x VISUAL "/home/odd/.config/zed/zed.sh"
                           set -x EDITOR "/home/odd/.config/zed/zed.sh"
+                          set -x GOOGLE_CLOUD_PROJECT "silver-tape-463720-h6"
+                          fish_add_path /home/odd/.bun/bin
                         '';
                         interactiveShellInit = ''
                           set fish_greeting
@@ -782,11 +784,6 @@
                         chromium
                         chromedriver
 
-                        # ruby
-                        gcc
-                        sqlite
-                        watchman
-
                         # micro
                         micro
 
@@ -798,17 +795,19 @@
 
                         # elixir
                         elixir
-                        elixir-ls
+                        lexical
                         inotify-tools
                         tailwindcss_4
+                        sqlite
 
                         # other
                         protobuf
                         powertop
                         graphviz
                         yt-dlp
-                        dolphin-emu
                         bottom
+                        gcc
+                        watchman
                       ];
                     };
                   };

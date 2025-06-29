@@ -1,0 +1,4 @@
+dotfiles/cargo/.global-cache
+dotfiles/cargo/.package-cache
+dotfiles/cargo/registry
+dotfiles/cargo/.package-cache-mutate
