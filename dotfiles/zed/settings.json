@@ -152,7 +152,7 @@
         "**/.gradle",
         "**/.aider*",
         "**/.lexical",
-        "**/GEMINI.md",
+        "**/CLAUDE.md",
         "**/.ruby-version",
         "**/.gitattributes",
         "**/.rubocop.yml",
@@ -161,6 +161,9 @@
         "**/rel",
         "**/mix.lock",
         "**/bun.lock",
-        "**/dist"
+        "**/dist",
+        "**/supabase",
+        "**/.output",
+        "**/.wxt"
     ]
 }

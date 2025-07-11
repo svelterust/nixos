@@ -57,12 +57,12 @@
                 sha256 = "sha256-9ylM56W3q699xi9TNPGHHxtBwDPCtb4D0YcWv4I76sg=";
               };
               blockList = ''
-                0.0.0.0 quora.com
-                0.0.0.0 www.quora.com
                 0.0.0.0 x.com
                 0.0.0.0 www.x.com
-                0.0.0.0 twitter.com
-                0.0.0.0 www.twitter.com
+                0.0.0.0 facebook.com
+                0.0.0.0 www.facebook.com
+                0.0.0.0 quora.com
+                0.0.0.0 www.quora.com
                 0.0.0.0 instagram.com
                 0.0.0.0 www.instagram.com
                 0.0.0.0 tiktok.com
@@ -95,7 +95,7 @@
               system.stateVersion = "25.11";
 
               # Set your time zone.
-              time.timeZone = "Europe/Oslo";
+              time.timeZone = "Africa/Cairo";
 
               # Configure console keymap
               console.keyMap = "colemak";
@@ -122,6 +122,12 @@
                 envfs = {
                   enable = true;
                 };
+              };
+
+              # OLLAMA
+              services.ollama = {
+                enable = true;
+                loadModels = [ "nomic-embed-text" ];
               };
 
               # Zram
@@ -523,8 +529,8 @@
                     services = {
                       gammastep = {
                         enable = true;
-                        latitude = 58.4;
-                        longitude = 8.6;
+                        latitude = 30.07;
+                        longitude = 31.69;
                         temperature = {
                           day = 5000;
                           night = 2000;
@@ -609,9 +615,9 @@
                           set -x NIXPKGS_ALLOW_UNFREE 1
                           set -x ERL_AFLAGS "-kernel shell_history enabled"
                           set -x PLUG_EDITOR "zed://file/__FILE__:__LINE__"
+                          set -x LAUNCH_EDITOR "/home/odd/.config/zed/zed.sh"
                           set -x VISUAL "/home/odd/.config/zed/zed.sh"
                           set -x EDITOR "/home/odd/.config/zed/zed.sh"
-                          set -x GOOGLE_CLOUD_PROJECT "silver-tape-463720-h6"
                           fish_add_path /home/odd/.bun/bin
                         '';
                         interactiveShellInit = ''
@@ -755,6 +761,9 @@
                         # Claude Code
                         claude-code
 
+                        # Supabase
+                        supabase-cli
+
                         # Monitoring & Profiling
                         bottom
                         powertop
@@ -779,6 +788,19 @@
                         xxd
                         yt-dlp
                         bun
+
+                        # Zig
+                        zig
+                        zls
+
+                        # Solana
+                        solana-cli
+                        anchor
+                        yarn
+
+                        # JJ
+                        jujutsu
+                        jjui
 
                         # Wayland
                         brightnessctl
