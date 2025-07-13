@@ -61,6 +61,7 @@ slider {
     .notification-content
     .summary {
     color: #4c4f69;
+    font-weight: bold;
 }
 
 .floating-notifications.background
@@ -226,6 +227,7 @@ slider {
     .notification-content
     .summary {
     color: #4c4f69;
+    font-weight: bold;
 }
 
 .control-center

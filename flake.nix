@@ -57,6 +57,12 @@
                 sha256 = "sha256-9ylM56W3q699xi9TNPGHHxtBwDPCtb4D0YcWv4I76sg=";
               };
               blockList = ''
+                0.0.0.0 youtube.com
+                0.0.0.0 www.youtube.com
+                0.0.0.0 news.ycombinator.com
+                0.0.0.0 www.news.ycombinator.com
+                0.0.0.0 lobste.rs
+                0.0.0.0 www.lobste.rs
                 0.0.0.0 x.com
                 0.0.0.0 www.x.com
                 0.0.0.0 facebook.com
@@ -124,22 +130,20 @@
                 };
               };
 
-              # OLLAMA
-              services.ollama = {
-                enable = true;
-                loadModels = [ "nomic-embed-text" ];
-              };
-
               # Zram
               zramSwap = {
                 enable = true;
                 memoryPercent = 50;
+                algorithm = "zstd";
               };
 
               # Configuration
               nixpkgs = {
                 config.allowUnfree = true;
               };
+
+              # Game mode
+              programs.gamemode.enable = true;
 
               # Programs
               programs = {
@@ -162,15 +166,23 @@
               # Enable networking
               networking = {
                 hostName = "odd";
-                firewall.enable = true;
+                firewall = {
+                  enable = true;
+                  connectionTrackingModules = [
+                    "ftp"
+                    "irc"
+                    "sane"
+                  ];
+                  autoLoadConntrackHelpers = false; # Reduces overhead
+                };
                 networkmanager.enable = true;
                 extraHosts = (builtins.readFile hosts) + blockList;
                 nameservers = [
                   "1.1.1.1"
-                  "1.0.0.1"
                   "8.8.8.8"
                 ];
               };
+              services.irqbalance.enable = true;
 
               # Enable OpenGL and bluetooth
               hardware = {
@@ -312,9 +324,6 @@
                           EV_KEY: [[KEY_CAPSLOCK, KEY_ESC, KEY_LEFTCTRL]]
                   '';
                 };
-
-              # uDEV
-              services.udev.packages = [ pkgs.dolphin-emu ];
 
               # Fonts
               fonts.packages = with pkgs; [
@@ -797,10 +806,6 @@
                         solana-cli
                         anchor
                         yarn
-
-                        # JJ
-                        jujutsu
-                        jjui
 
                         # Wayland
                         brightnessctl

@@ -14,6 +14,56 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
+  boot.kernel.sysctl = {
+    # TCP Buffer Sizes (aggressive tuning for high-speed networks)
+    "net.core.rmem_default" = 262144;
+    "net.core.rmem_max" = 134217728; # 128MB
+    "net.core.wmem_default" = 262144;
+    "net.core.wmem_max" = 134217728; # 128MB
+
+    # TCP Window Scaling
+    "net.ipv4.tcp_window_scaling" = 1;
+    "net.ipv4.tcp_rmem" = "4096 65536 134217728"; # min default max
+    "net.ipv4.tcp_wmem" = "4096 65536 134217728";
+
+    # TCP Congestion Control (BBR is optimal for most scenarios)
+    "net.ipv4.tcp_congestion_control" = "bbr";
+    "net.core.default_qdisc" = "fq";
+
+    # Network Interface Queue Length
+    "net.core.netdev_max_backlog" = 5000;
+    "net.core.netdev_budget" = 600;
+
+    # TCP Performance Tuning
+    "net.ipv4.tcp_fastopen" = 3;
+    "net.ipv4.tcp_slow_start_after_idle" = 0;
+    "net.ipv4.tcp_mtu_probing" = 1;
+    "net.ipv4.tcp_timestamps" = 1;
+    "net.ipv4.tcp_sack" = 1;
+    "net.ipv4.tcp_fack" = 1;
+    "net.ipv4.tcp_no_metrics_save" = 1;
+
+    # Reduce TCP retransmission overhead
+    "net.ipv4.tcp_retries2" = 8;
+    "net.ipv4.tcp_syn_retries" = 3;
+
+    # IPv6 optimizations
+    "net.ipv6.conf.all.disable_ipv6" = 0;
+    "net.ipv6.conf.default.disable_ipv6" = 0;
+
+    # Network Security (performance-oriented)
+    "net.ipv4.tcp_syncookies" = 1;
+    "net.ipv4.tcp_rfc1337" = 1;
+
+    # File descriptor limits
+    "fs.file-max" = 1048576;
+
+    # Virtual memory tuning for network workloads
+    "vm.swappiness" = 10;
+    "vm.dirty_ratio" = 15;
+    "vm.dirty_background_ratio" = 5;
+  };
+
   boot.initrd.availableKernelModules = [
     "xhci_pci"
     "thunderbolt"
@@ -26,10 +76,6 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [
     "kvm-intel"
-    "gcadapter_oc"
-  ];
-  boot.extraModulePackages = [
-    config.boot.kernelPackages.gcadapter-oc-kmod
   ];
 
   fileSystems."/" = {
