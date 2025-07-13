@@ -532,6 +532,11 @@
                         recursive = true;
                         force = true;
                       };
+
+                      ".claude/CLAUDE.md" = {
+                        source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/dotfiles/claude/CLAUDE.md";
+                        force = true;
+                      };
                     };
 
                     # Services
