@@ -57,6 +57,9 @@
         }
     },
     "languages": {
+        "Nix": {
+          "language_servers": ["!nil", "!nixd"]
+        },
         "TypeScript": {
           "language_servers": ["tsgo", "!vstls"]
         },

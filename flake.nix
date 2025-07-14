@@ -130,6 +130,29 @@
                 };
               };
 
+              # Prayer time notification timer
+              systemd.services.prayers = {
+                description = "Prayer Time Notification";
+                serviceConfig = {
+                  Type = "oneshot";
+                  User = "odd";
+                  Environment = [
+                    "DISPLAY=:0"
+                    "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus"
+                  ];
+                  ExecStart = "/etc/nixos/scripts/prayers.sh";
+                };
+              };
+
+              systemd.timers.prayers = {
+                description = "Prayer Time Notification Timer";
+                wantedBy = [ "timers.target" ];
+                timerConfig = {
+                  OnCalendar = "*:*:00";
+                  Persistent = true;
+                };
+              };
+
               # Zram
               zramSwap = {
                 enable = true;
@@ -660,12 +683,8 @@
                             "security.tls.enable_0rtt_data" = false;
                           };
                           extensions.packages = with firefox-addons.packages."x86_64-linux"; [
-                            sponsorblock
                             ublock-origin
                             i-dont-care-about-cookies
-                            youtube-shorts-block
-                            df-youtube
-                            disconnect
                           ];
                         };
                       };

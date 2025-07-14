@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "focus": {
+      "exec": "raise --class \"dev.zed.Zed\" --launch \"zeditor\"",
+      "app-name": "Zed"
+    }
+  }
+}
