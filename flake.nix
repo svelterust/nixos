@@ -24,9 +24,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
-    ssbm-nix = {
-      url = "github:NormalFall/ssbm-nix";
-    };
   };
 
   outputs =
@@ -37,7 +34,6 @@
       firefox-addons,
       raise,
       hyprsome,
-      ssbm-nix,
       ...
     }@inputs:
     {
@@ -57,8 +53,6 @@
                 sha256 = "sha256-9ylM56W3q699xi9TNPGHHxtBwDPCtb4D0YcWv4I76sg=";
               };
               blockList = ''
-                0.0.0.0 youtube.com
-                0.0.0.0 www.youtube.com
                 0.0.0.0 news.ycombinator.com
                 0.0.0.0 www.news.ycombinator.com
                 0.0.0.0 lobste.rs
@@ -123,33 +117,31 @@
                 };
               };
 
+              # Distrobox
+              virtualisation.podman = {
+                enable = true;
+                dockerCompat = true;
+              };
+
+              # Email
+              programs.thunderbird = {
+                enable = true;
+              };
+
+              # Syncing
+              services.syncthing = {
+                enable = true;
+                openDefaultPorts = true;
+                user = "odd";
+                dataDir = "/home/odd";
+                configDir = "/home/odd/.config/syncthing";
+                extraFlags = [ "--no-default-folder" ];
+              };
+
               # Create temporary directory for binaries
               services = {
                 envfs = {
                   enable = true;
-                };
-              };
-
-              # Prayer time notification timer
-              systemd.services.prayers = {
-                description = "Prayer Time Notification";
-                serviceConfig = {
-                  Type = "oneshot";
-                  User = "odd";
-                  Environment = [
-                    "DISPLAY=:0"
-                    "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus"
-                  ];
-                  ExecStart = "/etc/nixos/scripts/prayers.sh";
-                };
-              };
-
-              systemd.timers.prayers = {
-                description = "Prayer Time Notification Timer";
-                wantedBy = [ "timers.target" ];
-                timerConfig = {
-                  OnCalendar = "*:*:00";
-                  Persistent = true;
                 };
               };
 
@@ -184,7 +176,7 @@
               security.rtkit.enable = true;
 
               # Swaylock hack fix
-              security.pam.services.swaylock = { };
+              security.pam.services.swaylock = {};
 
               # Enable networking
               networking = {
@@ -219,9 +211,6 @@
                   ];
                 };
               };
-
-              # Docker compose
-              virtualisation.docker.enable = true;
 
               # PostgreSQL
               services.postgresql = {
@@ -350,13 +339,9 @@
 
               # Fonts
               fonts.packages = with pkgs; [
-                hack-font
-                noto-fonts
                 geist-font
                 noto-fonts-emoji
                 jetbrains-mono
-                inter
-                ibm-plex
               ];
 
               # Use Fish as default shell
@@ -390,7 +375,8 @@
                   dosfstools
                   libimobiledevice
                   interception-tools
-                  vanilla-dmz
+                  distrobox
+                  vanilla-dmz # cursor theme
                 ];
                 etc."channels/nixpkgs".source = inputs.nixpkgs.outPath;
               };
@@ -430,26 +416,13 @@
                     ...
                   }:
                   {
-                    # Imports
-                    imports = [ ssbm-nix.homeManagerModule ];
-
                     # Overlays
                     nixpkgs = {
                       config.allowUnfree = true;
                       overlays = [
                         # rust
                         rust-overlay.overlays.default
-                        # ssbm-nix
-                        ssbm-nix.overlays.default
                       ];
-                    };
-
-                    # SSBM
-                    ssbm = {
-                      slippi-launcher = {
-                        enable = true;
-                        isoPath = "/home/odd/.iso/SSBMv102.iso";
-                      };
                     };
 
                     # User dirs and default applications
@@ -503,6 +476,9 @@
                           "application/xhtml+xml" = [ "firefox.desktop" ];
                           "application/x-extension-xhtml" = [ "firefox.desktop" ];
                           "application/x-extension-xht" = [ "firefox.desktop" ];
+                          "x-scheme-handler/mailto" = [ "userapp-Thunderbird-ZVTW92.desktop" ];
+                          "message/rfc822" = [ "userapp-Thunderbird-ZVTW92.desktop" ];
+                          "x-scheme-handler/mid" = [ "userapp-Thunderbird-ZVTW92.desktop" ];
                         };
                       };
                     };
@@ -546,12 +522,6 @@
 
                       ".config/swaync" = {
                         source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/dotfiles/swaync";
-                        recursive = true;
-                        force = true;
-                      };
-
-                      ".scripts" = {
-                        source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/dotfiles/scripts";
                         recursive = true;
                         force = true;
                       };
@@ -602,11 +572,6 @@
                         enable = true;
                         nix-direnv.enable = true;
                         silent = true;
-                      };
-
-                      zoxide = {
-                        enable = true;
-                        enableFishIntegration = true;
                       };
 
                       starship = {
@@ -723,7 +688,6 @@
                       packages = with pkgs; [
                         # Audio
                         mpv
-                        audacious
 
                         # Build Tools
                         gcc
@@ -735,9 +699,6 @@
                         # Browsers & Web
                         chromium
                         chromedriver
-
-                        # Containerization
-                        docker-compose
 
                         # Development Tools
                         gitui
@@ -768,14 +729,15 @@
                           ];
                         })
                         sqlite
-                        tailwindcss-language-server
-                        tailwindcss_4
                         uv
 
                         # Editors
                         micro
                         zed-editor
                         zed-fhs
+
+                        # Crypto
+                        exodus
 
                         # File & Directory
                         eza
@@ -803,22 +765,16 @@
 
                         # Networking & Connectivity
                         flyctl
-                        httpie-desktop
                         ngrok
                         stripe-cli
-                        watchman
 
                         # Nix
                         alejandra
-                        nil
-                        nixd
 
                         # Utilities
                         ffmpeg
-                        graphviz
                         jq
                         xclip
-                        xxd
                         yt-dlp
                         bun
 
@@ -826,10 +782,11 @@
                         zig
                         zls
 
-                        # Solana
-                        solana-cli
-                        anchor
-                        yarn
+                        # Slint
+                        slint-lsp
+
+                        # Mattermost
+                        mattermost-desktop
 
                         # Wayland
                         brightnessctl

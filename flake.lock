@@ -179,22 +179,6 @@
         "type": "github"
       }
     },
-    "nixpkgs_2": {
-      "locked": {
-        "lastModified": 1716330097,
-        "narHash": "sha256-8BO3B7e3BiyIDsaKA0tY8O88rClYRTjvAp66y+VBUeU=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "5710852ba686cc1fd0d3b8e22b3117d43ba374c2",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "raise": {
       "inputs": {
         "flake-utils": [
@@ -227,8 +211,7 @@
         "hyprsome": "hyprsome",
         "nixpkgs": "nixpkgs",
         "raise": "raise",
-        "rust-overlay": "rust-overlay_2",
-        "ssbm-nix": "ssbm-nix"
+        "rust-overlay": "rust-overlay_2"
       }
     },
     "rust-overlay": {
@@ -275,24 +258,6 @@
       "original": {
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "type": "github"
-      }
-    },
-    "ssbm-nix": {
-      "inputs": {
-        "nixpkgs": "nixpkgs_2"
-      },
-      "locked": {
-        "lastModified": 1747167954,
-        "narHash": "sha256-KnJaknspIIRCWgLLGsKROyopdVvd2sg9/IYjSLoMf/s=",
-        "owner": "NormalFall",
-        "repo": "ssbm-nix",
-        "rev": "e0432ec3d46dc9879690d2007fc92cbbaa47d697",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NormalFall",
-        "repo": "ssbm-nix",
         "type": "github"
       }
     },

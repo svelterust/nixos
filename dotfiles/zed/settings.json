@@ -4,8 +4,8 @@
         "default_profile": "write",
         "always_allow_tool_actions": true,
         "default_model": {
-            "provider": "google",
-            "model": "gemini-2.5-flash-preview-04-17"
+            "provider": "zed.dev",
+            "model": "claude-sonnet-4"
         },
         "play_sound_when_agent_done": true,
         "version": "2"
@@ -37,7 +37,7 @@
     "extend_comment_on_newline": false,
     "buffer_font_family": "JetBrains Mono",
     "ui_font_family": "JetBrains Mono",
-    "format_on_save": "off",
+    "format_on_save": "on",
     "autosave": "on_focus_change",
     "lsp": {
         "pyright": {
@@ -58,10 +58,7 @@
     },
     "languages": {
         "Nix": {
-          "language_servers": ["!nil", "!nixd"]
-        },
-        "TypeScript": {
-          "language_servers": ["tsgo", "!vstls"]
+            "language_servers": ["!nil", "!nixd"]
         },
         "Python": {
             "language_servers": [
@@ -170,6 +167,9 @@
         "**/dist",
         "**/supabase",
         "**/.output",
-        "**/.wxt"
+        "**/.wxt",
+        "**/_generated",
+        "**/.env.local",
+        "**/convex.json"
     ]
 }
