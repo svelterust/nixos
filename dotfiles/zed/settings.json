@@ -57,9 +57,6 @@
         }
     },
     "languages": {
-        "Nix": {
-            "language_servers": ["!nil", "!nixd"]
-        },
         "Python": {
             "language_servers": [
                 "ruff",

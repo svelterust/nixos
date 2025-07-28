@@ -53,10 +53,6 @@
                 sha256 = "sha256-9ylM56W3q699xi9TNPGHHxtBwDPCtb4D0YcWv4I76sg=";
               };
               blockList = ''
-                0.0.0.0 news.ycombinator.com
-                0.0.0.0 www.news.ycombinator.com
-                0.0.0.0 lobste.rs
-                0.0.0.0 www.lobste.rs
                 0.0.0.0 x.com
                 0.0.0.0 www.x.com
                 0.0.0.0 facebook.com
@@ -176,7 +172,7 @@
               security.rtkit.enable = true;
 
               # Swaylock hack fix
-              security.pam.services.swaylock = {};
+              security.pam.services.swaylock = { };
 
               # Enable networking
               networking = {
@@ -490,12 +486,6 @@
 
                     # Custom dotfiles
                     home.file = {
-                      ".cargo" = {
-                        source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/dotfiles/cargo";
-                        recursive = true;
-                        force = true;
-                      };
-
                       ".config/hypr" = {
                         source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/dotfiles/hyprland";
                         recursive = true;
@@ -523,6 +513,11 @@
                       ".config/swaync" = {
                         source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/dotfiles/swaync";
                         recursive = true;
+                        force = true;
+                      };
+
+                      ".cargo/config.toml" = {
+                        source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/dotfiles/cargo/config.toml";
                         force = true;
                       };
 
@@ -722,10 +717,6 @@
                           extensions = [
                             "rust-src"
                             "rust-analyzer"
-                            "rustc-codegen-cranelift"
-                          ];
-                          targets = [
-                            "wasm32-unknown-unknown"
                           ];
                         })
                         sqlite
@@ -784,6 +775,10 @@
 
                         # Slint
                         slint-lsp
+
+                        # Nix
+                        nil
+                        nixd
 
                         # Mattermost
                         mattermost-desktop
