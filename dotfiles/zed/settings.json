@@ -167,6 +167,7 @@
         "**/.wxt",
         "**/_generated",
         "**/.env.local",
-        "**/convex.json"
+        "**/convex.json",
+        "**/.gitlab-ci.yml"
     ]
 }

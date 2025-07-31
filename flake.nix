@@ -134,6 +134,13 @@
                 extraFlags = [ "--no-default-folder" ];
               };
 
+              # Fingerprint
+              services.fprintd = {
+                enable = true;
+                tod.enable = true;
+                tod.driver = pkgs.libfprint-2-tod1-goodix-550a;
+              };
+
               # Create temporary directory for binaries
               services = {
                 envfs = {
@@ -397,10 +404,22 @@
                     "video"
                     "adbusers"
                     "input"
+                    "render"
+                    "kvm"
                   ];
                   hashedPassword = "$6$/GQatAaT7h0hvkZu$XQIrOflYDVukuW1WW7AWX7v9LhFHAk8YhkRvrSkBKYw5P3jazaEV0.u34t9CK/UMBF6eWohc/H97BlXdEYXZX0";
                 };
+                groups.render = { };
               };
+
+              services.udev.extraRules = ''
+                # DRM devices
+                SUBSYSTEM=="drm", GROUP="video", MODE="0664"
+                KERNEL=="renderD*", GROUP="render", MODE="0666"
+
+                # Allow access to card devices
+                KERNEL=="card*", SUBSYSTEM=="drm", GROUP="video", MODE="0664", TAG+="uaccess"
+              '';
 
               # Manage user account with home manager
               home-manager = {
@@ -534,7 +553,7 @@
                         latitude = 30.07;
                         longitude = 31.69;
                         temperature = {
-                          day = 5000;
+                          day = 6500;
                           night = 2000;
                         };
                       };
