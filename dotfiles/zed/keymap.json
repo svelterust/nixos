@@ -1,95 +1,97 @@
 [
-  {
-    "context": "VimControl && !menu",
-    "bindings": {
-      "a": "command_palette::Toggle",
-      "t": "vim::InsertBefore",
-      "r": "vim::InsertAfter",
-      "z": "vim::ToggleComments",
-      "x": "editor::Cut",
-      "j": "vim::Undo",
-      "c": "vim::VisualYank",
-      "v": "editor::Paste",
-      "n": "vim::Left",
-      "u": "vim::Up",
-      "e": "vim::Down",
-      "i": "vim::Right",
-      "l": "vim::PreviousWordStart",
-      "y": "vim::NextWordStart",
-      "p": "editor::DeleteToNextWordEnd",
-      "f": "editor::DeleteToPreviousWordStart",
-      "s": "vim::DeleteLeft",
-      "h": "vim::StartOfLine",
-      "o": "vim::EndOfLine",
-      "b": "vim::ChangeCase",
-      "6": "editor::SelectLargerSyntaxNode",
-      "7": "vim::ToggleVisualLine",
-      "d": "vim::ToggleVisual",
-      "4": "pane::SplitDown",
-      "5": "pane::SplitRight",
-      "9": "editor::SelectLargerSyntaxNode",
-      "0": "workspace::CloseInactiveTabsAndPanes",
-      "3": "workspace::CloseInactiveTabsAndPanes",
-      "space k": "vim::EndOfDocument",
-      "space h": "vim::StartOfDocument",
-      "k": "vim::Search",
-      "/": "file_finder::Toggle"
+    {
+        "context": "VimControl && !menu",
+        "bindings": {
+            "a": "command_palette::Toggle",
+            "t": "vim::InsertBefore",
+            "r": "vim::InsertAfter",
+            "z": "vim::ToggleComments",
+            "x": "editor::Cut",
+            "j": "vim::Undo",
+            "c": "vim::VisualYank",
+            "v": "editor::Paste",
+            "n": "vim::Left",
+            "u": "vim::Up",
+            "e": "vim::Down",
+            "i": "vim::Right",
+            "l": "vim::PreviousWordStart",
+            "y": "vim::NextWordStart",
+            "p": "editor::DeleteToNextWordEnd",
+            "f": "editor::DeleteToPreviousWordStart",
+            "s": "vim::DeleteLeft",
+            "h": "vim::StartOfLine",
+            "o": "vim::EndOfLine",
+            "b": "vim::ChangeCase",
+            "6": "editor::SelectLargerSyntaxNode",
+            "7": "vim::ToggleVisualLine",
+            "d": "vim::ToggleVisual",
+            "4": "pane::SplitDown",
+            "5": "pane::SplitRight",
+            "9": "editor::SelectLargerSyntaxNode",
+            "0": "workspace::CloseInactiveTabsAndPanes",
+            "3": "workspace::CloseInactiveTabsAndPanes",
+            "space k": "vim::EndOfDocument",
+            "space h": "vim::StartOfDocument",
+            "k": "vim::Search",
+            "/": "file_finder::Toggle",
+            "ctrl-u": "vim::ScrollUp",
+            "ctrl-e": "vim::ScrollDown"
+        }
+    },
+    {
+        "context": "vim_mode == normal && !menu",
+        "bindings": {
+            "enter": "editor::Newline"
+        }
+    },
+    {
+        "context": "vim_mode == visual",
+        "bindings": {
+            "t": ["workspace::SendKeystrokes", "x t"]
+        }
+    },
+    {
+        "context": "vim_mode == insert",
+        "bindings": {
+            "escape": ["workspace::SendKeystrokes", "ctrl-[ right"]
+        }
+    },
+    {
+        "context": "Editor && !menu",
+        "bindings": {
+            "ctrl-c": "editor::Copy",
+            "ctrl-x": "editor::Cut",
+            "ctrl-v": "editor::Paste",
+            "ctrl-z": "editor::Undo",
+            "ctrl-f": "buffer_search::Deploy",
+            "ctrl-a": "editor::SelectAll"
+        }
+    },
+    {
+        "context": "Terminal",
+        "bindings": {
+            "ctrl-z": ["terminal::SendKeystroke", "ctrl-c"],
+            "ctrl-c": "terminal::Copy",
+            "ctrl-v": "terminal::Paste"
+        }
+    },
+    {
+        "bindings": {
+            "ctrl-enter": "assistant::Assist"
+        }
+    },
+    {
+        "bindings": {
+            "alt-x": "command_palette::Toggle",
+            "alt-b": "workspace::ToggleRightDock",
+            "alt-a": "agent::NewThread",
+            "alt-c": "agent::NewTextThread",
+            "alt-g": "git_panel::ToggleFocus",
+            "alt-f": "project_panel::ToggleFocus",
+            "ctrl-w": "pane::CloseActiveItem",
+            "alt-w": "workspace::CloseInactiveTabsAndPanes",
+            "ctrl-t": "terminal_panel::ToggleFocus",
+            "ctrl-shift-t": "workspace::NewTerminal"
+        }
     }
-  },
-  {
-    "context": "vim_mode == normal && !menu",
-    "bindings": {
-      "enter": "editor::Newline"
-    }
-  },
-  {
-    "context": "vim_mode == visual",
-    "bindings": {
-      "t": ["workspace::SendKeystrokes", "x t"]
-    }
-  },
-  {
-    "context": "vim_mode == insert",
-    "bindings": {
-      "escape": ["workspace::SendKeystrokes", "ctrl-[ right"]
-    }
-  },
-  {
-    "context": "Editor && !menu",
-    "bindings": {
-      "ctrl-c": "editor::Copy",
-      "ctrl-x": "editor::Cut",
-      "ctrl-v": "editor::Paste",
-      "ctrl-z": "editor::Undo",
-      "ctrl-f": "buffer_search::Deploy",
-      "ctrl-a": "editor::SelectAll"
-    }
-  },
-  {
-    "context": "Terminal",
-    "bindings": {
-      "ctrl-z": ["terminal::SendKeystroke", "ctrl-c"],
-      "ctrl-c": "terminal::Copy",
-      "ctrl-v": "terminal::Paste"
-    }
-  },
-  {
-    "bindings": {
-      "ctrl-enter": "assistant::Assist"
-    }
-  },
-  {
-    "bindings": {
-      "alt-x": "command_palette::Toggle",
-      "alt-b": "workspace::ToggleRightDock",
-      "alt-a": "agent::NewThread",
-      "alt-c": "agent::NewTextThread",
-      "alt-g": "git_panel::ToggleFocus",
-      "alt-f": "project_panel::ToggleFocus",
-      "ctrl-w": "pane::CloseActiveItem",
-      "alt-w": "workspace::CloseInactiveTabsAndPanes",
-      "ctrl-t": "terminal_panel::ToggleFocus",
-      "ctrl-shift-t": "workspace::NewTerminal"
-    }
-  }
 ]

@@ -186,21 +186,41 @@
               # Enable networking
               networking = {
                 hostName = "odd";
-                firewall = {
-                  enable = true;
-                  connectionTrackingModules = [
-                    "ftp"
-                    "irc"
-                    "sane"
-                  ];
-                  autoLoadConntrackHelpers = false; # Reduces overhead
-                };
                 networkmanager.enable = true;
                 extraHosts = (builtins.readFile hosts) + blockList;
+                firewall = {
+                  enable = false;
+                  allowedUDPPorts = [ 22 ];
+                };
                 nameservers = [
                   "1.1.1.1"
                   "8.8.8.8"
                 ];
+                wireguard = {
+                  enable = true;
+                  interfaces = {
+                    wg0 = {
+                      listenPort = 22;
+                      ips = [ "10.100.0.2/24" ];
+                      privateKeyFile = "/etc/wireguard/client_private.key";
+                      preSetup = ''
+                        ${pkgs.iproute2}/bin/ip route add 178.162.242.97 via $(${pkgs.iproute2}/bin/ip route show 0.0.0.0/0 | ${pkgs.gawk}/bin/awk '{print $3}')
+                      '';
+                      postShutdown = ''
+                        ${pkgs.iproute2}/bin/ip route del 178.162.242.97 via $(${pkgs.iproute2}/bin/ip route show 0.0.0.0/0 | ${pkgs.gawk}/bin/awk '{print $3}')
+                      '';
+                      peers = [
+                        {
+                          # Public key of the server (VPS).
+                          publicKey = "IbT1lZ4JFvCJC+NvNg1AOXxBE45E8wt+Au2IrQhp1WQ=";
+                          allowedIPs = [ "0.0.0.0/0" ];
+                          endpoint = "178.162.242.97:22";
+                          persistentKeepalive = 25;
+                        }
+                      ];
+                    };
+                  };
+                };
               };
               services.irqbalance.enable = true;
 
@@ -380,7 +400,7 @@
                   dosfstools
                   libimobiledevice
                   interception-tools
-                  distrobox
+                  wireguard-tools
                   vanilla-dmz # cursor theme
                 ];
                 etc."channels/nixpkgs".source = inputs.nixpkgs.outPath;
@@ -408,10 +428,12 @@
                     "input"
                     "render"
                     "kvm"
+                    "plugdev"
                   ];
                   hashedPassword = "$6$/GQatAaT7h0hvkZu$XQIrOflYDVukuW1WW7AWX7v9LhFHAk8YhkRvrSkBKYw5P3jazaEV0.u34t9CK/UMBF6eWohc/H97BlXdEYXZX0";
                 };
                 groups.render = { };
+                groups.plugdev = { };
               };
 
               services.udev.extraRules = ''
@@ -421,6 +443,12 @@
 
                 # Allow access to card devices
                 KERNEL=="card*", SUBSYSTEM=="drm", GROUP="video", MODE="0664", TAG+="uaccess"
+
+                # Goodix fingerprint reader
+                SUBSYSTEM=="usb", ATTRS{idVendor}=="27c6", ATTRS{idProduct}=="6594", GROUP="plugdev", MODE="0664"
+
+                # Also add uaccess tag for systemd-logind
+                SUBSYSTEM=="usb", ATTRS{idVendor}=="27c6", TAG+="uaccess"
               '';
 
               # Manage user account with home manager
@@ -803,6 +831,16 @@
 
                         # Mattermost
                         mattermost-desktop
+
+                        # Emulation
+                        dolphin-emu
+                        (retroarch.withCores (
+                          cores: with cores; [
+                            same_cdi
+                            fceumm
+                            swanstation
+                          ]
+                        ))
 
                         # Wayland
                         brightnessctl
