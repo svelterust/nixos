@@ -196,31 +196,30 @@
                   "1.1.1.1"
                   "8.8.8.8"
                 ];
-                wireguard = {
-                  enable = true;
-                  interfaces = {
-                    wg0 = {
-                      listenPort = 22;
-                      ips = [ "10.100.0.2/24" ];
-                      privateKeyFile = "/etc/wireguard/client_private.key";
-                      preSetup = ''
-                        ${pkgs.iproute2}/bin/ip route add 178.162.242.97 via $(${pkgs.iproute2}/bin/ip route show 0.0.0.0/0 | ${pkgs.gawk}/bin/awk '{print $3}')
-                      '';
-                      postShutdown = ''
-                        ${pkgs.iproute2}/bin/ip route del 178.162.242.97 via $(${pkgs.iproute2}/bin/ip route show 0.0.0.0/0 | ${pkgs.gawk}/bin/awk '{print $3}')
-                      '';
-                      peers = [
-                        {
-                          # Public key of the server (VPS).
-                          publicKey = "IbT1lZ4JFvCJC+NvNg1AOXxBE45E8wt+Au2IrQhp1WQ=";
-                          allowedIPs = [ "0.0.0.0/0" ];
-                          endpoint = "178.162.242.97:22";
-                          persistentKeepalive = 25;
-                        }
-                      ];
-                    };
-                  };
-                };
+                # wireguard = {
+                #   enable = true;
+                #   interfaces = {
+                #     wg0 = {
+                #       ips = [ "10.100.0.2/24" ];
+                #       privateKeyFile = "/etc/wireguard/client_private.key";
+                #       preSetup = ''
+                #         ${pkgs.iproute2}/bin/ip route add 178.162.242.97 via $(${pkgs.iproute2}/bin/ip route show 0.0.0.0/0 | ${pkgs.gawk}/bin/awk '{print $3}')
+                #       '';
+                #       postShutdown = ''
+                #         ${pkgs.iproute2}/bin/ip route del 178.162.242.97 via $(${pkgs.iproute2}/bin/ip route show 0.0.0.0/0 | ${pkgs.gawk}/bin/awk '{print $3}')
+                #       '';
+                #       peers = [
+                #         {
+                #           # Public key of the server (VPS).
+                #           publicKey = "IbT1lZ4JFvCJC+NvNg1AOXxBE45E8wt+Au2IrQhp1WQ=";
+                #           allowedIPs = [ "0.0.0.0/0" ];
+                #           endpoint = "178.162.242.97:22";
+                #           persistentKeepalive = 25;
+                #         }
+                #       ];
+                #     };
+                #   };
+                # };
               };
               services.irqbalance.enable = true;
 
@@ -833,12 +832,10 @@
                         mattermost-desktop
 
                         # Emulation
-                        dolphin-emu
                         (retroarch.withCores (
                           cores: with cores; [
                             same_cdi
-                            fceumm
-                            swanstation
+                            mupen64plus
                           ]
                         ))
 

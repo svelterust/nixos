@@ -1,4 +1,17 @@
 {
+    "ssh_connections": [
+    {
+      "host": "178.162.242.97",
+      "username": "root",
+      "projects": [
+        {
+          "paths": [
+            "/data/coolify/services/a0ook44os4occgwck4sss4kg/config"
+          ]
+        }
+      ]
+    }
+  ],
     "tab_size": 4,
     "agent": {
         "default_profile": "write",
