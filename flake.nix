@@ -53,8 +53,6 @@
                 sha256 = "sha256-9ylM56W3q699xi9TNPGHHxtBwDPCtb4D0YcWv4I76sg=";
               };
               blockList = ''
-                0.0.0.0 youtube.com
-                0.0.0.0 www.youtube.com
                 0.0.0.0 x.com
                 0.0.0.0 www.x.com
                 0.0.0.0 facebook.com

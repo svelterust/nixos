@@ -10,6 +10,18 @@
           ]
         }
       ]
+    },
+    {
+      "host": "cloud.kralux.com",
+      "username": "oddharald",
+      "port": 10022,
+      "projects": [
+        {
+          "paths": [
+            "/home/yocto"
+          ]
+        }
+      ]
     }
   ],
     "tab_size": 4,
