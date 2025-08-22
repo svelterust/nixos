@@ -53,6 +53,12 @@
                 sha256 = "sha256-9ylM56W3q699xi9TNPGHHxtBwDPCtb4D0YcWv4I76sg=";
               };
               blockList = ''
+                0.0.0.0 news.ycombinator.com
+                0.0.0.0 www.news.ycombinator.com
+                0.0.0.0 lobste.rs
+                0.0.0.0 www.lobste.rs
+                0.0.0.0 reddit.com
+                0.0.0.0 www.reddit.com
                 0.0.0.0 x.com
                 0.0.0.0 www.x.com
                 0.0.0.0 facebook.com
@@ -194,42 +200,47 @@
                   "1.1.1.1"
                   "8.8.8.8"
                 ];
-                # wireguard = {
-                #   enable = true;
-                #   interfaces = {
-                #     wg0 = {
-                #       ips = [ "10.100.0.2/24" ];
-                #       privateKeyFile = "/etc/wireguard/client_private.key";
-                #       preSetup = ''
-                #         ${pkgs.iproute2}/bin/ip route add 178.162.242.97 via $(${pkgs.iproute2}/bin/ip route show 0.0.0.0/0 | ${pkgs.gawk}/bin/awk '{print $3}')
-                #       '';
-                #       postShutdown = ''
-                #         ${pkgs.iproute2}/bin/ip route del 178.162.242.97 via $(${pkgs.iproute2}/bin/ip route show 0.0.0.0/0 | ${pkgs.gawk}/bin/awk '{print $3}')
-                #       '';
-                #       peers = [
-                #         {
-                #           # Public key of the server (VPS).
-                #           publicKey = "IbT1lZ4JFvCJC+NvNg1AOXxBE45E8wt+Au2IrQhp1WQ=";
-                #           allowedIPs = [ "0.0.0.0/0" ];
-                #           endpoint = "178.162.242.97:22";
-                #           persistentKeepalive = 25;
-                #         }
-                #       ];
-                #     };
-                #   };
-                # };
+                wireguard = {
+                  enable = false;
+                  interfaces = {
+                    wg0 = {
+                      ips = [ "10.100.0.2/24" ];
+                      privateKeyFile = "/etc/wireguard/client_private.key";
+                      preSetup = ''
+                        ${pkgs.iproute2}/bin/ip route add 178.162.242.97 via $(${pkgs.iproute2}/bin/ip route show 0.0.0.0/0 | ${pkgs.gawk}/bin/awk '{print $3}')
+                      '';
+                      postShutdown = ''
+                        ${pkgs.iproute2}/bin/ip route del 178.162.242.97 via $(${pkgs.iproute2}/bin/ip route show 0.0.0.0/0 | ${pkgs.gawk}/bin/awk '{print $3}')
+                      '';
+                      peers = [
+                        {
+                          # Public key of the server (VPS).
+                          publicKey = "IbT1lZ4JFvCJC+NvNg1AOXxBE45E8wt+Au2IrQhp1WQ=";
+                          allowedIPs = [ "0.0.0.0/0" ];
+                          endpoint = "178.162.242.97:22";
+                          persistentKeepalive = 25;
+                        }
+                      ];
+                    };
+                  };
+                };
               };
               services.irqbalance.enable = true;
 
-              # Enable OpenGL and bluetooth
+              # Bluetooth
+              hardware.bluetooth.enable = true;
+
+              # Enable OpenGL
               hardware = {
-                bluetooth.enable = true;
                 graphics = {
                   enable = true;
                   extraPackages = with pkgs; [
                     vaapiIntel
                     libvdpau-va-gl
                     intel-media-driver
+                    intel-compute-runtime
+                    vpl-gpu-rt
+                    intel-ocl
                   ];
                 };
               };
@@ -784,11 +795,15 @@
                         # GUI Applications
                         gimp
                         libreoffice
+                        davinci-resolve
 
                         # Image & Graphics
                         ghostscript
                         imagemagick
                         sxiv
+
+                        # Odin
+                        odin
 
                         # Claude Code
                         claude-code
@@ -801,7 +816,6 @@
                         powertop
 
                         # Networking & Connectivity
-                        flyctl
                         ngrok
                         stripe-cli
 
@@ -818,9 +832,6 @@
                         # Zig
                         zig
                         zls
-
-                        # Slint
-                        slint-lsp
 
                         # Nix
                         nil

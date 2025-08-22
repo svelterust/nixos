@@ -1,29 +1,27 @@
 {
     "ssh_connections": [
-    {
-      "host": "178.162.242.97",
-      "username": "root",
-      "projects": [
         {
-          "paths": [
-            "/data/coolify/services/a0ook44os4occgwck4sss4kg/config"
-          ]
-        }
-      ]
-    },
-    {
-      "host": "cloud.kralux.com",
-      "username": "oddharald",
-      "port": 10022,
-      "projects": [
+            "host": "178.162.242.97",
+            "username": "root",
+            "projects": [
+                {
+                    "paths": [
+                        "/data/coolify/services/a0ook44os4occgwck4sss4kg/config"
+                    ]
+                }
+            ]
+        },
         {
-          "paths": [
-            "/home/yocto"
-          ]
+            "host": "cloud.kralux.com",
+            "username": "oddharald",
+            "port": 10022,
+            "projects": [
+                {
+                    "paths": ["/home/yocto"]
+                }
+            ]
         }
-      ]
-    }
-  ],
+    ],
     "tab_size": 4,
     "agent": {
         "default_profile": "write",
@@ -45,9 +43,8 @@
     "features": {
         "edit_prediction_provider": "zed"
     },
-    "show_edit_predictions": true,
     "edit_predictions": {
-        "mode": "eager"
+        "mode": "subtle"
     },
     "toolbar": {
         "breadcrumbs": false,

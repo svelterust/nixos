@@ -4,7 +4,7 @@
 {
   config,
   lib,
- pkgs,
+  pkgs,
   modulesPath,
   ...
 }:
@@ -13,6 +13,8 @@
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
+
+  boot.kernelParams = [ "i915.force_probe=a721" ];
 
   boot.kernel.sysctl = {
     # TCP Buffer Sizes (aggressive tuning for high-speed networks)
