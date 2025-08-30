@@ -201,7 +201,7 @@
                   "8.8.8.8"
                 ];
                 wireguard = {
-                  enable = false;
+                  enable = true;
                   interfaces = {
                     wg0 = {
                       ips = [ "10.100.0.2/24" ];
@@ -796,6 +796,8 @@
                         gimp
                         libreoffice
                         davinci-resolve
+                        audacity
+                        sent
 
                         # Image & Graphics
                         ghostscript
@@ -845,6 +847,7 @@
                           cores: with cores; [
                             same_cdi
                             mupen64plus
+                            mgba
                           ]
                         ))
 
