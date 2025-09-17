@@ -6,12 +6,16 @@
       url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    home-manager = {
-      url = "github:nix-community/home-manager";
+    zig-overlay = {
+      url = "github:mitchellh/zig-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    firefox-addons = {
-      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+    zls = {
+      url = "github:zigtools/zls";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    home-manager = {
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     raise = {
@@ -24,16 +28,22 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
     {
       nixpkgs,
       rust-overlay,
+      zig-overlay,
+      zls,
       home-manager,
-      firefox-addons,
       raise,
       hyprsome,
+      zen-browser,
       ...
     }@inputs:
     {
@@ -57,12 +67,8 @@
                 0.0.0.0 www.news.ycombinator.com
                 0.0.0.0 lobste.rs
                 0.0.0.0 www.lobste.rs
-                0.0.0.0 reddit.com
-                0.0.0.0 www.reddit.com
                 0.0.0.0 x.com
                 0.0.0.0 www.x.com
-                0.0.0.0 facebook.com
-                0.0.0.0 www.facebook.com
                 0.0.0.0 quora.com
                 0.0.0.0 www.quora.com
                 0.0.0.0 instagram.com
@@ -104,8 +110,8 @@
 
               # Imports
               imports = [
-                settings.hardware
                 "${home-manager}/nixos"
+                settings.hardware
               ];
 
               # Make it easier to run downloadable binaries
@@ -201,7 +207,7 @@
                   "8.8.8.8"
                 ];
                 wireguard = {
-                  enable = true;
+                  enable = false;
                   interfaces = {
                     wg0 = {
                       ips = [ "10.100.0.2/24" ];
@@ -477,6 +483,9 @@
                         rust-overlay.overlays.default
                       ];
                     };
+                    imports = [
+                      inputs.zen-browser.homeModules.beta
+                    ];
 
                     # User dirs and default applications
                     xdg = {
@@ -518,17 +527,17 @@
                           "audio/flac" = [ "mpv.desktop" ];
                           "audio/aac" = [ "mpv.desktop" ];
                           "audio/mp4" = [ "mpv.desktop" ];
-                          "text/html" = [ "firefox.desktop" ];
-                          "application/pdf" = [ "firefox.desktop" ];
-                          "x-scheme-handler/http" = [ "firefox.desktop" ];
-                          "x-scheme-handler/https" = [ "firefox.desktop" ];
-                          "x-scheme-handler/chrome" = [ "firefox.desktop" ];
-                          "application/x-extension-htm" = [ "firefox.desktop" ];
-                          "application/x-extension-html" = [ "firefox.desktop" ];
-                          "application/x-extension-shtml" = [ "firefox.desktop" ];
-                          "application/xhtml+xml" = [ "firefox.desktop" ];
-                          "application/x-extension-xhtml" = [ "firefox.desktop" ];
-                          "application/x-extension-xht" = [ "firefox.desktop" ];
+                          "text/html" = [ "zen.desktop" ];
+                          "application/pdf" = [ "zen.desktop" ];
+                          "x-scheme-handler/http" = [ "zen.desktop" ];
+                          "x-scheme-handler/https" = [ "zen.desktop" ];
+                          "x-scheme-handler/chrome" = [ "zen.desktop" ];
+                          "application/x-extension-htm" = [ "zen.desktop" ];
+                          "application/x-extension-html" = [ "zen.desktop" ];
+                          "application/x-extension-shtml" = [ "zen.desktop" ];
+                          "application/xhtml+xml" = [ "zen.desktop" ];
+                          "application/x-extension-xhtml" = [ "zen.desktop" ];
+                          "application/x-extension-xht" = [ "zen.desktop" ];
                           "x-scheme-handler/mailto" = [ "userapp-Thunderbird-ZVTW92.desktop" ];
                           "message/rfc822" = [ "userapp-Thunderbird-ZVTW92.desktop" ];
                           "x-scheme-handler/mid" = [ "userapp-Thunderbird-ZVTW92.desktop" ];
@@ -575,11 +584,6 @@
 
                       ".cargo/config.toml" = {
                         source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/dotfiles/cargo/config.toml";
-                        force = true;
-                      };
-
-                      ".claude/CLAUDE.md" = {
-                        source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/dotfiles/claude/CLAUDE.md";
                         force = true;
                       };
                     };
@@ -660,11 +664,11 @@
                           zb = "zig build";
                           zr = "zig build run";
                           zt = "zig build test";
-                          zw = "zig build --watch";
+                          zw = "zig build --watch -fincremental --prominent-compile-errors";
                           ls = "eza --sort ext";
                         };
                         shellInit = ''
-                          set -x BROWSER firefox
+                          set -x BROWSER zen
                           set -x TERM xterm-256color
                           set -x NIXPKGS_ALLOW_UNFREE 1
                           set -x ERL_AFLAGS "-kernel shell_history enabled"
@@ -683,27 +687,6 @@
                             src = pkgs.fishPlugins.autopair.src;
                           }
                         ];
-                      };
-
-                      firefox = {
-                        enable = true;
-                        profiles.default = {
-                          settings = {
-                            "layout.frame_rate" = settings.frameRate;
-                            "extensions.autoDisableScopes" = 0;
-                            "browser.sessionstore.restore_on_demand" = false;
-                            "browser.sessionstore.resume_from_crash" = false;
-                            "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-                            "network.captive-portal-service.enabled" = false;
-                            "browser.selfsupport.url" = "";
-                            "pocket.enabled" = false;
-                            "security.tls.enable_0rtt_data" = false;
-                          };
-                          extensions.packages = with firefox-addons.packages."x86_64-linux"; [
-                            ublock-origin
-                            i-dont-care-about-cookies
-                          ];
-                        };
                       };
 
                       git = {
@@ -731,6 +714,10 @@
                             autoSetupRemote = true;
                           };
                         };
+                      };
+
+                      zen-browser = {
+                        enable = true;
                       };
                     };
 
@@ -804,14 +791,8 @@
                         imagemagick
                         sxiv
 
-                        # Odin
-                        odin
-
                         # Claude Code
                         claude-code
-
-                        # Supabase
-                        supabase-cli
 
                         # Monitoring & Profiling
                         bottom
@@ -832,8 +813,8 @@
                         bun
 
                         # Zig
-                        zig
-                        zls
+                        zig-overlay.packages.x86_64-linux.default
+                        zls.packages.x86_64-linux.default
 
                         # Nix
                         nil
@@ -851,6 +832,9 @@
                           ]
                         ))
 
+                        # GUI
+                        aseprite
+
                         # Wayland
                         brightnessctl
                         fuzzel
@@ -866,6 +850,7 @@
                         swaynotificationcenter
                         wl-clipboard
                         xdg-utils
+                        tmux
                       ];
                     };
                   };

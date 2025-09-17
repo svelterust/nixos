@@ -82,16 +82,12 @@
     },
     {
         "bindings": {
-            "alt-x": "command_palette::Toggle",
-            "alt-b": "workspace::ToggleRightDock",
-            "alt-a": "agent::NewThread",
-            "alt-c": "agent::NewTextThread",
-            "alt-g": "git_panel::ToggleFocus",
-            "alt-f": "project_panel::ToggleFocus",
             "ctrl-w": "pane::CloseActiveItem",
-            "alt-w": "workspace::CloseInactiveTabsAndPanes",
             "ctrl-t": "terminal_panel::ToggleFocus",
-            "ctrl-shift-t": "workspace::NewTerminal"
+            "ctrl-shift-t": "workspace::NewTerminal",
+            "ctrl-,": "workspace::ActivatePreviousPane",
+            "ctrl-.": "workspace::ActivateNextPane",
+            "alt-x": "command_palette::Toggle"
         }
     }
 ]

@@ -1,23 +1,11 @@
 {
     "ssh_connections": [
         {
-            "host": "178.162.242.97",
-            "username": "root",
+            "host": "135.181.135.97",
+            "username": "odd",
             "projects": [
                 {
-                    "paths": [
-                        "/data/coolify/services/a0ook44os4occgwck4sss4kg/config"
-                    ]
-                }
-            ]
-        },
-        {
-            "host": "cloud.kralux.com",
-            "username": "oddharald",
-            "port": 10022,
-            "projects": [
-                {
-                    "paths": ["/home/yocto"]
+                    "paths": ["/home/odd/yocto"]
                 }
             ]
         }
@@ -30,8 +18,7 @@
             "provider": "zed.dev",
             "model": "claude-sonnet-4"
         },
-        "play_sound_when_agent_done": true,
-        "version": "2"
+        "play_sound_when_agent_done": true
     },
     "project_panel": {
         "auto_fold_dirs": false,
@@ -54,8 +41,8 @@
     "vim": {
         "use_system_clipboard": "always"
     },
-    "ui_font_size": 18,
-    "buffer_font_size": 18,
+    "ui_font_size": 16,
+    "buffer_font_size": 16,
     "extend_comment_on_newline": false,
     "buffer_font_family": "JetBrains Mono",
     "ui_font_family": "JetBrains Mono",
