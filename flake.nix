@@ -67,6 +67,10 @@
                 0.0.0.0 www.news.ycombinator.com
                 0.0.0.0 lobste.rs
                 0.0.0.0 www.lobste.rs
+                0.0.0.0 youtube.com
+                0.0.0.0 www.youtube.com
+                0.0.0.0 reddit.com
+                0.0.0.0 www.reddit.com
                 0.0.0.0 x.com
                 0.0.0.0 www.x.com
                 0.0.0.0 quora.com
@@ -834,6 +838,11 @@
 
                         # GUI
                         aseprite
+
+                        # Vulkan
+                        # shaderc
+                        glslang
+                        vulkan-tools
 
                         # Wayland
                         brightnessctl
