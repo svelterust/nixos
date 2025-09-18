@@ -531,17 +531,19 @@
                           "audio/flac" = [ "mpv.desktop" ];
                           "audio/aac" = [ "mpv.desktop" ];
                           "audio/mp4" = [ "mpv.desktop" ];
-                          "text/html" = [ "zen.desktop" ];
-                          "application/pdf" = [ "zen.desktop" ];
-                          "x-scheme-handler/http" = [ "zen.desktop" ];
-                          "x-scheme-handler/https" = [ "zen.desktop" ];
-                          "x-scheme-handler/chrome" = [ "zen.desktop" ];
-                          "application/x-extension-htm" = [ "zen.desktop" ];
-                          "application/x-extension-html" = [ "zen.desktop" ];
-                          "application/x-extension-shtml" = [ "zen.desktop" ];
-                          "application/xhtml+xml" = [ "zen.desktop" ];
-                          "application/x-extension-xhtml" = [ "zen.desktop" ];
-                          "application/x-extension-xht" = [ "zen.desktop" ];
+                          "text/plain" = [ "zen-beta.desktop" ];
+                          "text/html" = [ "zen-beta.desktop" ];
+                          "application/pdf" = [ "zen-beta.desktop" ];
+                          "x-scheme-handler/http" = [ "zen-beta.desktop" ];
+                          "x-scheme-handler/https" = [ "zen-beta.desktop" ];
+                          "x-scheme-handler/chrome" = [ "zen-beta.desktop" ];
+                          "application/x-extension-htm" = [ "zen-beta.desktop" ];
+                          "application/x-extension-html" = [ "zen-beta.desktop" ];
+                          "application/x-extension-shtml" = [ "zen-beta.desktop" ];
+                          "application/xhtml+xml" = [ "zen-beta.desktop" ];
+                          "application/x-extension-xhtml" = [ "zen-beta.desktop" ];
+                          "application/x-extension-xht" = [ "zen-beta.desktop" ];
+                          "application/json" = [ "zen-beta.desktop" ];
                           "x-scheme-handler/mailto" = [ "userapp-Thunderbird-ZVTW92.desktop" ];
                           "message/rfc822" = [ "userapp-Thunderbird-ZVTW92.desktop" ];
                           "x-scheme-handler/mid" = [ "userapp-Thunderbird-ZVTW92.desktop" ];
@@ -740,8 +742,8 @@
                         sccache
 
                         # Browsers & Web
-                        chromium
-                        chromedriver
+                        # chromium
+                        # chromedriver
 
                         # Development Tools
                         gitui
@@ -840,7 +842,6 @@
                         aseprite
 
                         # Vulkan
-                        # shaderc
                         glslang
                         vulkan-tools
 
